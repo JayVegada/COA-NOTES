@@ -5,7 +5,7 @@
 
 ---
 
-## 🔗 [Open Interactive Question Bank →](https://yourusername.github.io/coa-notes/)
+## 🔗 [Open Interactive Question Bank →](https://jayvegada.github.io/COA-NOTES/)
 
 
 ---
