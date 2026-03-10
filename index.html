@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COA Question Bank | AIT CE Dept</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #050a0f;
+    --surface: #0a1520;
+    --surface2: #0d1e2e;
+    --border: #1a3a5c;
+    --accent: #00d4ff;
+    --accent2: #00ff9d;
+    --accent3: #ff6b35;
+    --text: #c8e6f0;
+    --muted: #5a8a9f;
+    --glow: rgba(0,212,255,0.15);
+    --danger: #ff4757;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── GRID BACKGROUND ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(0,100,180,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(0,255,157,0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+    animation: bgpulse 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes bgpulse {
+    from { opacity: 0.6; }
+    to   { opacity: 1; }
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 40px 24px 30px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(180deg, rgba(0,30,60,0.8), transparent);
+  }
+
+  .institute-badge {
+    display: inline-block;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--accent2);
+    letter-spacing: 3px;
+    border: 1px solid rgba(0,255,157,0.3);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(22px, 5vw, 42px);
+    font-weight: 900;
+    letter-spacing: 2px;
+    line-height: 1.1;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: none;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  .meta-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  .meta-chip {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 5px 12px;
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 2px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  /* ─── SEARCH + FILTER ─── */
+  .controls {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(5,10,15,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .search-wrap {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+  }
+
+  .search-wrap::before {
+    content: '⌕';
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px 10px 38px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(0,212,255,0.1);
+  }
+
+  .filter-btns {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    padding: 7px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active {
+    background: rgba(0,212,255,0.12);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .counter {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    position: relative;
+    z-index: 5;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 32px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* ─── QUESTION CARD ─── */
+  .q-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
+    animation: fadeIn 0.4s ease both;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .q-card:hover {
+    border-color: rgba(0,212,255,0.4);
+    box-shadow: 0 0 20px rgba(0,212,255,0.08);
+  }
+
+  .q-card.hidden { display: none; }
+
+  .q-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+  }
+
+  .q-header:hover { background: rgba(0,212,255,0.04); }
+
+  .q-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    min-width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,255,157,0.1));
+    border: 1px solid rgba(0,212,255,0.3);
+    border-radius: 4px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .q-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--text);
+  }
+
+  .q-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+
+  .tag-arch  { background: rgba(0,212,255,0.1);  border: 1px solid rgba(0,212,255,0.25);  color: var(--accent);  }
+  .tag-num   { background: rgba(0,255,157,0.1);  border: 1px solid rgba(0,255,157,0.25);  color: var(--accent2); }
+  .tag-instr { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); color: var(--accent3); }
+  .tag-rtl   { background: rgba(180,100,255,0.1);border: 1px solid rgba(180,100,255,0.25);color: #c084fc; }
+  .tag-alu   { background: rgba(255,71,87,0.1);  border: 1px solid rgba(255,71,87,0.25);  color: var(--danger); }
+  .tag-asm   { background: rgba(250,210,50,0.1); border: 1px solid rgba(250,210,50,0.25); color: #fbd24f; }
+
+  .q-chevron {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .q-card.open .q-chevron { transform: rotate(180deg); color: var(--accent); }
+
+  /* ─── ANSWER BODY ─── */
+  .q-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .q-card.open .q-body { max-height: 9999px; }
+
+  .q-content {
+    padding: 0 20px 24px 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .q-content h3 {
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--accent2);
+    margin: 22px 0 10px;
+    text-transform: uppercase;
+  }
+
+  .q-content h4 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 16px 0 6px;
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+  }
+
+  .q-content p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: #9ab8c8;
+    margin-bottom: 10px;
+  }
+
+  .q-content ul, .q-content ol {
+    padding-left: 20px;
+    margin-bottom: 12px;
+  }
+
+  .q-content li {
+    font-size: 14px;
+    line-height: 1.7;
+    color: #9ab8c8;
+    margin-bottom: 4px;
+  }
+
+  .q-content strong { color: var(--text); font-weight: 600; }
+
+  /* ─── CODE / MONO BLOCKS ─── */
+  .code-block {
+    background: #020a10;
+    border: 1px solid rgba(0,212,255,0.15);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 16px 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--accent2);
+    overflow-x: auto;
+    margin: 12px 0;
+    white-space: pre;
+  }
+
+  /* ─── MATH / FORMULA BOX ─── */
+  .formula-box {
+    background: rgba(0,212,255,0.05);
+    border: 1px solid rgba(0,212,255,0.2);
+    border-radius: 4px;
+    padding: 14px 18px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 14px;
+    color: var(--accent);
+    text-align: center;
+    margin: 12px 0;
+  }
+
+  /* ─── TABLE ─── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+
+  .data-table th {
+    background: rgba(0,212,255,0.1);
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--accent);
+    text-align: left;
+    letter-spacing: 1px;
+    font-size: 11px;
+  }
+
+  .data-table td {
+    border: 1px solid var(--border);
+    padding: 8px 14px;
+    color: #9ab8c8;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    vertical-align: top;
+  }
+
+  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
+
+  /* ─── INFO BOX ─── */
+  .info-box {
+    background: rgba(0,255,157,0.05);
+    border: 1px solid rgba(0,255,157,0.2);
+    border-left: 3px solid var(--accent2);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+    color: #88ccaa;
+  }
+
+  .warn-box {
+    background: rgba(255,107,53,0.06);
+    border: 1px solid rgba(255,107,53,0.2);
+    border-left: 3px solid var(--accent3);
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 14px;
+    color: #cc9077;
+  }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 16px 0;
+  }
+
+  /* ─── NO RESULTS ─── */
+  #no-results {
+    display: none;
+    text-align: center;
+    padding: 60px 20px;
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--muted);
+    font-size: 14px;
+    letter-spacing: 2px;
+  }
+
+  #no-results::before {
+    content: '404';
+    display: block;
+    font-family: 'Orbitron', monospace;
+    font-size: 48px;
+    color: rgba(0,212,255,0.15);
+    margin-bottom: 12px;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 5;
+    text-align: center;
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 2px;
+  }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress-bar {
+    height: 2px;
+    background: var(--border);
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.4s ease;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .q-tag { display: none; }
+    .meta-row { gap: 8px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="institute-badge">AIT · CE DEPT · 2026</div>
+  <h1>COMPUTER ORGANIZATION<br>&amp; ARCHITECTURE</h1>
+  <div class="subtitle">BE04000251 &nbsp;·&nbsp; QUESTION BANK &nbsp;·&nbsp; EL10</div>
+  <div class="meta-row">
+    <div class="meta-chip">21 QUESTIONS</div>
+    <div class="meta-chip">6 TOPICS</div>
+    <div class="meta-chip">GTU · BE SEM 4</div>
+  </div>
+  <div class="progress-bar" style="margin-top:20px">
+    <div class="progress-fill" id="progress" style="width:0%"></div>
+  </div>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <input type="text" id="search" placeholder="Search questions..." oninput="filterCards()">
+  </div>
+  <div class="filter-btns">
+    <button class="filter-btn active" onclick="filterTag('all',this)">ALL</button>
+    <button class="filter-btn" onclick="filterTag('arch',this)">ARCH</button>
+    <button class="filter-btn" onclick="filterTag('num',this)">NUMBER SYS</button>
+    <button class="filter-btn" onclick="filterTag('instr',this)">INSTRUCTIONS</button>
+    <button class="filter-btn" onclick="filterTag('rtl',this)">RTL</button>
+    <button class="filter-btn" onclick="filterTag('alu',this)">ALU/OPS</button>
+    <button class="filter-btn" onclick="filterTag('asm',this)">ASSEMBLY</button>
+  </div>
+  <div class="counter" id="counter">21 / 21</div>
+</div>
+
+<main id="main">
+
+<!-- Q1 -->
+<div class="q-card" data-tag="arch" data-q="1">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">01</div>
+    <div class="q-title">Explain Von Neumann Architecture.</div>
+    <span class="q-tag tag-arch">ARCH</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>Von Neumann architecture is a computer design where <strong>instructions and data are stored in the same memory space</strong>. The CPU fetches both from the same memory using the same pathways.</p>
+
+      <h3>Types of Computers</h3>
+      <ul>
+        <li><strong>Fixed Program Computers</strong> — Function-specific, cannot be reprogrammed (e.g., calculators).</li>
+        <li><strong>Stored Program Computers</strong> — Programmable; applications are stored in memory.</li>
+      </ul>
+
+      <h3>3 Main Components</h3>
+      <h4>1. CPU (Central Processing Unit)</h4>
+      <p>The CPU is the brain of the computer. It consists of the Control Unit, ALU, and Registers.</p>
+      <ul>
+        <li><strong>CU (Control Unit)</strong> — Sends control signals; manages data flow, I/O, and instruction fetch.</li>
+        <li><strong>ALU (Arithmetic Logic Unit)</strong> — Handles arithmetic (add, sub) and logical (comparisons, shifts) operations.</li>
+      </ul>
+
+      <h4>Registers (Fastest Memory, Inside CPU)</h4>
+      <table class="data-table">
+        <thead><tr><th>Register</th><th>Full Name</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>AC</td><td>Accumulator</td><td>Stores ALU results</td></tr>
+          <tr><td>PC</td><td>Program Counter</td><td>Holds address of next instruction</td></tr>
+          <tr><td>MAR</td><td>Memory Address Register</td><td>Stores memory address to access</td></tr>
+          <tr><td>MDR</td><td>Memory Data Register</td><td>Stores data fetched/to be stored</td></tr>
+          <tr><td>IR (CIR)</td><td>Instruction Register</td><td>Holds current instruction being decoded</td></tr>
+          <tr><td>GPR</td><td>General Purpose Registers</td><td>Temp data storage during processing</td></tr>
+        </tbody>
+      </table>
+
+      <h4>2. Memory</h4>
+      <p>Stores both data and instructions (the defining feature of Von Neumann design).</p>
+
+      <h4>3. I/O Devices</h4>
+      <p>Input devices send data to main memory; output devices present results to the user.</p>
+
+      <h4>Buses</h4>
+      <ul>
+        <li><strong>Control Bus</strong> — Carries control signals and status flags.</li>
+        <li><strong>Address Bus</strong> — Carries memory addresses (not data).</li>
+        <li><strong>Data Bus</strong> — Carries actual data between CPU, memory, and I/O.</li>
+      </ul>
+
+      <div class="info-box">Key Feature: Von Neumann Bottleneck — since data and instructions share the same bus, they cannot be fetched simultaneously, limiting performance.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q2 -->
+<div class="q-card" data-tag="arch" data-q="2">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">02</div>
+    <div class="q-title">Define: 1. Multiprocessor &nbsp; 2. Multicomputer</div>
+    <span class="q-tag tag-arch">ARCH</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>1. Multiprocessor</h4>
+      <p>A system with <strong>two or more CPUs</strong> that share common resources.</p>
+      <ul>
+        <li>Common main memory</li>
+        <li>Common clock</li>
+        <li>Shared I/O devices</li>
+        <li>Single operating system</li>
+      </ul>
+      <div class="info-box">Think of it as multiple workers sharing one office with one manager (OS).</div>
+
+      <h4>2. Multicomputer</h4>
+      <p>Multiple <strong>independent computers (nodes)</strong> connected via a communication network.</p>
+      <ul>
+        <li>Each node has its own private memory</li>
+        <li>Each node has its own operating system</li>
+        <li>Each node has its own processor</li>
+      </ul>
+      <div class="info-box">Think of it as separate offices in different buildings, communicating over a network.</div>
+
+      <table class="data-table">
+        <thead><tr><th>Feature</th><th>Multiprocessor</th><th>Multicomputer</th></tr></thead>
+        <tbody>
+          <tr><td>Memory</td><td>Shared</td><td>Private per node</td></tr>
+          <tr><td>OS</td><td>Single</td><td>One per node</td></tr>
+          <tr><td>Communication</td><td>Shared bus</td><td>Network messages</td></tr>
+          <tr><td>Coupling</td><td>Tightly coupled</td><td>Loosely coupled</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Q3 -->
+<div class="q-card" data-tag="num" data-q="3">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">03</div>
+    <div class="q-title">Convert Hexadecimal 4A into Decimal, Octal, and Binary.</div>
+    <span class="q-tag tag-num">NUMBER SYS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h3>Given: 4A₁₆</h3>
+      <p>Hex digits: 4 = 4, A = 10</p>
+
+      <h4>Step 1: Hex → Decimal</h4>
+      <div class="formula-box">4A₁₆ = (4 × 16¹) + (10 × 16⁰)
+= (4 × 16) + (10 × 1)
+= 64 + 10
+= 74₁₀</div>
+
+      <h4>Step 2: Hex → Binary (each digit = 4 bits)</h4>
+      <table class="data-table">
+        <thead><tr><th>Hex</th><th>Binary</th></tr></thead>
+        <tbody>
+          <tr><td>4</td><td>0100</td></tr>
+          <tr><td>A (10)</td><td>1010</td></tr>
+        </tbody>
+      </table>
+      <div class="formula-box">4A₁₆ = 01001010₂</div>
+
+      <h4>Step 3: Binary → Octal (group into 3 bits from right)</h4>
+      <div class="code-block">01001010₂
+→ 001 | 001 | 010
+→   1 |   1 |   2
+→ 112₈</div>
+
+      <h3>Final Answers</h3>
+      <table class="data-table">
+        <thead><tr><th>System</th><th>Answer</th></tr></thead>
+        <tbody>
+          <tr><td>Decimal</td><td>74₁₀</td></tr>
+          <tr><td>Binary</td><td>01001010₂</td></tr>
+          <tr><td>Octal</td><td>112₈</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Q4 -->
+<div class="q-card" data-tag="num" data-q="4">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">04</div>
+    <div class="q-title">Explain Floating Point and Fixed Point Representation.</div>
+    <span class="q-tag tag-num">NUMBER SYS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>Fixed Point Representation</h4>
+      <p>The binary point is always at a <strong>fixed position</strong>. Two common positions:</p>
+      <ul>
+        <li>Extreme <strong>left</strong> → number is a fraction</li>
+        <li>Extreme <strong>right</strong> → number is an integer</li>
+      </ul>
+
+      <h3>Integer (Signed) Representation</h3>
+      <p>Positive numbers: sign bit = <strong>0</strong>, magnitude follows.</p>
+      <p>Negative numbers: sign bit = <strong>1</strong>, rest represented in one of three ways:</p>
+      <table class="data-table">
+        <thead><tr><th>Method</th><th>-14 in 8 bits</th><th>How Obtained</th></tr></thead>
+        <tbody>
+          <tr><td>Signed Magnitude</td><td>1 0001110</td><td>Complement only the sign bit of +14</td></tr>
+          <tr><td>Signed 1's Complement</td><td>1 1110001</td><td>Complement ALL bits of +14</td></tr>
+          <tr><td>Signed 2's Complement</td><td>1 1110010</td><td>1's complement + 1</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box">Most CPUs use 2's complement for subtraction — only an adder is needed, reducing hardware complexity.</div>
+
+      <h4>Floating Point Representation (IEEE 754)</h4>
+      <p>Numbers stored as <strong>{Sign, Mantissa, Exponent}</strong>. The radix point is not fixed.</p>
+      <div class="formula-box">(sign) × (mantissa) × 2^(±exponent)</div>
+
+      <table class="data-table">
+        <thead><tr><th>Precision</th><th>Total Bits</th><th>Sign</th><th>Exponent</th><th>Mantissa</th><th>Bias</th></tr></thead>
+        <tbody>
+          <tr><td>Single</td><td>32 bits</td><td>1</td><td>8</td><td>23</td><td>127</td></tr>
+          <tr><td>Double</td><td>64 bits</td><td>1</td><td>11</td><td>52</td><td>1023</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Steps to Represent a Number in Floating Point</h4>
+      <ol>
+        <li>Convert number to signed binary</li>
+        <li>Normalize: move radix point after first 1 → get exponent</li>
+        <li>Add bias (127 for 32-bit, 1023 for 64-bit) to exponent</li>
+        <li>Convert biased exponent to binary</li>
+        <li>Store mantissa bits (bits after decimal point, padded to 23/52 bits)</li>
+        <li>Set sign bit (0 = positive, 1 = negative)</li>
+      </ol>
+
+      <h4>Example: 110.111₂</h4>
+      <div class="code-block">110.111 = 1.10111 × 2²   (shifted 2 places → exponent = 2)
+Biased exp = 2 + 127 = 129 = 10000001₂
+Sign: 0
+Format: 0 | 10000001 | 10111000000000000000000</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q5 -->
+<div class="q-card" data-tag="num" data-q="5">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">05</div>
+    <div class="q-title">Represent (1259.125)₁₀ in Single Precision and Double Precision format.</div>
+    <span class="q-tag tag-num">NUMBER SYS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>Step 1: Convert Decimal → Binary</h4>
+      <p><strong>Integer 1259:</strong></p>
+      <div class="formula-box">1259₁₀ = 10011101011₂</div>
+      <p><strong>Fraction 0.125:</strong></p>
+      <div class="code-block">0.125 × 2 = 0.25  → 0
+0.25  × 2 = 0.50  → 0
+0.50  × 2 = 1.00  → 1
+∴ 0.125₁₀ = 0.001₂</div>
+      <div class="formula-box">1259.125₁₀ = 10011101011.001₂</div>
+
+      <h4>Step 2: Normalize</h4>
+      <div class="formula-box">1.0011101011001 × 2¹⁰   (shifted 10 places left)</div>
+      <p>Exponent = 10</p>
+
+      <h3>Single Precision (32-bit)</h3>
+      <ul>
+        <li><strong>Sign bit:</strong> 0 (positive)</li>
+        <li><strong>Biased exponent:</strong> 10 + 127 = 137 = 10001001₂</li>
+        <li><strong>Mantissa:</strong> 0011101011001 → padded to 23 bits: 00111010110010000000000</li>
+      </ul>
+      <div class="code-block">0 | 10001001 | 00111010110010000000000
+S    Exponent      Mantissa (23 bits)</div>
+
+      <h3>Double Precision (64-bit)</h3>
+      <ul>
+        <li><strong>Sign bit:</strong> 0</li>
+        <li><strong>Biased exponent:</strong> 10 + 1023 = 1033 = 10000001001₂</li>
+        <li><strong>Mantissa:</strong> padded to 52 bits: 0011101011001000000000000000000000000000000000000000</li>
+      </ul>
+      <div class="code-block">0 | 10000001001 | 0011101011001 + zeros to 52 bits
+S   Exponent(11)   Mantissa (52 bits)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q6 -->
+<div class="q-card" data-tag="arch" data-q="6">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">06</div>
+    <div class="q-title">Differentiate Hardwired Control and Microprogrammed Control.</div>
+    <span class="q-tag tag-arch">ARCH</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <table class="data-table">
+        <thead><tr><th>Feature</th><th>Hardwired Control</th><th>Microprogrammed Control</th></tr></thead>
+        <tbody>
+          <tr><td>Implementation</td><td>Gates, flip-flops, decoders, digital circuits</td><td>Control information stored in control memory</td></tr>
+          <tr><td>Speed</td><td>Faster — optimized logic</td><td>Slower — memory access needed</td></tr>
+          <tr><td>Modification</td><td>Requires physical rewiring</td><td>Update the microprogram in memory</td></tr>
+          <tr><td>Flexibility</td><td>Rigid, hard to change</td><td>Flexible, easy to update</td></tr>
+          <tr><td>Complexity</td><td>Complex circuit design</td><td>Simpler design, more storage</td></tr>
+          <tr><td>Cost</td><td>Higher for complex ISAs</td><td>Lower for complex ISAs</td></tr>
+        </tbody>
+      </table>
+      <div class="info-box">RISC processors typically use Hardwired Control for speed. CISC processors (like x86) traditionally used Microprogrammed Control for flexibility.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q7 -->
+<div class="q-card" data-tag="arch" data-q="7">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">07</div>
+    <div class="q-title">Draw the flowchart of the basic instruction cycle and briefly explain it.</div>
+    <span class="q-tag tag-arch">ARCH</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>A program in memory is executed by going through a cycle for each instruction. Each cycle is subdivided into phases/sub-cycles.</p>
+
+      <h3>Basic Instruction Cycle Phases</h3>
+      <div class="code-block">  ┌──────────────────────┐
+  │  START               │
+  └──────────┬───────────┘
+             ▼
+  ┌──────────────────────┐
+  │  1. FETCH            │ ← Get instruction from memory (PC → MAR → IR)
+  └──────────┬───────────┘
+             ▼
+  ┌──────────────────────┐
+  │  2. DECODE           │ ← CU decodes opcode in IR
+  └──────────┬───────────┘
+             ▼
+  ┌──────────────────────┐
+  │  3. EXECUTE          │ ← ALU performs operation
+  └──────────┬───────────┘
+             ▼
+  ┌──────────────────────┐
+  │  HALT? ──No──────────┼──→ back to FETCH
+  └──────────────────────┘
+        │ Yes
+        ▼
+      STOP</div>
+
+      <h4>With Interrupt Handling (Extended Cycle)</h4>
+      <ol>
+        <li>Fetch instruction from memory</li>
+        <li>Decode the instruction</li>
+        <li>Execute the instruction</li>
+        <li><strong>Check for interrupts</strong> — if yes, save state and process interrupt; then return</li>
+      </ol>
+
+      <div class="info-box">The cycle repeats indefinitely until a HALT instruction is encountered.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q8 -->
+<div class="q-card" data-tag="instr" data-q="8">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">08</div>
+    <div class="q-title">Explain Direct and Indirect Addressing with suitable examples.</div>
+    <span class="q-tag tag-instr">INSTRUCTIONS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>Instruction format: <strong>1-bit I (indirect) + 3-bit Opcode + 12-bit Address</strong></p>
+      <ul>
+        <li>I = 0 → <strong>Direct Address</strong></li>
+        <li>I = 1 → <strong>Indirect Address</strong></li>
+      </ul>
+
+      <h4>Direct Addressing (I = 0)</h4>
+      <p>The address field directly contains the address of the operand.</p>
+      <div class="code-block">Instruction at address 22:  [ 0 | ADD | 457 ]
+→ I=0, so direct
+→ Fetch operand from memory[457]
+→ AC ← AC + memory[457]</div>
+      <div class="info-box">1 memory access to get operand → Faster</div>
+
+      <h4>Indirect Addressing (I = 1)</h4>
+      <p>The address field contains the <strong>address of the address</strong> of the operand.</p>
+      <div class="code-block">Instruction at address 35:  [ 1 | ADD | 300 ]
+→ I=1, so indirect
+→ Go to memory[300] → find address = 1350
+→ Fetch operand from memory[1350]
+→ AC ← AC + memory[1350]</div>
+      <div class="warn-box">2 memory accesses needed → Slower, but allows pointer-based data access</div>
+
+      <table class="data-table">
+        <thead><tr><th>Feature</th><th>Direct</th><th>Indirect</th></tr></thead>
+        <tbody>
+          <tr><td>Memory accesses</td><td>1</td><td>2</td></tr>
+          <tr><td>Speed</td><td>Faster</td><td>Slower</td></tr>
+          <tr><td>Addressable range</td><td>Limited by address field</td><td>Larger (pointer)</td></tr>
+          <tr><td>I bit</td><td>0</td><td>1</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Q9 -->
+<div class="q-card" data-tag="instr" data-q="9">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">09</div>
+    <div class="q-title">Memory unit: 256K×32-bit words. Find opcode bits, draw format, memory input bits.</div>
+    <span class="q-tag tag-instr">INSTRUCTIONS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h3>Given</h3>
+      <ul>
+        <li>Memory size = 256K words</li>
+        <li>Each word = 32 bits</li>
+        <li>Instruction parts: Indirect bit + Opcode + Register code (64 regs) + Address</li>
+      </ul>
+
+      <h4>1. Bit Calculations</h4>
+      <p><strong>Address bits:</strong> 256K = 2⁸ × 2¹⁰ = 2¹⁸ → <strong>18 bits</strong></p>
+      <p><strong>Register code bits:</strong> 64 registers = 2⁶ → <strong>6 bits</strong></p>
+      <p><strong>Opcode bits:</strong></p>
+      <div class="formula-box">32 − 1 (indirect) − 6 (register) − 18 (address) = 7 bits</div>
+
+      <table class="data-table">
+        <thead><tr><th>Field</th><th>Bits</th></tr></thead>
+        <tbody>
+          <tr><td>Indirect bit (I)</td><td>1</td></tr>
+          <tr><td>Opcode</td><td>7</td></tr>
+          <tr><td>Register Code</td><td>6</td></tr>
+          <tr><td>Address</td><td>18</td></tr>
+          <tr><td><strong>Total</strong></td><td><strong>32</strong></td></tr>
+        </tbody>
+      </table>
+
+      <h4>2. Instruction Word Format (32 bits)</h4>
+      <div class="code-block">Bit 31       30    24       23       17          0
+  ┌───┬──────────┬──────────┬──────────────────┐
+  │ I │  Opcode  │ Register │     Address      │
+  │ 1 │  7 bits  │  6 bits  │    18 bits       │
+  └───┴──────────┴──────────┴──────────────────┘</div>
+
+      <h4>3. Memory Input Lines</h4>
+      <ul>
+        <li><strong>Data input lines:</strong> 32 bits (each word = 32 bits)</li>
+        <li><strong>Address input lines:</strong> 18 bits (2¹⁸ = 256K locations)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q10 -->
+<div class="q-card" data-tag="asm" data-q="10">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">10</div>
+    <div class="q-title">Explain MVI, ADD, LDA, MOV, STA instructions with examples.</div>
+    <span class="q-tag tag-asm">ASSEMBLY</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <table class="data-table">
+        <thead><tr><th>Instruction</th><th>Full Name</th><th>Operation</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td>MVI</td><td>Move Immediate</td><td>Copies 8-bit immediate data into register/memory</td><td>MVI A, 25H</td></tr>
+          <tr><td>ADD</td><td>Add</td><td>Adds register content to Accumulator; result in AC</td><td>ADD B</td></tr>
+          <tr><td>LDA</td><td>Load Accumulator</td><td>Loads AC with data from 16-bit memory address</td><td>LDA 2050H</td></tr>
+          <tr><td>MOV</td><td>Move</td><td>Copies data from one register to another</td><td>MOV A, B</td></tr>
+          <tr><td>STA</td><td>Store Accumulator</td><td>Stores AC content into specified memory address</td><td>STA 3050H</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Detailed Examples</h4>
+      <div class="code-block">MVI A, 25H    ; A ← 0x25  (immediate load)
+ADD B         ; A ← A + B
+LDA 2050H    ; A ← Memory[2050H]
+MOV A, B     ; A ← B  (register copy)
+STA 3050H    ; Memory[3050H] ← A</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q11 -->
+<div class="q-card" data-tag="num" data-q="11">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">11</div>
+    <div class="q-title">Signed representation of integer. Write (–12)₁₀ in 8-bit Signed Magnitude, 1's Complement, 2's Complement.</div>
+    <span class="q-tag tag-num">NUMBER SYS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>In binary, the <strong>MSB (leftmost bit)</strong> is the sign bit: <strong>0 = positive, 1 = negative</strong>.</p>
+
+      <h4>Representations of negative numbers</h4>
+      <ol>
+        <li><strong>Signed Magnitude</strong> — Only sign bit is complemented</li>
+        <li><strong>Signed 1's Complement</strong> — All bits (including sign) are complemented</li>
+        <li><strong>Signed 2's Complement</strong> — 1's complement + 1</li>
+      </ol>
+
+      <h3>Example: Represent (–12)₁₀ in 8 bits</h3>
+      <p>First, +12 in 8-bit binary = <strong>0 0001100</strong></p>
+
+      <div class="code-block">+12  =  0 0001100
+
+Signed Magnitude (-12):
+  → Flip only sign bit
+  → 1 0001100
+
+Signed 1's Complement (-12):
+  → Flip ALL bits
+  → 1 1110011
+
+Signed 2's Complement (-12):
+  → 1's complement of +12: 1 1110011
+  → Add 1:                  1 1110011
+                           +         1
+                           = 1 1110100</div>
+
+      <table class="data-table">
+        <thead><tr><th>Method</th><th>-12 in 8 bits</th></tr></thead>
+        <tbody>
+          <tr><td>Signed Magnitude</td><td>1 0001100</td></tr>
+          <tr><td>Signed 1's Complement</td><td>1 1110011</td></tr>
+          <tr><td>Signed 2's Complement</td><td>1 1110100</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">Most computers use 2's complement because: no separate subtractor needed (add the 2's complement = subtract), and there is only one representation of zero.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q12 -->
+<div class="q-card" data-tag="rtl" data-q="12">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">12</div>
+    <div class="q-title">Define RTL. Give block diagram and timing diagram of transfer of R1 to R2 when P=1.</div>
+    <span class="q-tag tag-rtl">RTL</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>RTL — Register Transfer Language</h4>
+      <p>A symbolic language used to describe <strong>micro-operations performed between registers</strong> in a digital system.</p>
+      <p>RTL specifies: Source register, Destination register, and Control condition.</p>
+
+      <h4>Notation</h4>
+      <div class="formula-box">P : R2 ← R1</div>
+      <p>Meaning: When control signal <strong>P = 1</strong>, contents of R1 are transferred to R2.</p>
+
+      <h4>Block Diagram</h4>
+      <div class="code-block">  ┌──────────────┐     P (Load)    ┌─────────┐
+  │ Control      ├────────────────►│   R2    │◄── Clock
+  │ Circuit      │                 └────▲────┘
+  └──────────────┘                      │ n bits
+                                   ┌────┴────┐
+                                   │   R1    │
+                                   └─────────┘</div>
+
+      <h4>Timing Diagram</h4>
+      <div class="code-block">          t         t+1
+Clock  ─┐ ┌──┐ ┌──┐ ┌──┐ ┌──
+        └─┘  └─┘  └─┘  └─┘
+
+Load   ──────────┐     ┌────
+(P)             │     │
+           (P goes HIGH)
+                       ↑
+               Transfer occurs here at t+1 rising edge</div>
+
+      <ul>
+        <li>P is activated by rising edge of clock at time <strong>t</strong></li>
+        <li>Transfer happens at the <strong>next positive transition</strong> (time t+1)</li>
+        <li>Transfer repeats with each clock pulse while P remains active</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Q13 -->
+<div class="q-card" data-tag="alu" data-q="13">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">13</div>
+    <div class="q-title">Discuss 4-bit Binary Adder with neat diagram.</div>
+    <span class="q-tag tag-alu">ALU</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>Structure</h4>
+      <p>A 4-bit binary adder uses <strong>4 Full Adders (FA)</strong> connected in a chain (ripple carry).</p>
+
+      <div class="code-block">B3 A3  B2 A2  B1 A1  B0 A0
+ ↓  ↓   ↓  ↓   ↓  ↓   ↓  ↓
+┌────┐  ┌────┐  ┌────┐  ┌────┐
+│ FA │←C│ FA │←C│ FA │←C│ FA │← C0 (input carry)
+└─┬──┘  └─┬──┘  └─┬──┘  └─┬──┘
+  ↓        ↓        ↓        ↓
+C4=Cout   S3       S2       S1       S0</div>
+
+      <h4>Key Points</h4>
+      <ul>
+        <li>Input carry to the adder is <strong>C0</strong>; output carry is <strong>C4</strong></li>
+        <li>The S outputs (S0–S3) give the sum bits</li>
+        <li>An n-bit adder requires <strong>n full adders</strong></li>
+        <li>Output carry of each FA connects to input carry of the next higher FA (ripple carry)</li>
+        <li>A inputs come from register R1, B inputs from register R2</li>
+        <li>Sum can be stored back to R1, R2, or a third register</li>
+      </ul>
+
+      <div class="warn-box">Ripple Carry Adder: carry must propagate through all FAs → delay increases with n bits. Solution: Carry Lookahead Adder (faster).</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q14 -->
+<div class="q-card" data-tag="rtl" data-q="14">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">14</div>
+    <div class="q-title">Construct diagram of common bus system of four 4-bit registers using multiplexers.</div>
+    <span class="q-tag tag-rtl">RTL</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>A common bus system allows multiple registers to <strong>share a single data path</strong> using multiplexers.</p>
+
+      <h4>Structure</h4>
+      <p>4 registers × 4 bits each → 4 MUX (4×1), each handling one bit position. 2 select lines S1, S0 choose which register drives the bus.</p>
+
+      <div class="code-block">S1 ──────────────────────────────────────────
+S0 ──────────────────────────────────────────
+      ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐
+      │4×1 MUX3│  │4×1 MUX2│  │4×1 MUX1│  │4×1 MUX0│
+      │3 2 1 0 │  │3 2 1 0 │  │3 2 1 0 │  │3 2 1 0 │
+      └───┬────┘  └───┬────┘  └───┬────┘  └───┬────┘
+          │           │           │           │
+         [D] [C]    [C] [B]    [B] [A]    [A] ...
+        Reg D     Reg C     Reg B     Reg A
+          └─────────────────────────────────┘
+                    4-bit Common Bus</div>
+
+      <h4>Select Line Truth Table</h4>
+      <table class="data-table">
+        <thead><tr><th>S1 S0</th><th>Register Selected</th></tr></thead>
+        <tbody>
+          <tr><td>0 0</td><td>Register A</td></tr>
+          <tr><td>0 1</td><td>Register B</td></tr>
+          <tr><td>1 0</td><td>Register C</td></tr>
+          <tr><td>1 1</td><td>Register D</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">When S1S0 = 00, input 0 of all MUXes is selected. Since Register A feeds input 0 of all MUXes, Register A drives the bus.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q15 -->
+<div class="q-card" data-tag="asm" data-q="15">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">15</div>
+    <div class="q-title">Write assembly language code in GNUsim8085 to subtract two 8-bit numbers.</div>
+    <span class="q-tag tag-asm">ASSEMBLY</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>Problem</h4>
+      <p>Subtract two 8-bit numbers stored at memory locations 2000H and 2001H. Store result at 2002H.</p>
+
+      <h4>Algorithm</h4>
+      <ol>
+        <li>Load first number into A</li>
+        <li>Move A to B (save first number)</li>
+        <li>Load second number into A</li>
+        <li>Subtract B from A → A = A - B</li>
+        <li>Store result</li>
+        <li>Halt</li>
+      </ol>
+
+      <div class="code-block">LDA  2000H   ; A ← Memory[2000H]  (load first number)
+MOV  B, A   ; B ← A              (save first number in B)
+LDA  2001H  ; A ← Memory[2001H]  (load second number)
+SUB  B      ; A ← A - B          (subtract)
+STA  2002H  ; Memory[2002H] ← A  (store result)
+HLT         ; Stop execution</div>
+
+      <div class="info-box">SUB B internally uses 2's complement: A = A + (2's complement of B). Result and flags (carry, zero, sign) are updated in the flag register.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q16 -->
+<div class="q-card" data-tag="instr" data-q="16">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">16</div>
+    <div class="q-title">Explain Memory Reference Instructions (MRI).</div>
+    <span class="q-tag tag-instr">INSTRUCTIONS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <h4>Instruction Format</h4>
+      <div class="code-block">┌───┬────────────┬──────────────────┐
+│ I │  Opcode    │    Address       │
+│ 1 │   3 bits   │    12 bits       │
+└───┴────────────┴──────────────────┘
+I = 0 → Direct   |   I = 1 → Indirect</div>
+
+      <h4>MRI Instruction Set</h4>
+      <table class="data-table">
+        <thead><tr><th>Symbol</th><th>Hex Code</th><th>Operation</th></tr></thead>
+        <tbody>
+          <tr><td>AND</td><td>0xxx / 8xxx</td><td>AC ← AC ∧ M[Address]</td></tr>
+          <tr><td>ADD</td><td>1xxx / 9xxx</td><td>AC ← AC + M[Address]</td></tr>
+          <tr><td>LDA</td><td>2xxx / Axxx</td><td>AC ← M[Address]</td></tr>
+          <tr><td>STA</td><td>3xxx / Bxxx</td><td>M[Address] ← AC</td></tr>
+          <tr><td>BUN</td><td>4xxx / Cxxx</td><td>PC ← Address (unconditional branch)</td></tr>
+          <tr><td>BSA</td><td>5xxx / Dxxx</td><td>M[Address] ← PC, PC ← Address + 1</td></tr>
+          <tr><td>ISZ</td><td>6xxx / Exxx</td><td>M[Address]++; if result = 0, skip next instruction</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">First hex digit: 0–6 = Direct (I=0), 8–E = Indirect (I=1). All MRI instructions access memory for their operand.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q17 -->
+<div class="q-card" data-tag="alu" data-q="17">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">17</div>
+    <div class="q-title">Explain any two Shift Micro-operations with examples.</div>
+    <span class="q-tag tag-alu">ALU</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>Shift micro-operations move bits in a register left or right. Three types:</p>
+
+      <h4>1. Logical Shift</h4>
+      <p>Shifts bits left or right; <strong>fills vacated bits with 0</strong>.</p>
+      <div class="code-block">Logical Shift Left (shl):
+  Register: 1 0 1 1 0 1 0 0
+  After:    0 1 1 0 1 0 0 0   ← 0 fills from right
+  RTL: R ← shl R  (serial input = 0)
+
+Logical Shift Right (shr):
+  Register: 1 0 1 1 0 1 0 0
+  After:    0 1 0 1 1 0 1 0   ← 0 fills from left
+  RTL: R ← shr R  (serial input = 0)</div>
+
+      <h4>2. Circular Shift (Rotate)</h4>
+      <p>Bits shifted out from one end <strong>come back in from the other end</strong>. No bits lost.</p>
+      <div class="code-block">Circular Shift Left (cil):
+  Register: 1 0 1 1 0 1 0 0
+  After:    0 1 1 0 1 0 0 1   ← MSB wraps to LSB
+  RTL: R ← cil R
+
+Circular Shift Right (cir):
+  Register: 1 0 1 1 0 1 0 0
+  After:    0 1 0 1 1 0 1 0  → wait, LSB (0) wraps to MSB
+  RTL: R ← cir R</div>
+
+      <h4>3. Arithmetic Shift</h4>
+      <p>Preserves the <strong>sign bit</strong>. Used for multiplication/division by 2.</p>
+      <div class="code-block">Arithmetic Shift Right:
+  Register: 1 0 1 1 0 1 0 0
+  After:    1 1 0 1 1 0 1 0   ← sign bit (1) replicated
+  (÷ 2 while preserving sign)</div>
+
+      <div class="info-box">Arithmetic shift left by 1 = multiply by 2. Arithmetic shift right by 1 = divide by 2.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q18 -->
+<div class="q-card" data-tag="instr" data-q="18">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">18</div>
+    <div class="q-title">Difference between MRI and Non-MRI Instructions.</div>
+    <span class="q-tag tag-instr">INSTRUCTIONS</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <table class="data-table">
+        <thead><tr><th>Basis</th><th>MRI (Memory Reference)</th><th>Non-MRI (Non-Memory Reference)</th></tr></thead>
+        <tbody>
+          <tr><td>Definition</td><td>Refers to memory location for operand</td><td>Does not refer to any memory location</td></tr>
+          <tr><td>Operand Location</td><td>Stored in memory</td><td>Stored in registers or implied</td></tr>
+          <tr><td>Address Field</td><td>Contains memory address</td><td>No address field</td></tr>
+          <tr><td>Memory Access</td><td>Yes — during execution</td><td>No memory access</td></tr>
+          <tr><td>Types</td><td>Memory reference only</td><td>Register-reference + I/O instructions</td></tr>
+          <tr><td>Examples</td><td>AND, ADD, LDA, STA, BUN, BSA, ISZ</td><td>CLA, CLE, CMA, CIR, CIL, INP, OUT</td></tr>
+          <tr><td>Speed</td><td>Slower (memory access overhead)</td><td>Faster (register or implicit ops)</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">Non-MRI instructions are further divided into Register Reference (operate on AC/flags) and Input-Output instructions (INP, OUT, SKI, SKO, ION, IOF).</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q19 -->
+<div class="q-card" data-tag="arch" data-q="19">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">19</div>
+    <div class="q-title">Explain computer registers in detail.</div>
+    <span class="q-tag tag-arch">ARCH</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>Registers are <strong>high-speed memory storage units</strong> inside the CPU processor. They hold data actively being processed.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Register</th><th>Full Name</th><th>Bits</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>AR</td><td>Address Register</td><td>12</td><td>Holds memory address of instruction/data to access</td></tr>
+          <tr><td>PC</td><td>Program Counter</td><td>12</td><td>Stores address of next instruction to execute</td></tr>
+          <tr><td>DR</td><td>Data Register</td><td>16</td><td>Holds data read from / to be written to memory</td></tr>
+          <tr><td>AC</td><td>Accumulator</td><td>16</td><td>Arithmetic/logic results; primary working register</td></tr>
+          <tr><td>IR</td><td>Instruction Register</td><td>16</td><td>Holds current instruction being decoded/executed</td></tr>
+          <tr><td>TR</td><td>Temporary Register</td><td>16</td><td>Stores temporary data during instruction execution</td></tr>
+          <tr><td>INPR</td><td>Input Register</td><td>8</td><td>Receives 8-bit data from input devices</td></tr>
+          <tr><td>OUTR</td><td>Output Register</td><td>8</td><td>Holds 8-bit data to be sent to output devices</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Register Data Flow (typical fetch cycle)</h4>
+      <div class="code-block">PC → AR       (send next instruction address to AR)
+Memory[AR] → IR   (fetch instruction into IR)
+PC = PC + 1       (increment PC)
+IR → CU           (decode instruction in Control Unit)
+CU → AR, DR, AC   (execute: load operands, compute, store)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q20 -->
+<div class="q-card" data-tag="alu" data-q="20">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">20</div>
+    <div class="q-title">Explain Arithmetic Micro-operations.</div>
+    <span class="q-tag tag-alu">ALU</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>Arithmetic micro-operations perform <strong>basic numerical computations</strong> on data stored in registers.</p>
+
+      <table class="data-table">
+        <thead><tr><th>Operation</th><th>RTL Notation</th><th>Description</th></tr></thead>
+        <tbody>
+          <tr><td>Add</td><td>R3 ← R1 + R2</td><td>Adds contents of R1 and R2</td></tr>
+          <tr><td>Subtract</td><td>R3 ← R1 − R2</td><td>Subtracts R2 from R1</td></tr>
+          <tr><td>Increment</td><td>R1 ← R1 + 1</td><td>Adds 1 to register</td></tr>
+          <tr><td>Decrement</td><td>R1 ← R1 − 1</td><td>Subtracts 1 from register</td></tr>
+          <tr><td>Negate (2's comp)</td><td>R2 ← R̄1 + 1</td><td>2's complement (arithmetic negation)</td></tr>
+          <tr><td>Add with Carry</td><td>R3 ← R1 + R2 + Cin</td><td>Adds with carry-in bit</td></tr>
+          <tr><td>Subtract with Borrow</td><td>R3 ← R1 − R2 − Bin</td><td>Subtracts with borrow bit</td></tr>
+        </tbody>
+      </table>
+
+      <h4>Hardware Implementation</h4>
+      <p>A single <strong>Binary Adder</strong> can implement all the above by clever input manipulation:</p>
+      <ul>
+        <li>To subtract: apply 2's complement of R2 (invert bits + set Cin = 1)</li>
+        <li>To increment: set B input = 0 and Cin = 1</li>
+        <li>To decrement: set B = all 1s (= −1 in 2's complement) and Cin = 0</li>
+      </ul>
+
+      <div class="info-box">This is why modern CPUs only need an adder — not separate hardware for each operation. 2's complement unifies addition and subtraction.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Q21 -->
+<div class="q-card" data-tag="alu" data-q="21">
+  <div class="q-header" onclick="toggle(this)">
+    <div class="q-num">21</div>
+    <div class="q-title">Explain Selective Set, Selective Complement, and Selective Clear operations.</div>
+    <span class="q-tag tag-alu">ALU</span>
+    <div class="q-chevron">▾</div>
+  </div>
+  <div class="q-body">
+    <div class="q-content">
+      <p>These are <strong>logic micro-operations</strong> that selectively modify specific bits in register A using register B as a mask.</p>
+
+      <h4>1. Selective Set (OR)</h4>
+      <p>Sets bits in A to 1 where B has 1. Doesn't affect bits where B = 0.</p>
+      <div class="formula-box">A ← A ∨ B   (OR operation)</div>
+      <div class="code-block">A:      0 1 0 1 1 0 0 0
+B:      0 0 0 0 0 1 1 1
+A∨B:    0 1 0 1 1 1 1 1  ← last 3 bits SET to 1</div>
+
+      <h4>2. Selective Complement (XOR)</h4>
+      <p>Complements bits in A where B has 1. Doesn't affect bits where B = 0.</p>
+      <div class="formula-box">A ← A ⊕ B   (XOR operation)</div>
+      <div class="code-block">A:      0 1 0 1 1 0 0 0
+B:      0 0 0 0 0 1 1 1
+A⊕B:    0 1 0 1 1 1 1 1  ← last 3 bits COMPLEMENTED (0→1)</div>
+
+      <h4>3. Selective Clear (AND with complement)</h4>
+      <p>Clears bits in A to 0 where B has 1. Doesn't affect bits where B = 0.</p>
+      <div class="formula-box">A ← A ∧ B'   (AND with NOT B)</div>
+      <div class="code-block">A:      0 1 0 1 1 0 0 0
+B:      0 0 0 0 0 1 1 1
+B':     1 1 1 1 1 0 0 0
+A∧B':   0 1 0 1 1 0 0 0  ← last 3 bits CLEARED to 0</div>
+
+      <table class="data-table">
+        <thead><tr><th>Operation</th><th>RTL</th><th>Effect where B=1</th><th>Effect where B=0</th></tr></thead>
+        <tbody>
+          <tr><td>Selective Set</td><td>A ← A ∨ B</td><td>Set to 1</td><td>Unchanged</td></tr>
+          <tr><td>Selective Complement</td><td>A ← A ⊕ B</td><td>Toggle</td><td>Unchanged</td></tr>
+          <tr><td>Selective Clear</td><td>A ← A ∧ B'</td><td>Clear to 0</td><td>Unchanged</td></tr>
+        </tbody>
+      </table>
+
+      <div class="info-box">B acts as a mask — it selects WHICH bits of A to operate on. This is fundamental to bit manipulation in low-level programming.</div>
+    </div>
+  </div>
+</div>
+
+<div id="no-results">NO QUESTIONS MATCH YOUR SEARCH</div>
+
+</main>
+
+<footer>
+  AHMEDABAD INSTITUTE OF TECHNOLOGY &nbsp;·&nbsp; COMPUTER ENGINEERING &nbsp;·&nbsp; COA BE04000251 &nbsp;·&nbsp; 2026
+</footer>
+
+<script>
+  let activeTag = 'all';
+  let openCount = 0;
+
+  function toggle(header) {
+    const card = header.parentElement;
+    const wasOpen = card.classList.contains('open');
+    card.classList.toggle('open', !wasOpen);
+    updateProgress();
+  }
+
+  function filterTag(tag, btn) {
+    activeTag = tag;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterCards();
+  }
+
+  function filterCards() {
+    const query = document.getElementById('search').value.toLowerCase();
+    const cards = document.querySelectorAll('.q-card');
+    let visible = 0;
+
+    cards.forEach((card, i) => {
+      const tag = card.dataset.tag;
+      const title = card.querySelector('.q-title').textContent.toLowerCase();
+      const content = card.querySelector('.q-content') ? card.querySelector('.q-content').textContent.toLowerCase() : '';
+      const tagMatch = activeTag === 'all' || tag === activeTag;
+      const searchMatch = !query || title.includes(query) || content.includes(query);
+
+      if (tagMatch && searchMatch) {
+        card.classList.remove('hidden');
+        card.style.animationDelay = (visible * 0.04) + 's';
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    document.getElementById('counter').textContent = visible + ' / 21';
+    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
+  }
+
+  function updateProgress() {
+    const open = document.querySelectorAll('.q-card.open').length;
+    const total = document.querySelectorAll('.q-card').length;
+    document.getElementById('progress').style.width = (open / total * 100) + '%';
+  }
+
+  // Keyboard shortcut: '/' to focus search
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== document.getElementById('search')) {
+      e.preventDefault();
+      document.getElementById('search').focus();
+    }
+    if (e.key === 'Escape') {
+      document.getElementById('search').blur();
+      document.getElementById('search').value = '';
+      filterCards();
+    }
+  });
+</script>
+</body>
+</html>
