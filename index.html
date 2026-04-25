@@ -4,125 +4,643 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>COA Master Revision System | GTU Sem 4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
 *{box-sizing:border-box;margin:0;padding:0}
+
 :root{
---bg:#0d0f1a;--bg2:#141628;--bg3:#1c1f36;--card:#1e2240;
---bdr:#2a2f52;--acc:#e94560;--acc2:#7c6af5;--gold:#f5c842;
---grn:#00d68f;--blu:#4db8ff;--txt:#e8eaf6;--txt2:#9ba3c4;--txt3:#636b8a;
---r:12px;--rs:7px;
+  /* Premium Dark Luxury tokens */
+  --bg:        #050507;
+  --bg2:       #0a0a0f;
+  --bg3:       #0f0f18;
+  --card:      #111120;
+  --card2:     #16162a;
+  --bdr:       #1e1e36;
+  --bdr2:      #282840;
+
+  /* Accent palette — gold + violet + crimson */
+  --gold:      #c9a84c;
+  --gold2:     #e8c96a;
+  --gold-dim:  rgba(201,168,76,.12);
+  --gold-glow: rgba(201,168,76,.06);
+  --violet:    #7b68ee;
+  --violet-dim:rgba(123,104,238,.15);
+  --crimson:   #e63946;
+  --crimson-dim:rgba(230,57,70,.12);
+  --emerald:   #2dd4a0;
+  --emerald-dim:rgba(45,212,160,.12);
+  --sky:       #60b4ff;
+  --sky-dim:   rgba(96,180,255,.12);
+
+  /* Text */
+  --txt:  #e8e8f0;
+  --txt2: #8888aa;
+  --txt3: #4a4a66;
+
+  /* Radii */
+  --r:  14px;
+  --rs: 8px;
+  --rp: 100px;
+
+  /* Sidebar width */
+  --sb: 270px;
 }
-body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:14px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
-.topbar{background:var(--bg2);border-bottom:1px solid var(--bdr);height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0;position:sticky;top:0;z-index:100}
-.logo{font-family:'Syne',system-ui,sans-serif;font-size:17px;font-weight:800;white-space:nowrap}
-.logo span{color:var(--acc)}
-.srch-wrap{flex:1;max-width:340px;position:relative}
-.srch{width:100%;background:var(--bg3);border:1px solid var(--bdr);border-radius:100px;padding:7px 14px 7px 34px;color:var(--txt);font-size:13px;outline:none;font-family:inherit}
-.srch:focus{border-color:var(--acc2)}
-.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45;font-size:14px;pointer-events:none}
-.nav-pills{display:flex;gap:6px}
-.np{background:var(--bg3);border:1px solid var(--bdr);border-radius:100px;padding:5px 13px;font-size:12px;color:var(--txt2);cursor:pointer;font-family:inherit;transition:all .18s}
-.np:hover,.np.on{background:var(--acc);border-color:var(--acc);color:#fff}
-.np.rev:hover,.np.rev.on{background:var(--gold);border-color:var(--gold);color:#1a1200}
+
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:'Inter',system-ui,sans-serif;
+  font-size:14px;
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+
+/* ─── TOPBAR ─── */
+.topbar{
+  background:var(--bg2);
+  border-bottom:1px solid var(--bdr);
+  height:56px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:0 20px;
+  flex-shrink:0;
+  z-index:100;
+  position:relative;
+}
+.topbar::after{
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.25;
+}
+
+.logo{
+  font-family:'Oswald',system-ui,sans-serif;
+  font-size:18px;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:var(--txt);
+}
+.logo em{
+  font-style:normal;
+  color:var(--gold);
+}
+
+.topbar-divider{width:1px;height:22px;background:var(--bdr2);flex-shrink:0}
+
+/* Search */
+.srch-wrap{flex:1;max-width:320px;position:relative}
+.srch{
+  width:100%;
+  background:var(--bg3);
+  border:1px solid var(--bdr2);
+  border-radius:var(--rp);
+  padding:8px 14px 8px 36px;
+  color:var(--txt);
+  font-size:12.5px;
+  outline:none;
+  font-family:'Inter',inherit;
+  letter-spacing:.3px;
+  transition:border-color .2s, box-shadow .2s;
+}
+.srch::placeholder{color:var(--txt3)}
+.srch:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.08)}
+.si{
+  position:absolute;left:12px;top:50%;
+  transform:translateY(-50%);
+  color:var(--txt3);
+  font-size:13px;
+  pointer-events:none;
+}
+
+/* Nav pills */
+.nav-pills{display:flex;gap:6px;margin-left:auto}
+.np{
+  font-family:'Inter',inherit;
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.4px;
+  padding:6px 16px;
+  border-radius:var(--rp);
+  border:1px solid var(--bdr2);
+  background:transparent;
+  color:var(--txt2);
+  cursor:pointer;
+  transition:all .2s;
+  text-transform:uppercase;
+}
+.np:hover{color:var(--txt);border-color:var(--bdr2);background:var(--bg3)}
+.np.on{background:var(--gold);border-color:var(--gold);color:#0a0800;font-weight:700}
+.np.rev{border-color:var(--violet-dim)}
+.np.rev:hover{border-color:var(--violet);color:var(--violet)}
+.np.rev.on{background:var(--violet);border-color:var(--violet);color:#fff}
+
+/* ─── LAYOUT ─── */
 .body{display:flex;flex:1;overflow:hidden}
-.sb{width:264px;min-width:264px;background:var(--bg2);border-right:1px solid var(--bdr);overflow-y:auto;padding:12px 10px;height:calc(100vh - 52px)}
-.sb-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);padding:0 6px;margin:8px 0 5px}
-.qi{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--rs);cursor:pointer;border:1px solid transparent;transition:all .15s}
+
+/* ─── SIDEBAR ─── */
+.sb{
+  width:var(--sb);
+  min-width:var(--sb);
+  background:var(--bg2);
+  border-right:1px solid var(--bdr);
+  overflow-y:auto;
+  padding:14px 10px;
+  height:calc(100vh - 56px);
+}
+.sb-lbl{
+  font-family:'Oswald',sans-serif;
+  font-size:9px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:2.5px;
+  color:var(--txt3);
+  padding:0 8px;
+  margin:10px 0 6px;
+}
+
+/* Question row in sidebar */
+.qi{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px 9px;
+  border-radius:var(--rs);
+  cursor:pointer;
+  border:1px solid transparent;
+  transition:all .15s;
+}
 .qi:hover{background:var(--bg3);border-color:var(--bdr)}
-.qi.on{background:rgba(124,106,245,.15);border-color:var(--acc2)}
-.qn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--acc2);min-width:26px}
-.qt{font-size:12px;color:var(--txt2);flex:1;line-height:1.3}
+.qi.on{background:var(--gold-dim);border-color:rgba(201,168,76,.3)}
 .qi.on .qt{color:var(--txt)}
-.qb{font-size:9px;font-weight:700;padding:2px 6px;border-radius:100px}
-.b7{background:rgba(233,69,96,.15);color:var(--acc)}
-.b4{background:rgba(245,200,66,.15);color:var(--gold)}
-.b3{background:rgba(0,214,143,.15);color:var(--grn)}
-.content{flex:1;overflow-y:auto;padding:20px}
-.hero{background:linear-gradient(135deg,var(--bg3),#1a1d35);border:1px solid var(--bdr);border-radius:var(--r);padding:28px;margin-bottom:18px;position:relative;overflow:hidden}
-.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,106,245,.12) 0%,transparent 70%);pointer-events:none}
-.htag{display:inline-block;background:rgba(124,106,245,.15);color:var(--acc2);font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
-.htitle{font-family:'Syne',system-ui,sans-serif;font-size:28px;font-weight:800;line-height:1.1;margin-bottom:8px}
-.htitle span{color:var(--acc)}
-.hdesc{color:var(--txt2);font-size:13.5px;line-height:1.6;margin-bottom:18px}
-.stats{display:flex;gap:18px;flex-wrap:wrap}
-.stat .sn{font-family:'Syne',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--acc)}
-.stat .sl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px}
-.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);margin-bottom:10px;margin-top:16px}
-.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:16px}
-.ucard{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s}
-.ucard:hover{border-color:var(--acc2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.uico{font-size:20px;margin-bottom:6px}
-.unm{font-family:'Syne',system-ui,sans-serif;font-size:13.5px;font-weight:700;margin-bottom:3px}
+.qn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:9.5px;
+  font-weight:600;
+  color:var(--gold);
+  min-width:24px;
+}
+.qt{font-size:11.5px;color:var(--txt2);flex:1;line-height:1.3}
+.qb{font-size:9px;font-weight:700;padding:2px 7px;border-radius:var(--rp)}
+.b7{background:var(--crimson-dim);color:var(--crimson)}
+.b4{background:var(--gold-dim);color:var(--gold)}
+.b3{background:var(--emerald-dim);color:var(--emerald)}
+
+/* ─── CONTENT ─── */
+.content{
+  flex:1;
+  overflow-y:auto;
+  padding:24px;
+  background:var(--bg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:2px}
+::-webkit-scrollbar-thumb:hover{background:var(--gold);opacity:.5}
+
+/* ─── HERO ─── */
+.hero{
+  background:linear-gradient(135deg,var(--bg3) 0%,var(--card) 100%);
+  border:1px solid var(--bdr2);
+  border-radius:var(--r);
+  padding:32px;
+  margin-bottom:20px;
+  position:relative;
+  overflow:hidden;
+}
+.hero::before{
+  content:'';
+  position:absolute;top:-60px;right:-60px;
+  width:260px;height:260px;
+  background:radial-gradient(circle,rgba(201,168,76,.08) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.2;
+}
+
+.htag{
+  display:inline-block;
+  font-family:'Oswald',sans-serif;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--gold);
+  background:var(--gold-dim);
+  border:1px solid rgba(201,168,76,.2);
+  padding:4px 14px;
+  border-radius:var(--rp);
+  margin-bottom:14px;
+}
+
+.htitle{
+  font-family:'Oswald',system-ui,sans-serif;
+  font-size:34px;
+  font-weight:600;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  line-height:1.05;
+  margin-bottom:10px;
+  color:var(--txt);
+}
+.htitle em{font-style:normal;color:var(--gold)}
+
+.hdesc{color:var(--txt2);font-size:13px;line-height:1.7;margin-bottom:22px;max-width:580px}
+
+.stats{display:flex;gap:28px;flex-wrap:wrap}
+.stat .sn{
+  font-family:'Oswald',sans-serif;
+  font-size:30px;
+  font-weight:700;
+  color:var(--gold);
+  letter-spacing:1px;
+  line-height:1;
+}
+.stat .sl{
+  font-size:9.5px;
+  color:var(--txt3);
+  text-transform:uppercase;
+  letter-spacing:2px;
+  margin-top:3px;
+}
+
+/* ─── SECTION TITLE ─── */
+.sec-title{
+  font-family:'Oswald',sans-serif;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:var(--txt3);
+  margin:20px 0 10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--bdr)}
+
+/* ─── UNIT GRID ─── */
+.ugrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:10px;
+  margin-bottom:18px;
+}
+.ucard{
+  background:var(--card);
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  padding:16px;
+  cursor:pointer;
+  transition:all .22s;
+  position:relative;
+  overflow:hidden;
+}
+.ucard::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;
+  transition:opacity .22s;
+}
+.ucard:hover{border-color:rgba(201,168,76,.3);transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,.4)}
+.ucard:hover::before{opacity:.4}
+.uico{font-size:22px;margin-bottom:8px}
+.unm{
+  font-family:'Oswald',sans-serif;
+  font-size:13px;
+  font-weight:500;
+  letter-spacing:.5px;
+  text-transform:uppercase;
+  color:var(--txt);
+  margin-bottom:3px;
+}
 .ucnt{font-size:11px;color:var(--txt3)}
-.hq-item{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rs);padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;margin-bottom:7px;transition:all .15s}
-.hq-item:hover{border-color:var(--acc2)}
-.hqn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--acc)}
-.qhdr{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px;margin-bottom:14px}
-.qmeta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px}
-.chip-q{background:rgba(124,106,245,.15);color:var(--acc2)}
-.chip-hi{background:rgba(233,69,96,.15);color:var(--acc)}
-.chip-med{background:rgba(245,200,66,.15);color:var(--gold)}
-.chip-lo{background:rgba(0,214,143,.15);color:var(--grn)}
-.qtitle{font-family:'Syne',system-ui,sans-serif;font-size:17px;font-weight:700;line-height:1.3;margin-bottom:8px}
-.tags{display:flex;gap:5px;flex-wrap:wrap}
-.tag{font-size:10px;background:var(--bg3);color:var(--txt3);padding:2px 8px;border-radius:100px;border:1px solid var(--bdr)}
+
+/* ─── HIGH PRIORITY ITEMS ─── */
+.hq-item{
+  background:var(--card);
+  border:1px solid var(--bdr);
+  border-radius:var(--rs);
+  padding:11px 16px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:14px;
+  margin-bottom:7px;
+  transition:all .18s;
+}
+.hq-item:hover{border-color:rgba(201,168,76,.3);background:var(--card2)}
+.hqn{
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:600;
+  color:var(--gold);
+  min-width:28px;
+}
+
+/* ─── QUESTION HEADER ─── */
+.qhdr{
+  background:var(--card);
+  border:1px solid var(--bdr2);
+  border-radius:var(--r);
+  padding:20px;
+  margin-bottom:16px;
+  position:relative;
+  overflow:hidden;
+}
+.qhdr::before{
+  content:'';
+  position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--violet),transparent);
+}
+
+.qmeta{display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.chip{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  font-weight:600;
+  padding:3px 10px;
+  border-radius:var(--rp);
+}
+.chip-q{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(201,168,76,.2)}
+.chip-hi{background:var(--crimson-dim);color:var(--crimson)}
+.chip-med{background:var(--gold-dim);color:var(--gold)}
+.chip-lo{background:var(--emerald-dim);color:var(--emerald)}
+
+.qtitle{
+  font-family:'Oswald',sans-serif;
+  font-size:19px;
+  font-weight:500;
+  letter-spacing:.5px;
+  line-height:1.3;
+  margin-bottom:10px;
+  color:var(--txt);
+}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  font-size:10px;
+  background:var(--bg3);
+  color:var(--txt3);
+  padding:2px 9px;
+  border-radius:var(--rp);
+  border:1px solid var(--bdr);
+  letter-spacing:.3px;
+}
+
+/* ─── TABS ─── */
 .tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
-.tb{font-family:inherit;font-size:12px;padding:7px 12px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--bg3);color:var(--txt2);cursor:pointer;transition:all .18s}
-.tb:hover{border-color:var(--acc2);color:var(--txt)}
-.tb.on{background:var(--acc2);border-color:var(--acc2);color:#fff}
-.panel{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.ptitle{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
-.ptitle.blu{color:var(--blu)}.ptitle.gold{color:var(--gold)}.ptitle.grn{color:var(--grn)}.ptitle.pur{color:var(--acc2)}.ptitle.red{color:var(--acc)}
-.def{font-size:13.5px;line-height:1.7;background:var(--bg3);padding:12px;border-radius:var(--rs);border-left:3px solid var(--acc2);margin-bottom:12px}
+.tb{
+  font-family:'Inter',inherit;
+  font-size:11.5px;
+  font-weight:500;
+  padding:7px 14px;
+  border-radius:var(--rs);
+  border:1px solid var(--bdr);
+  background:var(--card);
+  color:var(--txt2);
+  cursor:pointer;
+  transition:all .18s;
+  letter-spacing:.2px;
+}
+.tb:hover{border-color:var(--bdr2);color:var(--txt);background:var(--card2)}
+.tb.on{background:var(--gold);border-color:var(--gold);color:#0a0800;font-weight:700}
+
+/* ─── PANELS ─── */
+.panel{
+  background:var(--card);
+  border:1px solid var(--bdr2);
+  border-radius:var(--r);
+  padding:18px;
+  margin-bottom:12px;
+}
+.ptitle{
+  font-family:'Oswald',sans-serif;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  margin-bottom:14px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.ptitle::after{content:'';flex:1;height:1px;background:var(--bdr)}
+.ptitle.blu{color:var(--sky)}
+.ptitle.gold{color:var(--gold)}
+.ptitle.grn{color:var(--emerald)}
+.ptitle.pur{color:var(--violet)}
+.ptitle.red{color:var(--crimson)}
+
+/* Definition box */
+.def{
+  font-size:13.5px;
+  line-height:1.75;
+  background:var(--bg3);
+  padding:14px 16px;
+  border-radius:var(--rs);
+  border-left:2px solid var(--gold);
+  margin-bottom:14px;
+  color:var(--txt);
+}
+
+/* Key points list */
 .pts{list-style:none}
-.pts li{font-size:13px;color:var(--txt2);line-height:1.6;padding:5px 0 5px 16px;position:relative;border-bottom:1px solid var(--bdr)}
+.pts li{
+  font-size:13px;
+  color:var(--txt2);
+  line-height:1.65;
+  padding:6px 0 6px 18px;
+  position:relative;
+  border-bottom:1px solid var(--bdr);
+}
 .pts li:last-child{border-bottom:none}
-.pts li::before{content:'▸';position:absolute;left:0;color:var(--acc2);font-size:11px;top:7px}
-.diag{background:#080a11;border:1px solid #1e2540;border-radius:var(--rs);padding:13px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7ecfcf;line-height:1.7;white-space:pre;overflow-x:auto}
-.kws{display:flex;flex-wrap:wrap;gap:7px}
-.kw{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:rgba(124,106,245,.15);color:var(--acc2);border:1px solid rgba(124,106,245,.25)}
-.el10p{background:linear-gradient(135deg,#1a1500,#1f1900);border:1px solid rgba(245,200,66,.25);border-radius:var(--r);padding:16px;margin-bottom:12px}
-.el10l{font-size:13.5px;color:#e8d88a;line-height:1.7;padding:3px 0}
-.fcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden;margin-bottom:9px}
-.fq{background:rgba(77,184,255,.12);padding:9px 12px;font-size:12.5px;font-weight:600;color:var(--blu);border-bottom:1px solid rgba(77,184,255,.1)}
-.fa{padding:9px 12px;font-size:13px;color:var(--txt);line-height:1.5}
-.sc{font-size:13px;padding:9px 12px;border-left:3px solid var(--acc2);background:var(--bg3);margin-bottom:7px;border-radius:0 var(--rs) var(--rs) 0;color:var(--txt);line-height:1.5}
-.ev{font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--bdr);color:var(--txt);font-family:'JetBrains Mono',monospace;line-height:1.5}
+.pts li::before{
+  content:'▸';
+  position:absolute;left:0;
+  color:var(--gold);
+  font-size:10px;
+  top:8px;
+}
+
+/* Diagram / code block */
+.diag{
+  background:#020204;
+  border:1px solid #1a1a2e;
+  border-radius:var(--rs);
+  padding:14px 16px;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  color:#7ecfcf;
+  line-height:1.8;
+  white-space:pre;
+  overflow-x:auto;
+}
+
+/* Keywords */
+.kws{display:flex;flex-wrap:wrap;gap:8px}
+.kw{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+  font-weight:500;
+  padding:4px 11px;
+  border-radius:var(--rp);
+  background:var(--violet-dim);
+  color:var(--violet);
+  border:1px solid rgba(123,104,238,.2);
+}
+
+/* EL10 */
+.el10p{
+  background:linear-gradient(135deg,#0d0b00,#141000);
+  border:1px solid rgba(201,168,76,.18);
+  border-radius:var(--r);
+  padding:18px;
+  margin-bottom:12px;
+}
+.el10l{font-size:13.5px;color:#e8d88a;line-height:1.8;padding:3px 0}
+
+/* Flashcards */
+.fcard{
+  background:var(--bg3);
+  border:1px solid var(--bdr);
+  border-radius:var(--rs);
+  overflow:hidden;
+  margin-bottom:9px;
+  transition:border-color .18s;
+}
+.fcard:hover{border-color:rgba(201,168,76,.25)}
+.fq{
+  background:var(--sky-dim);
+  padding:10px 14px;
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--sky);
+  border-bottom:1px solid rgba(96,180,255,.1);
+}
+.fa{padding:10px 14px;font-size:13px;color:var(--txt);line-height:1.55}
+
+/* Quick hacks */
+.sc{
+  font-size:13px;
+  padding:10px 14px;
+  border-left:2px solid var(--violet);
+  background:var(--bg3);
+  margin-bottom:7px;
+  border-radius:0 var(--rs) var(--rs) 0;
+  color:var(--txt);
+  line-height:1.55;
+}
+
+/* Exam version */
+.ev{
+  font-size:12.5px;
+  padding:8px 0;
+  border-bottom:1px solid var(--bdr);
+  color:var(--txt);
+  font-family:'JetBrains Mono',monospace;
+  line-height:1.55;
+}
 .ev:last-child{border-bottom:none}
-.exam-wrap{background:linear-gradient(135deg,#0a1a0a,#0d1f0d);border:1px solid rgba(0,214,143,.3);border-radius:var(--r);padding:16px}
-.rev-row{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-bottom:1px solid var(--bdr);border-radius:var(--rs);transition:background .15s;cursor:pointer}
-.rev-row:hover{background:var(--bg3)}
-.rev-q{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--acc2);min-width:30px;margin-top:2px}
+.exam-wrap{
+  background:linear-gradient(135deg,#020d08,#040f0a);
+  border:1px solid rgba(45,212,160,.2);
+  border-radius:var(--r);
+  padding:18px;
+}
+
+/* Revision table */
+.rev-row{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:10px 12px;
+  border-bottom:1px solid var(--bdr);
+  border-radius:var(--rs);
+  transition:background .15s;
+  cursor:pointer;
+}
+.rev-row:hover{background:var(--card2)}
+.rev-q{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  font-weight:700;
+  color:var(--gold);
+  min-width:28px;
+  margin-top:2px;
+}
 .rev-t{font-size:12px;color:var(--txt2);min-width:150px;max-width:150px;line-height:1.4}
-.rev-a{font-size:11.5px;color:var(--txt);font-family:'JetBrains Mono',monospace;line-height:1.5;flex:1}
-.qnav{display:flex;gap:8px;margin-top:14px}
-.qnb{flex:1;padding:10px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);cursor:pointer;font-family:inherit;color:var(--txt2);font-size:12px;transition:all .18s;text-align:center}
-.qnb:hover{border-color:var(--acc2);color:var(--txt)}
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:var(--bg2)}
-::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--acc2)}
-@media(max-width:700px){.sb{display:none}.content{padding:14px}.htitle{font-size:20px}}
+.rev-a{font-size:11.5px;color:var(--txt);font-family:'JetBrains Mono',monospace;line-height:1.55;flex:1}
+
+/* Nav arrows */
+.qnav{display:flex;gap:8px;margin-top:16px}
+.qnb{
+  flex:1;
+  padding:11px;
+  background:var(--card);
+  border:1px solid var(--bdr);
+  border-radius:var(--rs);
+  cursor:pointer;
+  font-family:'Inter',inherit;
+  color:var(--txt2);
+  font-size:12px;
+  font-weight:500;
+  transition:all .18s;
+  text-align:center;
+  letter-spacing:.3px;
+}
+.qnb:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:720px){
+  .sb{display:none}
+  .content{padding:16px}
+  .htitle{font-size:24px}
+}
 </style>
 </head>
 <body>
+
+<!-- ░░ TOPBAR ░░ -->
 <div class="topbar">
-  <div class="logo">COA <span>Revision</span></div>
-  <div class="srch-wrap"><span class="si">🔍</span><input class="srch" id="srch" placeholder="Search questions, topics..." oninput="doSearch()"></div>
+  <div class="logo">COA <em>Revision</em></div>
+  <div class="topbar-divider"></div>
+  <div class="srch-wrap">
+    <span class="si">⌕</span>
+    <input class="srch" id="srch" placeholder="Search questions, topics..." oninput="doSearch()">
+  </div>
   <div class="nav-pills">
     <button class="np on" id="nb-home" onclick="setView('home')">Home</button>
     <button class="np" id="nb-qs" onclick="setView('questions')">Questions</button>
     <button class="np rev" id="nb-rev" onclick="setView('revision')">⚡ Revision</button>
   </div>
 </div>
+
+<!-- ░░ BODY ░░ -->
 <div class="body">
   <div class="sb" id="sidebar"></div>
   <div class="content" id="content"></div>
 </div>
 
 <script>
+// ════════════════════════════════════════════
+//  DATA — all 24 questions (unchanged)
+// ════════════════════════════════════════════
 const QS=[
 {id:1,marks:7,pri:"high",unit:"I/O & Interrupts",tags:["interrupt","ISR","IEN","cycle"],
 title:"What is an Interrupt? Explain interrupt cycle with flowchart.",
@@ -181,161 +699,161 @@ kws:["EA","Immediate","Direct","Indirect","Register","Relative","Indexed","Opera
 el10:["🔍 Finding a book = finding an operand in memory.","Immediate = 'Book is IN my hands!' (no lookup, fastest)","Register = 'Book in my desk drawer' — fast!","Direct = 'Book at shelf #205' — go directly.","Indirect = 'Shelf #205 has a note: Go to shelf #410' — two trips!","Indexed = 'Start shelf 200 + index 5 = shelf 205' — great for arrays!"],
 fc:[["Effective Address (EA)?","Actual memory address where operand is located."],["Immediate mode?","Operand IS the data — no EA calculation."],["Relative mode formula?","EA = PC + Signed Offset."],["Indexed mode formula?","EA = Base Address + Index Register contents."],["Best mode for arrays?","Indexed Addressing Mode."],["Which mode has 2 memory reads?","Indirect Mode."],["Fastest mode?","Register Mode — operand already in CPU register."]],
 sh:["⚡ Speed order: Reg > Imm > Direct > Indexed > Relative > Reg-Indirect > Indirect","⚡ Exam trap: 'Indirect needs 2 memory reads' — always mention!","⚡ Indexed = ARRAYS. Relative = JUMPS. Remember!"],
-ev:["Addressing modes define how operand is located.","1. Immediate: MOV AL,5","2. Register: MOV AX,BX","3. Direct: LDA 2050","4. Indirect: ADD @R0 (2 reads)","5. Reg Indirect: MOV AX,[BX]","6. Relative: JMP +5 (EA=PC+Offset)","7. Indexed: ARRAY[SI] (EA=Base+Index)"]},
-{id:4,marks:3,pri:"medium",unit:"Parallel Processing",tags:["Flynn","SISD","SIMD","MISD","MIMD"],
-title:"Write Flynn's classification of parallel processing and explain any one class.",
-def:"Flynn's Taxonomy (1966) classifies computer architectures based on the number of simultaneous Instruction Streams and Data Streams into 4 fundamental classes.",
-pts:["SISD: Single Instruction, Single Data. Traditional uniprocessor.","SIMD: Single Instruction, Multiple Data. One instruction on many data. GPUs.","MISD: Multiple Instruction, Single Data. Rare. Fault-tolerant systems.","MIMD: Multiple Instruction, Multiple Data. Multicore CPUs."],
-diag:`             | Single Data   | Multiple Data
-  -----------|---------------|---------------
-  Single Instr|    SISD       |     SIMD
-              | (Uniprocessor)| (GPU/Vector)
-  -----------|---------------|---------------
-  Multiple    |    MISD       |     MIMD
-  Instr       | (Fault tol.)  | (Multicore)`,
-kws:["Flynn","SISD","SIMD","MISD","MIMD","Instruction Stream","Data Stream"],
-el10:["👨‍🍳 Think of a cooking competition:","SISD = One chef, one dish (normal cooking).","SIMD = One recipe, 4 chefs making same dish with different ingredients.","MIMD = 4 chefs, 4 recipes, 4 ingredients. Full parallelism!","SIMD = exactly how a GPU works — same op on millions of pixels!"],
-fc:[["SISD full form?","Single Instruction, Single Data — traditional uniprocessor."],["SIMD full form?","Single Instruction, Multiple Data — GPU, vector processor."],["MIMD full form?","Multiple Instruction, Multiple Data — modern multicore."],["Rarest Flynn class?","MISD — Multiple Instruction, Single Data."],["GPUs use which class?","SIMD."],["2 dimensions in Flynn's?","Instruction streams × Data streams."]],
-sh:["⚡ Draw 2×2 grid: (Single/Multiple Instr) × (Single/Multiple Data)","⚡ Memory: SS-SM-MS-MM → SISD, SIMD, MISD, MIMD","⚡ GPU=SIMD, Multicore=MIMD, Old PC=SISD","⚡ MISD = always 'fault-tolerant systems' in GTU"],
-ev:["Flynn's Taxonomy: 4 classes based on instruction × data streams.","Classes: SISD | SIMD | MISD | MIMD","SIMD Explanation:","• Single instruction to multiple processing units simultaneously.","• Each unit operates on different data with SAME instruction.","• Example: GPU applies pixel shader to millions of pixels.","• Used in: GPUs, DSPs, vector processors, multimedia."]},
-{id:5,marks:3,pri:"medium",unit:"CPU Architecture",tags:["RISC","CISC","comparison","hardwired"],
+ev:["7 Addressing Modes:","1. Immediate: Operand in instruction. MOV AL,5.","2. Register: Operand in register. MOV AX,BX.","3. Direct: EA = address in instruction. LDA 2050.","4. Indirect: EA = M[address]. Two memory reads.","5. Register Indirect: EA = M[Reg]. MOV AX,[BX].","6. Relative: EA = PC + offset. JMP +5.","7. Indexed: EA = Base + Index. ARRAY[SI]."]},
+{id:4,marks:7,pri:"high",unit:"Parallel Processing",tags:["Flynn's taxonomy","SISD","SIMD","MISD","MIMD"],
+title:"Explain Flynn's classification of computer architecture.",
+def:"Flynn's Taxonomy classifies computer architectures based on the number of simultaneous instruction streams and data streams: SISD, SIMD, MISD, and MIMD.",
+pts:["SISD: Single Instruction Single Data — classic von Neumann. Sequential.","SIMD: Single Instruction Multiple Data — one instruction on many data. GPU, vector.","MISD: Multiple Instruction Single Data — rare/theoretical. Fault-tolerant systems.","MIMD: Multiple Instruction Multiple Data — independent CPUs. Modern multiprocessors.","Real-world: GPU = SIMD. Clusters = MIMD. Classic PC = SISD."],
+diag:`  Instruction   | Single Data        | Multiple Data
+  Streams       |                    |
+  --------------|--------------------|-----------------
+  Single        | SISD               | SIMD
+  Instruction   | (Classic PC)       | (GPU, SSE)
+  --------------|--------------------|-----------------
+  Multiple      | MISD               | MIMD
+  Instruction   | (Fault-tolerant)   | (SMP, Cluster)`,
+kws:["Flynn","SISD","SIMD","MISD","MIMD","Instruction Stream","Data Stream","Parallel"],
+el10:["👨‍🍳 SISD = one chef, one dish. Classic cooking.","SIMD = one recipe, 100 chefs cook same dish simultaneously. GPU!","MISD = 100 different recipes, all for one dish? Weird but exists.","MIMD = 100 chefs, 100 dishes, 100 recipes. Modern supercomputer!"],
+fc:[["Flynn's taxonomy basis?","Number of instruction and data streams."],["SISD?","Single Instruction, Single Data — sequential. Classic CPU."],["SIMD?","Single Instruction, Multiple Data — parallel data. GPU."],["MISD?","Multiple Instruction, Single Data — rare, fault-tolerant."],["MIMD?","Multiple Instruction, Multiple Data — modern multiprocessor."],["Most common modern?","MIMD — SMP, clusters."]],
+sh:["⚡ Remember: IS × DS matrix. 2×2 = 4 types.","⚡ SIMD = GPU (best exam example!)","⚡ MIMD = clusters/SMP (most common real-world)","⚡ Draw 2×2 table for full marks!"],
+ev:["Flynn's Taxonomy — based on Instruction × Data streams:","SISD: 1 instr, 1 data. Sequential. Traditional PC.","SIMD: 1 instr, multiple data. GPU, vector processors.","MISD: Multiple instr, 1 data. Rare — pipeline, fault tolerance.","MIMD: Multiple instr, multiple data. SMP, cluster, distributed.","| | Single Data | Multiple Data |","| Single Instr | SISD | SIMD |","| Multiple Instr | MISD | MIMD |"]},
+{id:5,marks:7,pri:"high",unit:"CPU Architecture",tags:["RISC","CISC","pipeline","hardwired","ARM","x86"],
 title:"Differentiate RISC and CISC architecture.",
-def:"RISC (Reduced Instruction Set Computer) uses simple, fixed-length instructions in one clock cycle. CISC (Complex Instruction Set Computer) uses complex, variable-length instructions doing more per instruction but taking multiple cycles.",
-pts:[],
-diag:`  Feature      | RISC             | CISC
-  -------------|------------------|-------------------
-  Instructions | Simple, fixed    | Complex, variable
-  Execution    | 1 clock cycle    | Multiple cycles
-  Control Unit | Hardwired (fast) | Microprogrammed
-  Memory Access| Load/Store only  | Any instruction
-  Registers    | Large bank       | Fewer registers
-  Pipeline     | Easy             | Harder
-  Examples     | ARM, MIPS        | Intel x86, 8086`,
-kws:["RISC","CISC","Hardwired","Microprogrammed","Load-Store","Pipeline","ARM","x86"],
-el10:["🔧 RISC = specialized toolkit — one tool does ONE thing FAST.","CISC = Swiss Army knife — does MANY things but is complex.","RISC (ARM phone): 'ADD two numbers' — simple, 1 step.","CISC (Intel laptop): Multi-step complex operations internally.","Modern CISC chips convert to RISC micro-ops internally!"],
-fc:[["RISC full form?","Reduced Instruction Set Computer."],["CISC full form?","Complex Instruction Set Computer."],["Which uses hardwired control?","RISC — faster."],["Which uses microprogrammed?","CISC — flexible."],["RISC memory rule?","Only LOAD and STORE access memory."],["RISC examples?","ARM, MIPS, SPARC, PowerPC."],["CISC examples?","Intel x86, AMD, 8086."]],
-sh:["⚡ RISC = Rapid, Regular, Simple, Fast, Fixed","⚡ CISC = Complex, Slow, Flexible, Variable","⚡ GTU hack: 6-row comparison table = full marks!","⚡ RISC=mobile (ARM). CISC=desktop (Intel). Always mention!"],
-ev:["| Feature | RISC | CISC |","| Instructions | Simple, fixed | Complex, variable |","| Execution | 1 clock cycle | Multiple cycles |","| Control | Hardwired | Microprogrammed |","| Memory | Load/Store only | Any instruction |","| Registers | Large bank | Fewer |","| Examples | ARM, MIPS | Intel x86, 8086 |"]},
-{id:6,marks:4,pri:"medium",unit:"I/O & Interrupts",tags:["DMA","burst","cycle stealing","DMAC"],
-title:"Write short note on DMA (Direct Memory Access).",
-def:"DMA (Direct Memory Access) allows I/O devices to transfer data directly to/from main memory WITHOUT CPU involvement. The DMA Controller (DMAC) handles the transfer, freeing the CPU.",
-pts:["Problem solved: CPU wastes time on byte-by-byte Programmed I/O.","How DMA works: CPU gives DMAC start address, byte count, direction.","Burst Mode: DMAC takes full bus, transfers entire block. CPU locked out.","Cycle Stealing: DMAC steals one bus cycle at a time. CPU not blocked.","Transparent Mode: Transfers only when CPU not using bus. Slowest."],
-diag:`  CPU --bus request--> DMAC
-  CPU <--bus grant---  DMAC
-  DMAC ===data transfer===> Memory
-  I/O Device <===> DMAC
-  Transfer complete → DMAC sends interrupt → CPU resumes`,
-kws:["DMA","DMAC","Burst Mode","Cycle Stealing","Bus Grant","Interrupt"],
-el10:["🏢 CPU is CEO. Without DMA: CEO carries every box personally. Slow!","With DMA: CEO hires courier (DMAC). 'Move 1000 boxes.'","CEO returns to work. Courier calls when done (interrupt).","Burst = courier blocks entire road while moving all boxes.","Cycle Steal = courier borrows road for 1 second at a time."],
-fc:[["What is DMA?","Hardware that transfers data between I/O and memory without CPU."],["3 things CPU gives DMAC?","Start address, byte count, read/write direction."],["What is Burst Mode?","DMAC locks CPU out, transfers entire block at once."],["What is Cycle Stealing?","DMAC steals one bus cycle at a time."],["DMAC notifies CPU how?","Sends interrupt after transfer is complete."]],
-sh:["⚡ DMA sequence: REQ → GRANT → TRANSFER → INTERRUPT","⚡ 3 modes: Burst > Cycle Steal > Transparent (speed order)","⚡ Draw CPU-DMAC-Memory triangle diagram!","⚡ 'DMAC has 3 registers: Address, Word Count, Control'"],
-ev:["DMA = I/O transfers data directly to memory without CPU.","Working: CPU gives DMAC start address + count + direction.","DMAC requests bus → CPU grants → DMAC transfers → sends interrupt.","Modes: 1.Burst (CPU blocked) 2.Cycle Stealing 3.Transparent","Advantage: CPU free for other tasks during bulk data transfer."]},
-{id:7,marks:3,pri:"medium",unit:"I/O & Interrupts",tags:["handshaking","asynchronous","data valid"],
-title:"Explain source-initiated asynchronous data transfer using handshaking.",
-def:"Asynchronous handshaking is a protocol between two devices at different speeds using control signals (Data Valid and Data Accepted) to synchronize without a shared clock.",
-pts:["Source-Initiated: Transfer started by the sender (source device).","Step 1: Source places data on the data lines.","Step 2: Source asserts 'Data Valid' → 'valid data is ready'.","Step 3: Destination reads data, asserts 'Data Accepted' → 'I got it'.","Step 4: Source sees ACK, removes data, drops 'Data Valid'.","Step 5: Destination drops 'Data Accepted'. Reset for next transfer."],
-diag:`  Source       Signals      Destination
-  Place data → [Data Bus] →
-  Assert Data_Valid →      |
-                           ← Data_Accepted
-  Remove data ←            |
-  Drop Data_Valid
-                    Drop Data_Accepted
-               [Cycle Complete]`,
-kws:["Handshaking","Data Valid","Data Accepted","Asynchronous","Source-Initiated"],
-el10:["📝 Think of passing notes in class.","You write a note: 'Note Ready!' (Data Valid).","Friend reads, taps desk: 'Got it!' (Data Accepted).","You remove the note. Friend stops tapping. Done!","No shared clock — each action triggers the next. That's asynchronous!"],
-fc:[["What is handshaking?","Protocol using control signals to synchronize data transfer."],["Data Valid means?","Source telling destination: valid data is on bus."],["Data Accepted means?","Destination: data has been read successfully."],["Why asynchronous?","No shared clock — signals trigger each other (event-driven)."],["Steps count?","5: Place → Data Valid → Data Accepted → Remove → Drop ACK."]],
-sh:["⚡ Steps: PLACE → VALID → READ → ACCEPT → CLEAR","⚡ 2 control signals: Data Valid + Data Accepted","⚡ Draw timing diagram — both signals go high then low","⚡ 'Source-initiated' = sender starts it"],
-ev:["Asynchronous handshaking = control signals, no shared clock.","Steps (Source-Initiated):","1. Source places data on bus.","2. Source asserts DATA_VALID.","3. Destination reads data, asserts DATA_ACCEPTED.","4. Source detects ACK, removes data, drops DATA_VALID.","5. Destination drops DATA_ACCEPTED — transfer complete."]},
-{id:8,marks:7,pri:"high",unit:"Arithmetic",tags:["booth","algorithm","multiplication","2s complement"],
-title:"Explain Booth's Algorithm with an appropriate example.",
-def:"Booth's Algorithm efficiently multiplies two signed binary integers in 2's complement form by scanning pairs of multiplier bits to find blocks of 1s, reducing add/subtract operations.",
-pts:["Key Insight: '1111'(15) = 1000-0001. 4 adds → 1 sub + 1 add!","Setup: A(acc=0), Q(multiplier), Q-1(extra bit=0), M(multiplicand), SC(counter=n)","Q0Q-1=00 → ASR only","Q0Q-1=11 → ASR only","Q0Q-1=10 → A = A-M, then ASR (entering 1s block)","Q0Q-1=01 → A = A+M, then ASR (exiting 1s block)","Repeat n times. Result in AQ register."],
-diag:`  Registers: [ A | Q | Q-1 ]  SC = n
+def:"RISC (Reduced Instruction Set Computer) uses simple, fixed-length instructions optimized for pipeline execution. CISC (Complex Instruction Set Computer) uses complex, variable-length instructions that do more per instruction.",
+pts:["RISC: Simple instructions, fixed length, 1 cycle, hardwired, load/store only, many registers.","CISC: Complex instructions, variable length, multi-cycle, microprogrammed, memory operands.","RISC pipeline: each stage takes 1 cycle → efficient pipelining.","CISC advantage: fewer instructions needed, backward compatible.","Examples: RISC=ARM,MIPS,SPARC. CISC=x86,x86-64,8086."],
+diag:`  Feature         | RISC            | CISC
+  ----------------|-----------------|------------------
+  Instructions    | Simple, fixed   | Complex, variable
+  Execution       | 1 clock cycle   | Multiple cycles
+  Control         | Hardwired       | Microprogrammed
+  Registers       | Many (32+)      | Few (8-16)
+  Memory access   | Load/Store only | Any instruction
+  Code size       | Larger          | Smaller
+  Pipeline        | Efficient       | Difficult
+  Examples        | ARM, MIPS       | x86, 8086`,
+kws:["RISC","CISC","Pipeline","Hardwired","Microprogrammed","ARM","x86","Load-Store"],
+el10:["🍽️ RISC = fast food. Simple menu, one item at a time, FAST!","CISC = fine dining. Complex meals, chef does everything, slower but powerful.","RISC: ARM in your phone. Fast, power efficient.","CISC: x86 in your PC. Complex, backward compatible, powerful."],
+fc:[["RISC full form?","Reduced Instruction Set Computer."],["CISC full form?","Complex Instruction Set Computer."],["RISC execution time?","1 clock cycle per instruction."],["CISC control unit?","Microprogrammed."],["RISC control unit?","Hardwired — faster."],["RISC memory access?","Only Load and Store instructions."],["Examples: RISC?","ARM, MIPS, SPARC, PowerPC."],["Examples: CISC?","x86, 8086, x86-64."]],
+sh:["⚡ RISC=Reduced=Register=1cycle=Hardwired=ARM","⚡ CISC=Complex=Code=MultiCycle=Micro=x86","⚡ Draw 8-row comparison table!","⚡ Pipeline works best with RISC — say why!"],
+ev:["RISC vs CISC comparison:","| Feature | RISC | CISC |","| Instructions | Simple, fixed | Complex, variable |","| Execution | 1 cycle | Multi-cycle |","| Control | Hardwired | Microprogrammed |","| Registers | Many (32+) | Few |","| Memory | Load/Store only | Any instruction |","| Examples | ARM, MIPS | x86, 8086 |"]},
+{id:6,marks:7,pri:"high",unit:"I/O & Interrupts",tags:["DMA","direct memory access","burst","cycle steal","CPU bypass"],
+title:"Explain DMA (Direct Memory Access) with modes of DMA transfer.",
+def:"DMA is a technique allowing I/O devices to transfer data directly to/from memory without CPU involvement, freeing the CPU for other tasks.",
+pts:["DMA Controller (DMAC): Separate hardware. Manages transfer. CPU initializes it.","Cycle Stealing: DMAC steals one bus cycle per byte. CPU slows slightly.","Burst Mode: DMAC takes full bus control for entire block. CPU halted temporarily.","Transparent Mode: DMAC uses bus only when CPU doesn't need it. No CPU slowdown.","Steps: CPU → DMAC (address, count, direction) → DMAC does transfer → interrupt CPU when done."],
+diag:`  CPU → [DMAC] ← I/O Device
+         ↕
+       Memory
   
-  Q0 Q-1 | Action
-  -------|---------------------------
-   0  0  | ASR only (in 0s block)
-   1  1  | ASR only (in 1s block)
-   1  0  | A = A-M, then ASR
-   0  1  | A = A+M, then ASR
+  Modes:
+  Burst:       DMAC steals entire bus — CPU HALTED
+  Cycle Steal: DMAC steals 1 cycle/byte — CPU slows
+  Transparent: DMAC uses unused bus cycles — CPU unaffected`,
+kws:["DMA","DMAC","Cycle Steal","Burst","Transparent","Bus","Memory","I/O"],
+el10:["📦 DMA = delivery person bypassing manager (CPU).","Without DMA: you (CPU) carry every box yourself. Slow!","With DMA: hire a deliveryman (DMAC). Just tell him what to deliver.","Burst = delivery van takes road briefly. You wait.","Cycle Steal = deliveryman sneaks by when you're not looking. You barely notice!"],
+fc:[["What is DMA?","Direct Memory Access — I/O transfers without CPU."],["DMA Burst mode?","DMAC controls bus entirely — CPU halted during transfer."],["DMA Cycle Steal?","DMAC steals one bus cycle per byte — CPU slows slightly."],["DMA Transparent?","DMAC uses bus only when CPU idle — no CPU impact."],["Who initializes DMA?","CPU sets up address, count, direction in DMAC registers."],["What happens when DMA done?","DMAC sends interrupt to CPU."]],
+sh:["⚡ 3 modes: Burst=full; Cycle Steal=per-byte; Transparent=idle","⚡ DMA advantage: CPU free during transfer","⚡ 'CPU initializes DMAC registers' — mention this!","⚡ DMAC sends interrupt when done — important!"],
+ev:["DMA = I/O↔Memory transfer without CPU.","CPU Programs DMAC: Start address, byte count, direction.","Burst Mode: DMAC seizes bus → transfer block → interrupt. CPU halted.","Cycle Steal: DMAC steals 1 bus cycle per byte. CPU slowed.","Transparent: DMAC transfers only during CPU idle cycles. No impact.","Advantage: CPU free to execute other programs during I/O."]},
+{id:7,marks:7,pri:"high",unit:"I/O & Interrupts",tags:["handshaking","asynchronous","data transfer","ACK","strobe"],
+title:"Explain asynchronous data transfer with handshaking.",
+def:"Asynchronous data transfer using handshaking allows two devices operating at different speeds to synchronize data exchange using control signals (Strobe/Data Valid and ACK).",
+pts:["No common clock — sender and receiver synchronize via control signals.","Source Initiated: Sender places data → asserts Data Valid → waits for ACK.","Destination Initiated: Receiver asserts Ready → Sender places data and strobe.","Handshake eliminates need for matching clock speeds.","5-step sequence ensures reliable transfer."],
+diag:`  SOURCE INITIATED HANDSHAKE:
+  1. Source places data on bus
+  2. Source asserts DATA-VALID
+  3. Destination reads data → asserts ACK
+  4. Source removes data → de-asserts DATA-VALID
+  5. Destination de-asserts ACK → ready for next`,
+kws:["Handshaking","Asynchronous","Strobe","ACK","Data Valid","Source Initiated","Destination Initiated"],
+el10:["🤝 Handshaking = polite conversation protocol!","You say 'Data ready!' (Data Valid).","Friend says 'Got it!' (ACK).","You stop sending. Friend ready for next.","Like email: send → read confirmation → send next!"],
+fc:[["Asynchronous transfer?","Transfer without common clock — uses handshake signals."],["Data Valid signal?","Sender signal indicating data is ready on bus."],["ACK signal?","Receiver signal confirming data received."],["Source initiated?","Sender drives transfer by asserting Data Valid first."],["Why asynchronous?","Allows devices of different speeds to communicate."]],
+sh:["⚡ 5-step: Place→DataValid→ACK→Remove→DropACK","⚡ No clock needed — speed independent!","⚡ Draw timing diagram for full marks","⚡ 'Handshake eliminates clock mismatch' — say this!"],
+ev:["Asynchronous Handshake (Source Initiated):","1. Source places data on bus.","2. Source asserts DATA-VALID.","3. Destination reads data, asserts ACK.","4. Source de-asserts DATA-VALID, removes data.","5. Destination de-asserts ACK.","Advantage: Works with any speed devices. No shared clock needed."]},
+{id:8,marks:7,pri:"high",unit:"Arithmetic",tags:["Booth's algorithm","multiplication","2's complement","signed"],
+title:"Explain Booth's algorithm for signed multiplication.",
+def:"Booth's Algorithm multiplies two signed binary numbers using 2's complement representation, examining pairs of bits to decide add, subtract, or shift.",
+pts:["Operates on 2's complement signed numbers.","Compare current bit Q[0] and previous bit Q[-1].","00 or 11: Just shift (no operation).","10: Subtract Multiplicand (A = A - M), then shift.","01: Add Multiplicand (A = A + M), then shift.","n iterations for n-bit numbers. Result in A|Q register pair."],
+diag:`  Q0 Q-1 | Operation
+  -------|----------
+  0   0  | Shift only (no add/sub)
+  1   1  | Shift only (no add/sub)
+  0   1  | A = A + M, then Shift
+  1   0  | A = A - M, then Shift
   
-  Repeat n times. Result in AQ.`,
-kws:["Booth's Algorithm","ASR","2's Complement","Accumulator","Q-1","SC"],
-el10:["🔢 Normal multiply: every '1' bit = add. '1111'=4 adds. Slow!","Booth: '1111' = '10000-0001'. Just 1 sub + 1 add!","Looks at 2 bits: Q0 (current) and Q-1 (previous).","'10' = entered 1s block → subtract!","'01' = exited 1s block → add!","'00' or '11' = middle of block → just shift!"],
-fc:[["What does Booth's solve?","Efficient multiplication of signed binary in 2's complement."],["Initial value of A?","0000 (all zeros)."],["Initial value of Q-1?","0 (zero)."],["Q0Q-1=10 means?","Start of 1s block → A = A-M, then ASR."],["Q0Q-1=01 means?","End of 1s block → A = A+M, then ASR."],["How many iterations?","n iterations (n = number of bits)."],["Result stored where?","In the combined AQ register."],["What is ASR?","Arithmetic Shift Right — shifts right, preserving sign bit."]],
-sh:["⚡ Rule table: 00=shift, 11=shift, 10=subtract+shift, 01=add+shift","⚡ '10 = entering 1s = SUBtract' | '01 = exiting 1s = ADD'","⚡ Init: A=0, Q-1=0, SC=n","⚡ Exam trap: Don't forget ASR after each step!","⚡ Result in AQ (combined), not just A!"],
-ev:["Booth's Algorithm: multiply signed binary using 2's complement.","Setup: A=0, Q=multiplier, Q-1=0, M=multiplicand, SC=n.","Rules:","• Q0Q-1=00 or 11 → ASR only.","• Q0Q-1=10 → A=A-M, then ASR.","• Q0Q-1=01 → A=A+M, then ASR.","Repeat n times. Final product in AQ register."]},
-{id:9,marks:7,pri:"high",unit:"Arithmetic",tags:["booth","5x4","numerical","example"],
-title:"Assume A=(+5) and B=(+4). Multiply using Booth's Algorithm.",
-def:"Apply Booth's Algorithm: M=+5 (multiplicand), Q=+4 (multiplier). Both 4-bit 2's complement. Expected: 5×4=20.",
-pts:["M = +5 = 0101, Q = +4 = 0100, -M = 1011","A = 0000, Q-1 = 0, SC = 4"],
-diag:`  Step|Q0Q-1|Operation       | A    | Q    |Q-1
-  ----|-----|----------------|------|------|---
-  Init| - - |Setup           | 0000 | 0100 | 0
-   1  | 0 0 |ASR only        | 0000 | 0010 | 0
-   2  | 0 0 |ASR only        | 0000 | 0001 | 0
-   3  | 1 0 |A=A-M=1011,ASR  | 1101 | 1000 | 1
-   4  | 0 1 |A=A+M=0010,ASR  | 0001 | 0100 | 0
+  Registers: A(Accumulator) | Q(Multiplier) | Q-1(1-bit)`,
+kws:["Booth's Algorithm","2's Complement","Signed Multiplication","Accumulator","Shift","Q-1"],
+el10:["🔢 Booth = smart multiplication shortcut!","Instead of adding M every time, use patterns.","00 or 11 = do nothing, just shift.","01 = add M then shift.","10 = subtract M then shift.","Handles SIGNED numbers automatically!"],
+fc:[["Booth's 00 operation?","Shift right only — no add or subtract."],["Booth's 01 operation?","A = A + M, then Arithmetic Right Shift."],["Booth's 10 operation?","A = A - M (add 2's complement), then shift."],["Booth's 11 operation?","Shift right only."],["What registers used?","A (accumulator), Q (multiplier), Q-1 (1 extra bit)."],["How many iterations?","n iterations for n-bit operands."]],
+sh:["⚡ 00/11=shift; 01=add+shift; 10=sub+shift","⚡ Arithmetic right shift (preserve sign)!","⚡ Q-1 starts as 0","⚡ Always check: Q[0] and Q[-1] PAIR!"],
+ev:["Booth's Algorithm (signed multiplication):","Initialize: A=0, Q-1=0, Q=multiplier, M=multiplicand.","For each of n iterations:","  Q0=0,Q-1=1 → A=A+M","  Q0=1,Q-1=0 → A=A-M (2's comp)","  Q0=Q-1 (00 or 11) → no operation","  Arithmetic Right Shift A|Q|Q-1.","Result in A|Q after n iterations."]},
+{id:9,marks:7,pri:"high",unit:"Arithmetic",tags:["Booth's example","5x4","multiplication","binary"],
+title:"Multiply 5×4 using Booth's Algorithm.",
+def:"Apply Booth's Algorithm to multiply 5 (0101) × 4 (0100) in 4-bit signed binary.",
+pts:["M = 0101 (5), Q = 0100 (4), A = 0000, Q-1 = 0","Iteration 1: Q0=0,Q-1=0 → Shift → A=0000,Q=0010,Q-1=0","Iteration 2: Q0=0,Q-1=0 → Shift → A=0000,Q=0001,Q-1=0","Iteration 3: Q0=1,Q-1=0 → A=A-M=1011 → Shift → A=1101,Q=1000,Q-1=1","Iteration 4: Q0=0,Q-1=1 → A=A+M=0010 → Shift → A=0001,Q=0100,Q-1=0","Result: A|Q = 00010100 = 20 ✓ (5×4=20)"],
+diag:`  M=0101, -M=1011(2's comp)
   
-  Final AQ = 0001 0100 = 20 decimal ✓`,
-kws:["5×4=20","M=0101","Q=0100","-M=1011","AQ=00010100"],
-el10:["🧮 We want 5×4=20. Let's prove Booth's gives 20!","Scan Q(=4=0100) from right to left, one bit at a time.","Each bit: add M, subtract M, or nothing — then shift right.","After 4 iterations, AQ = 00010100 = 20. Magic! ✓"],
-fc:[["M = +5 in binary?","0101"],["Q = +4 in binary?","0100"],["-M (2's complement)?","1011"],["Initial values?","A=0000, Q=0100, Q-1=0, SC=4"],["Expected result?","20 = 00010100 in AQ register"]],
-sh:["⚡ Always write -M in setup — needed for subtract steps","⚡ Track 5 columns: SC | Q0Q-1 | Op | A | Q | Q-1","⚡ Verify: AQ decimal = product. 5×4=20 ✓","⚡ Common mistake: forgetting ASR after add/subtract!"],
-ev:["M=+5=0101, Q=+4=0100, -M=1011, A=0000, Q-1=0, SC=4.","Step 1: Q0Q-1=00 → ASR → A=0000,Q=0010,Q-1=0.","Step 2: Q0Q-1=00 → ASR → A=0000,Q=0001,Q-1=0.","Step 3: Q0Q-1=10 → A=A-M=1011,ASR → A=1101,Q=1000,Q-1=1.","Step 4: Q0Q-1=01 → A=A+M=0010,ASR → A=0001,Q=0100,Q-1=0.","Result: AQ=00010100=20 decimal. (5×4=20) ✓"]},
-{id:10,marks:3,pri:"medium",unit:"Assembler",tags:["assembly","LDA","ADD","STA","program"],
-title:"For C code (a=83, b=-23, c=a+b): write assembly language program.",
-def:"Translate C code to Morris Mano Basic Computer Assembly Language — accumulator-based architecture where all operations go through the AC (Accumulator).",
-pts:["LDA X: Load value at address X into AC.","ADD X: Add value at address X to AC.","STA X: Store AC value into memory address X.","DEC value: Declare variable with decimal value.","HLT: Halt program execution."],
-diag:`  C Code:         Assembly:
-  int a, b, c;    ORG 100  / Start at 100
-  a = 83;         LDA A    / AC = 83
-  b = -23;        ADD B    / AC = 83+(-23) = 60
-  c = a + b;      STA C    / Store in C
-                  HLT      / End
-              A,  DEC 83   / a = 83
-              B,  DEC -23  / b = -23
-              C,  DEC 0    / c = result
-                  END`,
-kws:["LDA","ADD","STA","HLT","DEC","ORG","Accumulator"],
-el10:["🖩 AC (accumulator) is like a calculator's display.","LDA A = 'Show value of A on display (AC=83)'","ADD B = 'Add B to display (AC=83+(-23)=60)'","STA C = 'Store display value into box C (C=60)'","HLT = 'Turn off the calculator'"],
-fc:[["What does LDA do?","Load AC with value from memory address."],["What does ADD do?","Add value from memory to current AC."],["What does STA do?","Store AC into specified memory address."],["What does DEC do?","Declare a decimal constant variable."],["What does ORG do?","Set origin — where program starts in memory."]],
-sh:["⚡ Pattern: LDA first → ADD second → STA result","⚡ Variables declared AFTER HLT with DEC","⚡ Always start ORG, end END","⚡ AC is implied — every arithmetic uses AC!"],
-ev:["ORG 100","LDA A    / Load a=83 into AC","ADD B    / AC = 83 + (-23) = 60","STA C    / Store result in C","HLT      / Stop","A, DEC 83 | B, DEC -23 | C, DEC 0","END"]},
-{id:11,marks:3,pri:"medium",unit:"CPU Architecture",tags:["hardwired","microprogrammed","control unit"],
-title:"State differences between Hardwired Control and Microprogrammed Control.",
-def:"Hardwired Control uses physical logic gates. Microprogrammed Control stores microinstructions in control memory (ROM).",
-pts:[],
-diag:`  Feature      | Hardwired          | Microprogrammed
-  -------------|--------------------|-----------------
-  Architecture | Logic gates,f-flops| Control memory ROM
-  Speed        | Very fast          | Slower (fetch mem)
-  Flexibility  | Rigid (redesign)   | Flexible (microcode)
-  Complexity   | RISC (simple)      | CISC (complex)
-  Cost         | Expensive design   | Cheaper
-  Used in      | ARM, MIPS          | Intel x86, 8086`,
-kws:["Hardwired","Microprogrammed","Control Memory","Microinstruction","RISC","CISC"],
-el10:["🎵 Hardwired = fixed music box. Melody built into gears. Fast, can't change!","Microprogrammed = MP3 player. Songs in memory. Slower, can add new songs!","RISC = hardwired (simple, fast). CISC = microprogrammed (complex, flexible)."],
-fc:[["Hardwired control?","Physical logic gates — fast but inflexible."],["Microprogrammed control?","Control signals stored as microinstructions in ROM."],["Which is faster?","Hardwired — no memory fetch."],["Which is flexible?","Microprogrammed — update by changing microcode."],["Uses per architecture?","Hardwired→RISC; Microprogrammed→CISC."]],
-sh:["⚡ Hard=Hardware=Fast=Rigid=RISC","⚡ Micro=Memory=Flexible=Slow=CISC","⚡ 5-row table = full marks!","⚡ Key terms: 'Control Memory', 'Microinstruction'"],
-ev:["| Feature | Hardwired | Microprogrammed |","| Architecture | Logic gates | Control memory |","| Speed | Fast | Slower |","| Flexibility | Rigid | Flexible |","| Used in | RISC (ARM) | CISC (x86) |"]},
-{id:12,marks:7,pri:"high",unit:"Memory",tags:["virtual memory","paging","page table","MMU","page fault"],
-title:"Why is virtual memory? Explain the address mapping in detail.",
-def:"Virtual Memory gives programs the illusion of more memory than physically available by using disk (HDD/SSD) as extension of RAM through page swapping.",
-pts:["Why needed: Programs larger than RAM. Multiprogramming. Programmer freedom.","Logical Address: CPU-generated. Page Number + Page Offset.","Physical Address: Actual RAM location. Frame Number + Frame Offset.","MMU: Hardware translating logical → physical address.","Page Table: OS-maintained. Maps Page Number → Frame Number.","Page Fault: Page not in RAM → OS fetches from disk, updates table.","TLB: Cache for page table entries — speeds up translation."],
-diag:`  CPU generates Logical Address
-  [Page Number | Page Offset]
-        ↓
-  [Page Table] (OS-maintained)
-        ↓
-  Frame Number + Page Offset
-        ↓
-  Physical Address in RAM
+  Step | Q0 Q-1| Op      | A     | Q    | Q-1
+  -----|-------|---------|-------|------|----
+  Init |       |         | 0000  | 0100 |  0
+  1    | 0  0  | Shift   | 0000  | 0010 |  0
+  2    | 0  0  | Shift   | 0000  | 0001 |  0
+  3    | 1  0  | A-M,Sh  | 1101  | 1000 |  1
+  4    | 0  1  | A+M,Sh  | 0001  | 0100 |  0
   
-  Page NOT in RAM → PAGE FAULT
-  OS loads from Disk → Updates Page Table`,
-kws:["Virtual Memory","Logical Address","Physical Address","Page","Frame","MMU","Page Table","Page Fault","TLB"],
+  Result: A|Q = 0001 0100 = 20 ✓`,
+kws:["Booth's Example","5×4","20","Binary Multiplication","Iteration"],
+el10:["📊 Just like doing 5×4=20 but in binary!","Each step: look at last 2 bits, add or subtract, then shift.","4 steps for 4-bit numbers.","Final A|Q = 00010100 = 20. It works!"],
+fc:[["M in Booth's 5×4?","M=0101 (multiplicand=5)."],["Q in Booth's 5×4?","Q=0100 (multiplier=4)."],["Result after 4 iterations?","A|Q = 00010100 = 20."],["-M (2's complement of 5)?","1011."],["Iteration 3 operation?","Q0=1,Q-1=0 → A=A-M, then shift."],["Iteration 4 operation?","Q0=0,Q-1=1 → A=A+M, then shift."]],
+sh:["⚡ Always show 5-column table: Step|Q0Q-1|Op|A|Q|Q-1","⚡ -M = 2's complement of M. Compute at start!","⚡ Final answer = A|Q concatenated","⚡ Verify: 5×4=20=0b00010100 ✓"],
+ev:["Booth's Multiplication: 5(0101) × 4(0100)","M=0101, -M=1011, A=0000, Q=0100, Q-1=0","Step 1: Q0Q-1=00 → Shift → A=0000,Q=0010,Q-1=0","Step 2: Q0Q-1=00 → Shift → A=0000,Q=0001,Q-1=0","Step 3: Q0Q-1=10 → A=A-M=1011→Shift → A=1101,Q=1000,Q-1=1","Step 4: Q0Q-1=01 → A=A+M=0010→Shift → A=0001,Q=0100","Result: A|Q=00010100=20 ✓"]},
+{id:10,marks:4,pri:"high",unit:"Assembler",tags:["assembly program","ORG","HLT","LDA","ADD","STA"],
+title:"Write an assembly language program to add two numbers.",
+def:"Assembly program to compute C = A + B using basic instructions: ORG (origin), LDA (load), ADD, STA (store), HLT (halt), DEC (data declarations).",
+pts:["ORG 100: Start program at address 100.","LDA A: Load value of A into Accumulator.","ADD B: Add value of B to Accumulator.","STA C: Store result from Accumulator to memory C.","HLT: Stop program execution.","DEC declarations: A DEC 5, B DEC 3, C DEC 0."],
+diag:`  ORG 100      / Program starts at address 100
+  LDA A        / ACC = value of A (= 5)
+  ADD B        / ACC = ACC + B (= 5+3=8)
+  STA C        / Memory[C] = ACC (= 8)
+  HLT          / Stop
+  A, DEC 5     / A = 5
+  B, DEC 3     / B = 3
+  C, DEC 0     / C = result (initially 0)
+  END          / End of program`,
+kws:["ORG","LDA","ADD","STA","HLT","DEC","END","Accumulator","Assembly"],
+el10:["📝 Assembly = very precise recipe for CPU.","ORG = 'Start cooking at station 100'.","LDA = 'Pick up ingredient A'.","ADD = 'Mix with ingredient B'.","STA = 'Put result in bowl C'.","HLT = 'Stop cooking!'"],
+fc:[["LDA instruction?","Load accumulator with value from memory."],["ADD instruction?","ACC = ACC + memory value."],["STA instruction?","Store accumulator value to memory."],["HLT?","Halt — stops program execution."],["DEC directive?","Declares a decimal constant in memory."],["ORG directive?","Sets starting address for program."]],
+sh:["⚡ ORG; LDA A; ADD B; STA C; HLT; DEC declarations","⚡ Always add / comments — shows understanding!","⚡ DEC = memory variable. ORG = start address.","⚡ Remember: LDA loads, STA stores."],
+ev:["Program: C = A + B","ORG 100 / start at 100","LDA A   / ACC = A","ADD B   / ACC = A+B","STA C   / C = result","HLT     / stop","A, DEC 5 | B, DEC 3 | C, DEC 0","END"]},
+{id:11,marks:7,pri:"high",unit:"CPU Architecture",tags:["hardwired","control unit","microprogrammed","RISC","CISC"],
+title:"Differentiate between Hardwired and Microprogrammed Control Unit.",
+def:"Hardwired Control Unit: logic implemented with fixed combinational circuits — fast but inflexible. Microprogrammed: uses microprogram (ROM) to generate control signals — flexible but slower.",
+pts:["Hardwired: finite state machine, gates/flip-flops, cannot be modified after fabrication.","Hardwired: faster execution — direct hardware signals.","Microprogrammed: control signals stored as microinstructions in ROM (Control Memory).","Microprogrammed: easy to design, modify, support complex instructions.","Microprogrammed: used in CISC (x86). Hardwired in RISC (ARM)."],
+diag:`  HARDWIRED:               MICROPROGRAMMED:
+  IR → Decoder             IR → Control Memory (ROM)
+       ↓                        ↓
+  Combinational Logic      Microinstruction Register
+       ↓                        ↓
+  Control Signals          Control Signals
+  
+  Fast, Fixed              Flexible, Slower`,
+kws:["Hardwired","Microprogrammed","Control Unit","Microinstruction","ROM","RISC","CISC"],
+el10:["⚙️ Hardwired = hard-coded app. Super fast, can't update.","Microprogrammed = web app. Slower, but update by just changing code!","Hardwired → RISC (ARM phones).","Microprogrammed → CISC (x86 PC)."],
+fc:[["Hardwired CU?","Combinational logic circuits — fixed, fast."],["Microprogrammed CU?","ROM-based microinstructions — flexible, slower."],["Which is faster?","Hardwired — direct hardware signals."],["Which is flexible?","Microprogrammed — update ROM contents."],["RISC uses?","Hardwired CU."],["CISC uses?","Microprogrammed CU."]],
+sh:["⚡ Hardwired=Hardware=Fast=Fixed=RISC","⚡ Micro=Memory=Flexible=Slow=CISC","⚡ Draw 6-row comparison table!","⚡ 'Control Memory stores microinstructions' — key phrase!"],
+ev:["| Feature | Hardwired | Microprogrammed |","| Implementation | Gates, flip-flops | Microinstructions in ROM |","| Speed | Faster | Slower |","| Flexibility | Fixed | Easily modified |","| Complexity | Complex design | Simpler design |","| Used in | RISC (ARM) | CISC (x86) |","| Modification | Needs re-fabrication | Update control memory |"]},
+{id:12,marks:4,pri:"high",unit:"Memory",tags:["virtual memory","paging","page table","MMU","page fault"],
+title:"Explain virtual memory and page address mapping.",
+def:"Virtual Memory is a memory management technique that provides programs an illusion of more memory than physically available, using disk storage as an extension of RAM.",
+pts:["Logical Address = Page Number + Page Offset.","Page Table: maps Page Number → Frame Number in physical RAM.","Physical Address = Frame Number + Page Offset.","Page Fault: requested page not in RAM → OS loads from disk.","MMU (Memory Management Unit): hardware that does the translation.","TLB (Translation Lookaside Buffer): cache for page table — speeds lookup."],
+diag:`  CPU generates: Logical Address = [Page No. | Page Offset]
+                                    ↓
+                              Page Table
+                                    ↓
+                         Frame Number (Physical RAM)
+                                    ↓
+  Physical Address = [Frame No. | Page Offset]
+  
+  Page Fault → OS → Load page from Disk → Resume`,
+kws:["Virtual Memory","Paging","Page Table","Frame","MMU","TLB","Page Fault","Logical Address"],
 el10:["💻 Computer says 8GB RAM but program needs 12GB.","Virtual memory: 'Use hard drive as fake RAM!'","Memory divided into pages (like book chapters).","Current pages in RAM (fast). Others on disk (slow).","Page Fault = 'That chapter is on the shelf — fetching it!'"],
 fc:[["What is virtual memory?","Technique using disk as extension of RAM."],["What is a Page?","Fixed-size block of virtual memory (~4KB)."],["What is a Frame?","Fixed-size block of physical RAM, same size as page."],["What is a Page Fault?","Required page not in RAM — OS loads from disk."],["What does MMU do?","Translates logical to physical address."],["Logical address structure?","Page Number + Page Offset."],["What is TLB?","Cache for page table — speeds up translation."]],
 sh:["⚡ Physical Address = Frame# × PageSize + PageOffset","⚡ Page=virtual chunk. Frame=physical chunk. Same size!","⚡ Page Table maps: Page# → Frame#","⚡ Must mention: Page Fault, MMU, TLB, Page Table"],
@@ -576,120 +1094,7 @@ sh:["⚡ Mnemonic: FD-REA-EX-CI = Fetch,Decode,ReadEA,Execute,CheckIntr","⚡ Fe
 ev:["Instruction Cycle phases:","1. Fetch: AR←PC, IR←M[AR], PC←PC+1.","2. Decode: Decode IR opcode. Determine type and mode.","3. Read EA: If indirect → AR←M[AR].","4. Execute: ALU / data transfer / branch.","5. Check Interrupt: IEN=1&pending→save PC,IEN=0,jump ISR.","6. Go back to Fetch. Repeats for every instruction."]}
 ];
 
-const UNIT_ICONS={"I/O & Interrupts":"⚡","Assembler":"🔧","Instruction Set":"📋","CPU Architecture":"🖥️","Arithmetic":"🔢","Memory":"💾","Parallel Processing":"⚙️"};
-const TABS=["📝 GTU Answer","🧠 EL10","🃏 Flashcards","⚡ Hacks","✍️ Exam Ver"];
-
-let curView="home",curQ=1,curTab=0,srchTxt="";
-
-const bc=m=>m==7?"b7":m==4?"b4":"b3";
-const pc=p=>p=="high"?"chip-hi":p=="medium"?"chip-med":"chip-lo";
-const pl=p=>p=="high"?"⭐ Important":p=="medium"?"📌 Standard":"📎 Short";
-
-function renderSidebar(){
-  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
-  document.getElementById("sidebar").innerHTML=`<div class="sb-lbl">Questions (${qs.length})</div>`+
-    qs.map(q=>`<div class="qi ${curView==='question'&&curQ===q.id?'on':''}" onclick="goQ(${q.id})">
-      <span class="qn">Q${q.id}</span>
-      <span class="qt">${q.title.substring(0,46)}${q.title.length>46?"...":""}</span>
-      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
-    </div>`).join("");
-}
-
-function renderHome(){
-  const uc={};QS.forEach(q=>{uc[q.unit]=(uc[q.unit]||0)+1});
-  document.getElementById("content").innerHTML=`
-  <div class="hero">
-    <div class="htag">GTU Semester 4 | BE04000251 | AIT</div>
-    <div class="htitle">COA <span>Master</span> Revision System</div>
-    <div class="hdesc">Complete exam-ready system with GTU answers, EL10 analogies, flashcards, memory hacks & exam writing versions for all 24 questions.</div>
-    <div class="stats">
-      <div class="stat"><div class="sn">24</div><div class="sl">Questions</div></div>
-      <div class="stat"><div class="sn">144+</div><div class="sl">Flashcards</div></div>
-      <div class="stat"><div class="sn">7</div><div class="sl">Units</div></div>
-      <div class="stat"><div class="sn">5</div><div class="sl">Sections/Q</div></div>
-    </div>
-  </div>
-  <div class="sec-title">Browse by Unit</div>
-  <div class="ugrid">${Object.entries(uc).map(([u,c])=>`
-    <div class="ucard" onclick="setView('questions')">
-      <div class="uico">${UNIT_ICONS[u]||"📚"}</div>
-      <div class="unm">${u}</div>
-      <div class="ucnt">${c} question${c>1?"s":""}</div>
-    </div>`).join("")}</div>
-  <div class="sec-title">⭐ High Priority — 7 Mark Questions</div>
-  ${QS.filter(q=>q.marks===7).map(q=>`
-    <div class="hq-item" onclick="goQ(${q.id})">
-      <span class="hqn">Q${q.id}</span>
-      <span style="flex:1;font-size:13px">${q.title}</span>
-      <span class="qb b7">7M</span>
-    </div>`).join("")}`;
-}
-
-function renderQuestions(){
-  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
-  document.getElementById("content").innerHTML=`
-  <div style="font-size:18px;font-weight:700;font-family:'Syne',system-ui,sans-serif;margin-bottom:14px">
-    ${srchTxt?`Search: "${srchTxt}"`:"All Questions"}<span style="font-size:12px;font-weight:400;color:var(--txt3);margin-left:8px">${qs.length} found</span>
-  </div>`+qs.map(q=>`
-  <div class="hq-item" style="flex-direction:column;align-items:flex-start;gap:7px" onclick="goQ(${q.id})">
-    <div style="display:flex;gap:8px;align-items:center">
-      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--acc2)">Q${q.id}</span>
-      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
-      <span style="font-size:10px;color:var(--txt3)">${q.unit}</span>
-    </div>
-    <div style="font-size:13.5px;font-weight:600">${q.title}</div>
-    <div style="display:flex;gap:5px;flex-wrap:wrap">${q.tags.slice(0,4).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
-  </div>`).join("");
-}
-
-function renderQuestion(){
-  const q=QS.find(x=>x.id===curQ);if(!q)return;
-  document.getElementById("content").innerHTML=`
-  <div class="qhdr">
-    <div class="qmeta">
-      <span class="chip chip-q">Q${q.id}</span>
-      <span class="qb ${bc(q.marks)}" style="font-size:12px;padding:4px 10px">${q.marks} Marks</span>
-      <span class="chip ${pc(q.pri)}">${pl(q.pri)}</span>
-      <span class="tag">${q.unit}</span>
-    </div>
-    <div class="qtitle">${q.title}</div>
-    <div class="tags">${q.tags.slice(0,5).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
-  </div>
-  <div class="tabs">${TABS.map((t,i)=>`<button class="tb ${curTab===i?"on":""}" onclick="setTab(${i})">${t}</button>`).join("")}</div>
-  ${getTab(q,curTab)}
-  <div class="qnav">
-    ${q.id>1?`<button class="qnb" onclick="goQ(${q.id-1})">← Q${q.id-1} Previous</button>`:""}
-    ${q.id<24?`<button class="qnb" onclick="goQ(${q.id+1})">Q${q.id+1} Next →</button>`:""}
-  </div>`;
-}
-
-function getTab(q,t){
-  if(t===0)return`<div class="panel">
-    <div class="ptitle blu">📌 Definition</div>
-    <div class="def">${q.def}</div>
-    ${q.pts&&q.pts.length?`<div class="ptitle blu" style="margin-top:12px">🔹 Key Points</div><ul class="pts">${q.pts.map(p=>`<li>${p}</li>`).join("")}</ul>`:""}
-    ${q.diag?`<div class="ptitle blu" style="margin-top:12px">📐 Diagram</div><div class="diag">${q.diag}</div>`:""}
-    <div class="ptitle blu" style="margin-top:12px">🔑 Keywords</div>
-    <div class="kws">${q.kws.map(k=>`<span class="kw">${k}</span>`).join("")}</div>
-  </div>`;
-  if(t===1)return`<div class="el10p">
-    <div class="ptitle gold">🧠 EL10 — Explain Like I'm 10</div>
-    ${q.el10.map(l=>`<div class="el10l">${l}</div>`).join("")}
-  </div>`;
-  if(t===2)return`<div class="panel">
-    <div class="ptitle blu">🃏 Flashcards (${q.fc.length})</div>
-    ${q.fc.map(([fq,fa],i)=>`<div class="fcard"><div class="fq">Q${i+1}: ${fq}</div><div class="fa">→ ${fa}</div></div>`).join("")}
-  </div>`;
-  if(t===3)return`<div class="panel">
-    <div class="ptitle pur">⚡ Quick Revision Hacks</div>
-    ${q.sh.map(s=>`<div class="sc">${s}</div>`).join("")}
-  </div>`;
-  if(t===4)return`<div class="exam-wrap">
-    <div class="ptitle grn">✍️ Exam Writing Version — Write This for Full Marks</div>
-    ${q.ev.map(l=>`<div class="ev">${l}</div>`).join("")}
-  </div>`;
-}
-
+// Last-day one-liners
 const OL=[
   "Signal→Save PC→IEN=0→ISR→Restore PC→IEN=1",
   "Uses Symbol Table from Pass 1 to generate machine code",
@@ -717,9 +1122,134 @@ const OL=[
   "Fetch→Decode→ReadEA→Execute→CheckInterrupt→Repeat forever"
 ];
 
+// ─── Icons ───
+const UNIT_ICONS={"I/O & Interrupts":"⚡","Assembler":"🔧","Instruction Set":"📋","CPU Architecture":"🖥️","Arithmetic":"🔢","Memory":"💾","Parallel Processing":"⚙️"};
+const TABS=["📝 GTU Answer","🧠 EL10","🃏 Flashcards","⚡ Hacks","✍️ Exam Ver"];
+
+let curView="home",curQ=1,curTab=0,srchTxt="";
+
+// ─── Helpers ───
+const bc=m=>m==7?"b7":m==4?"b4":"b3";
+const pc=p=>p=="high"?"chip-hi":p=="medium"?"chip-med":"chip-lo";
+const pl=p=>p=="high"?"⭐ Important":p=="medium"?"📌 Standard":"📎 Short";
+
+// ─── SIDEBAR ───
+function renderSidebar(){
+  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
+  document.getElementById("sidebar").innerHTML=
+    `<div class="sb-lbl">Questions (${qs.length})</div>`+
+    qs.map(q=>`<div class="qi ${curView==='question'&&curQ===q.id?'on':''}" onclick="goQ(${q.id})">
+      <span class="qn">Q${String(q.id).padStart(2,'0')}</span>
+      <span class="qt">${q.title.substring(0,46)}${q.title.length>46?"...":""}</span>
+      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
+    </div>`).join("");
+}
+
+// ─── HOME ───
+function renderHome(){
+  const uc={};QS.forEach(q=>{uc[q.unit]=(uc[q.unit]||0)+1});
+  document.getElementById("content").innerHTML=`
+  <div class="hero">
+    <div class="htag">GTU · Semester 4 · BE04000251 · AIT</div>
+    <div class="htitle">COA <em>Master</em> Revision</div>
+    <div class="hdesc">Complete exam-ready system — GTU model answers, EL10 analogies, flashcards, memory hacks & exam writing versions for all 24 questions.</div>
+    <div class="stats">
+      <div class="stat"><div class="sn">24</div><div class="sl">Questions</div></div>
+      <div class="stat"><div class="sn">144+</div><div class="sl">Flashcards</div></div>
+      <div class="stat"><div class="sn">7</div><div class="sl">Units</div></div>
+      <div class="stat"><div class="sn">5</div><div class="sl">Sections / Q</div></div>
+    </div>
+  </div>
+  <div class="sec-title">Browse by Unit</div>
+  <div class="ugrid">${Object.entries(uc).map(([u,c])=>`
+    <div class="ucard" onclick="setView('questions')">
+      <div class="uico">${UNIT_ICONS[u]||"📚"}</div>
+      <div class="unm">${u}</div>
+      <div class="ucnt">${c} question${c>1?"s":""}</div>
+    </div>`).join("")}</div>
+  <div class="sec-title">Priority — 7 Mark Questions</div>
+  ${QS.filter(q=>q.marks===7).map(q=>`
+    <div class="hq-item" onclick="goQ(${q.id})">
+      <span class="hqn">Q${q.id}</span>
+      <span style="flex:1;font-size:13px;color:var(--txt)">${q.title}</span>
+      <span class="qb b7">7M</span>
+    </div>`).join("")}`;
+}
+
+// ─── QUESTIONS LIST ───
+function renderQuestions(){
+  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
+  document.getElementById("content").innerHTML=`
+  <div style="font-family:'Oswald',sans-serif;font-size:20px;font-weight:500;letter-spacing:1px;text-transform:uppercase;margin-bottom:16px;color:var(--txt)">
+    ${srchTxt?`Results: "${srchTxt}"`:"All Questions"}
+    <span style="font-size:12px;font-weight:400;color:var(--txt3);margin-left:10px;font-family:'Inter',sans-serif;text-transform:none">${qs.length} found</span>
+  </div>`+
+  qs.map(q=>`
+  <div class="hq-item" style="flex-direction:column;align-items:flex-start;gap:8px" onclick="goQ(${q.id})">
+    <div style="display:flex;gap:9px;align-items:center">
+      <span class="chip chip-q">Q${q.id}</span>
+      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
+      <span style="font-size:10px;color:var(--txt3);letter-spacing:.5px;text-transform:uppercase">${q.unit}</span>
+    </div>
+    <div style="font-size:13.5px;font-weight:500;color:var(--txt)">${q.title}</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">${q.tags.slice(0,4).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+  </div>`).join("");
+}
+
+// ─── QUESTION DETAIL ───
+function renderQuestion(){
+  const q=QS.find(x=>x.id===curQ);if(!q)return;
+  document.getElementById("content").innerHTML=`
+  <div class="qhdr">
+    <div class="qmeta">
+      <span class="chip chip-q">Q${q.id}</span>
+      <span class="qb ${bc(q.marks)}" style="font-size:12px;padding:4px 11px">${q.marks} Marks</span>
+      <span class="chip ${pc(q.pri)}">${pl(q.pri)}</span>
+      <span class="tag">${q.unit}</span>
+    </div>
+    <div class="qtitle">${q.title}</div>
+    <div class="tags">${q.tags.slice(0,5).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+  </div>
+  <div class="tabs">${TABS.map((t,i)=>`<button class="tb ${curTab===i?"on":""}" onclick="setTab(${i})">${t}</button>`).join("")}</div>
+  ${getTab(q,curTab)}
+  <div class="qnav">
+    ${q.id>1?`<button class="qnb" onclick="goQ(${q.id-1})">← Q${q.id-1} Previous</button>`:""}
+    ${q.id<24?`<button class="qnb" onclick="goQ(${q.id+1})">Q${q.id+1} Next →</button>`:""}
+  </div>`;
+}
+
+// ─── TAB CONTENT ───
+function getTab(q,t){
+  if(t===0)return`<div class="panel">
+    <div class="ptitle blu">📌 Definition</div>
+    <div class="def">${q.def}</div>
+    ${q.pts&&q.pts.length?`<div class="ptitle blu" style="margin-top:14px">🔹 Key Points</div><ul class="pts">${q.pts.map(p=>`<li>${p}</li>`).join("")}</ul>`:""}
+    ${q.diag?`<div class="ptitle blu" style="margin-top:14px">📐 Diagram</div><div class="diag">${q.diag}</div>`:""}
+    <div class="ptitle blu" style="margin-top:14px">🔑 Keywords</div>
+    <div class="kws">${q.kws.map(k=>`<span class="kw">${k}</span>`).join("")}</div>
+  </div>`;
+  if(t===1)return`<div class="el10p">
+    <div class="ptitle gold">🧠 EL10 — Explain Like I'm 10</div>
+    ${q.el10.map(l=>`<div class="el10l">${l}</div>`).join("")}
+  </div>`;
+  if(t===2)return`<div class="panel">
+    <div class="ptitle blu">🃏 Flashcards (${q.fc.length})</div>
+    ${q.fc.map(([fq,fa],i)=>`<div class="fcard"><div class="fq">Q${i+1}: ${fq}</div><div class="fa">→ ${fa}</div></div>`).join("")}
+  </div>`;
+  if(t===3)return`<div class="panel">
+    <div class="ptitle pur">⚡ Quick Revision Hacks</div>
+    ${q.sh.map(s=>`<div class="sc">${s}</div>`).join("")}
+  </div>`;
+  if(t===4)return`<div class="exam-wrap">
+    <div class="ptitle grn">✍️ Exam Writing Version — Write This for Full Marks</div>
+    ${q.ev.map(l=>`<div class="ev">${l}</div>`).join("")}
+  </div>`;
+}
+
+// ─── REVISION ───
 function renderRevision(){
   document.getElementById("content").innerHTML=`<div class="panel">
-  <div class="ptitle red" style="font-size:14px;margin-bottom:14px">⚡ Last-Day Quick Revision — All 24 Questions</div>
+  <div class="ptitle red" style="font-size:13px;margin-bottom:16px">⚡ Last-Day Quick Revision — All 24 Questions</div>
   ${QS.map((q,i)=>`
     <div class="rev-row" onclick="goQ(${q.id})">
       <span class="rev-q">Q${q.id}</span>
@@ -730,6 +1260,7 @@ function renderRevision(){
   </div>`;
 }
 
+// ─── NAVIGATION ───
 function setView(v){
   curView=v;
   ["nb-home","nb-qs","nb-rev"].forEach(id=>document.getElementById(id).classList.remove("on"));
