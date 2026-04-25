@@ -3,1508 +3,755 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>COA Question Bank | AIT CE Dept</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<title>COA Master Revision System | GTU Sem 4</title>
 <style>
-  :root {
-    --bg: #050a0f;
-    --surface: #0a1520;
-    --surface2: #0d1e2e;
-    --border: #1a3a5c;
-    --accent: #00d4ff;
-    --accent2: #00ff9d;
-    --accent3: #ff6b35;
-    --text: #c8e6f0;
-    --muted: #5a8a9f;
-    --glow: rgba(0,212,255,0.15);
-    --danger: #ff4757;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 16px;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ─── GRID BACKGROUND ─── */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  body::after {
-    content: '';
-    position: fixed;
-    top: -50%; left: -50%;
-    width: 200%; height: 200%;
-    background: radial-gradient(ellipse at 30% 20%, rgba(0,100,180,0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 70% 80%, rgba(0,255,157,0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: 0;
-    animation: bgpulse 8s ease-in-out infinite alternate;
-  }
-
-  @keyframes bgpulse {
-    from { opacity: 0.6; }
-    to   { opacity: 1; }
-  }
-
-  /* ─── HEADER ─── */
-  header {
-    position: relative;
-    z-index: 10;
-    padding: 40px 24px 30px;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    background: linear-gradient(180deg, rgba(0,30,60,0.8), transparent);
-  }
-
-  .institute-badge {
-    display: inline-block;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--accent2);
-    letter-spacing: 3px;
-    border: 1px solid rgba(0,255,157,0.3);
-    padding: 4px 14px;
-    border-radius: 2px;
-    margin-bottom: 16px;
-    text-transform: uppercase;
-  }
-
-  h1 {
-    font-family: 'Orbitron', monospace;
-    font-size: clamp(22px, 5vw, 42px);
-    font-weight: 900;
-    letter-spacing: 2px;
-    line-height: 1.1;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: none;
-    margin-bottom: 8px;
-  }
-
-  .subtitle {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: 2px;
-  }
-
-  .meta-row {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: 20px;
-    flex-wrap: wrap;
-  }
-
-  .meta-chip {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    padding: 5px 12px;
-    background: rgba(0,212,255,0.06);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 2px;
-    color: var(--accent);
-    letter-spacing: 1px;
-  }
-
-  /* ─── SEARCH + FILTER ─── */
-  .controls {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: rgba(5,10,15,0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 24px;
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-
-  .search-wrap {
-    flex: 1;
-    min-width: 200px;
-    position: relative;
-  }
-
-  .search-wrap::before {
-    content: '⌕';
-    position: absolute;
-    left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--muted);
-    font-size: 18px;
-    pointer-events: none;
-  }
-
-  input[type="text"] {
-    width: 100%;
-    padding: 10px 12px 10px 38px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    color: var(--text);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-  }
-
-  input[type="text"]:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px rgba(0,212,255,0.1);
-  }
-
-  .filter-btns {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    padding: 7px 14px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 3px;
-    color: var(--muted);
-    cursor: pointer;
-    transition: all 0.2s;
-    letter-spacing: 1px;
-    white-space: nowrap;
-  }
-
-  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-  .filter-btn.active {
-    background: rgba(0,212,255,0.12);
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  .counter {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    margin-left: auto;
-    white-space: nowrap;
-  }
-
-  /* ─── MAIN LAYOUT ─── */
-  main {
-    position: relative;
-    z-index: 5;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 32px 20px 60px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  /* ─── QUESTION CARD ─── */
-  .q-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    overflow: hidden;
-    transition: border-color 0.25s, box-shadow 0.25s, transform 0.15s;
-    animation: fadeIn 0.4s ease both;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .q-card:hover {
-    border-color: rgba(0,212,255,0.4);
-    box-shadow: 0 0 20px rgba(0,212,255,0.08);
-  }
-
-  .q-card.hidden { display: none; }
-
-  .q-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 16px 20px;
-    cursor: pointer;
-    user-select: none;
-    transition: background 0.2s;
-  }
-
-  .q-header:hover { background: rgba(0,212,255,0.04); }
-
-  .q-num {
-    font-family: 'Orbitron', monospace;
-    font-size: 11px;
-    font-weight: 700;
-    min-width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,255,157,0.1));
-    border: 1px solid rgba(0,212,255,0.3);
-    border-radius: 4px;
-    color: var(--accent);
-    flex-shrink: 0;
-  }
-
-  .q-title {
-    flex: 1;
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--text);
-  }
-
-  .q-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 2px;
-    letter-spacing: 0.5px;
-    flex-shrink: 0;
-  }
-
-  .tag-arch  { background: rgba(0,212,255,0.1);  border: 1px solid rgba(0,212,255,0.25);  color: var(--accent);  }
-  .tag-num   { background: rgba(0,255,157,0.1);  border: 1px solid rgba(0,255,157,0.25);  color: var(--accent2); }
-  .tag-instr { background: rgba(255,107,53,0.1); border: 1px solid rgba(255,107,53,0.25); color: var(--accent3); }
-  .tag-rtl   { background: rgba(180,100,255,0.1);border: 1px solid rgba(180,100,255,0.25);color: #c084fc; }
-  .tag-alu   { background: rgba(255,71,87,0.1);  border: 1px solid rgba(255,71,87,0.25);  color: var(--danger); }
-  .tag-asm   { background: rgba(250,210,50,0.1); border: 1px solid rgba(250,210,50,0.25); color: #fbd24f; }
-
-  .q-chevron {
-    font-size: 18px;
-    color: var(--muted);
-    transition: transform 0.3s;
-    flex-shrink: 0;
-  }
-
-  .q-card.open .q-chevron { transform: rotate(180deg); color: var(--accent); }
-
-  /* ─── ANSWER BODY ─── */
-  .q-body {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.45s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .q-card.open .q-body { max-height: 9999px; }
-
-  .q-content {
-    padding: 0 20px 24px 20px;
-    border-top: 1px solid var(--border);
-  }
-
-  .q-content h3 {
-    font-family: 'Orbitron', monospace;
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: var(--accent2);
-    margin: 22px 0 10px;
-    text-transform: uppercase;
-  }
-
-  .q-content h4 {
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--accent);
-    margin: 16px 0 6px;
-    border-left: 3px solid var(--accent);
-    padding-left: 10px;
-  }
-
-  .q-content p {
-    font-size: 15px;
-    line-height: 1.75;
-    color: #9ab8c8;
-    margin-bottom: 10px;
-  }
-
-  .q-content ul, .q-content ol {
-    padding-left: 20px;
-    margin-bottom: 12px;
-  }
-
-  .q-content li {
-    font-size: 14px;
-    line-height: 1.7;
-    color: #9ab8c8;
-    margin-bottom: 4px;
-  }
-
-  .q-content strong { color: var(--text); font-weight: 600; }
-
-  /* ─── CODE / MONO BLOCKS ─── */
-  .code-block {
-    background: #020a10;
-    border: 1px solid rgba(0,212,255,0.15);
-    border-left: 3px solid var(--accent);
-    border-radius: 4px;
-    padding: 16px 18px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--accent2);
-    overflow-x: auto;
-    margin: 12px 0;
-    white-space: pre;
-  }
-
-  /* ─── MATH / FORMULA BOX ─── */
-  .formula-box {
-    background: rgba(0,212,255,0.05);
-    border: 1px solid rgba(0,212,255,0.2);
-    border-radius: 4px;
-    padding: 14px 18px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 14px;
-    color: var(--accent);
-    text-align: center;
-    margin: 12px 0;
-  }
-
-  /* ─── TABLE ─── */
-  .data-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 14px 0;
-    font-size: 13px;
-  }
-
-  .data-table th {
-    background: rgba(0,212,255,0.1);
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--accent);
-    text-align: left;
-    letter-spacing: 1px;
-    font-size: 11px;
-  }
-
-  .data-table td {
-    border: 1px solid var(--border);
-    padding: 8px 14px;
-    color: #9ab8c8;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    vertical-align: top;
-  }
-
-  .data-table tr:hover td { background: rgba(0,212,255,0.03); }
-
-  /* ─── INFO BOX ─── */
-  .info-box {
-    background: rgba(0,255,157,0.05);
-    border: 1px solid rgba(0,255,157,0.2);
-    border-left: 3px solid var(--accent2);
-    border-radius: 4px;
-    padding: 12px 16px;
-    margin: 12px 0;
-    font-size: 14px;
-    color: #88ccaa;
-  }
-
-  .warn-box {
-    background: rgba(255,107,53,0.06);
-    border: 1px solid rgba(255,107,53,0.2);
-    border-left: 3px solid var(--accent3);
-    border-radius: 4px;
-    padding: 12px 16px;
-    margin: 12px 0;
-    font-size: 14px;
-    color: #cc9077;
-  }
-
-  /* ─── DIVIDER ─── */
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--border), transparent);
-    margin: 16px 0;
-  }
-
-  /* ─── NO RESULTS ─── */
-  #no-results {
-    display: none;
-    text-align: center;
-    padding: 60px 20px;
-    font-family: 'Share Tech Mono', monospace;
-    color: var(--muted);
-    font-size: 14px;
-    letter-spacing: 2px;
-  }
-
-  #no-results::before {
-    content: '404';
-    display: block;
-    font-family: 'Orbitron', monospace;
-    font-size: 48px;
-    color: rgba(0,212,255,0.15);
-    margin-bottom: 12px;
-  }
-
-  /* ─── FOOTER ─── */
-  footer {
-    position: relative;
-    z-index: 5;
-    text-align: center;
-    padding: 24px;
-    border-top: 1px solid var(--border);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
-  }
-
-  /* ─── PROGRESS BAR ─── */
-  .progress-bar {
-    height: 2px;
-    background: var(--border);
-    position: relative;
-  }
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--accent), var(--accent2));
-    transition: width 0.4s ease;
-  }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 600px) {
-    .q-tag { display: none; }
-    .meta-row { gap: 8px; }
-    h1 { font-size: 22px; }
-  }
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#0d0f1a;--bg2:#141628;--bg3:#1c1f36;--card:#1e2240;
+--bdr:#2a2f52;--acc:#e94560;--acc2:#7c6af5;--gold:#f5c842;
+--grn:#00d68f;--blu:#4db8ff;--txt:#e8eaf6;--txt2:#9ba3c4;--txt3:#636b8a;
+--r:12px;--rs:7px;
+}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',system-ui,sans-serif;font-size:14px;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:var(--bg2);border-bottom:1px solid var(--bdr);height:52px;display:flex;align-items:center;gap:12px;padding:0 16px;flex-shrink:0;position:sticky;top:0;z-index:100}
+.logo{font-family:'Syne',system-ui,sans-serif;font-size:17px;font-weight:800;white-space:nowrap}
+.logo span{color:var(--acc)}
+.srch-wrap{flex:1;max-width:340px;position:relative}
+.srch{width:100%;background:var(--bg3);border:1px solid var(--bdr);border-radius:100px;padding:7px 14px 7px 34px;color:var(--txt);font-size:13px;outline:none;font-family:inherit}
+.srch:focus{border-color:var(--acc2)}
+.si{position:absolute;left:11px;top:50%;transform:translateY(-50%);opacity:.45;font-size:14px;pointer-events:none}
+.nav-pills{display:flex;gap:6px}
+.np{background:var(--bg3);border:1px solid var(--bdr);border-radius:100px;padding:5px 13px;font-size:12px;color:var(--txt2);cursor:pointer;font-family:inherit;transition:all .18s}
+.np:hover,.np.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.np.rev:hover,.np.rev.on{background:var(--gold);border-color:var(--gold);color:#1a1200}
+.body{display:flex;flex:1;overflow:hidden}
+.sb{width:264px;min-width:264px;background:var(--bg2);border-right:1px solid var(--bdr);overflow-y:auto;padding:12px 10px;height:calc(100vh - 52px)}
+.sb-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);padding:0 6px;margin:8px 0 5px}
+.qi{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--rs);cursor:pointer;border:1px solid transparent;transition:all .15s}
+.qi:hover{background:var(--bg3);border-color:var(--bdr)}
+.qi.on{background:rgba(124,106,245,.15);border-color:var(--acc2)}
+.qn{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--acc2);min-width:26px}
+.qt{font-size:12px;color:var(--txt2);flex:1;line-height:1.3}
+.qi.on .qt{color:var(--txt)}
+.qb{font-size:9px;font-weight:700;padding:2px 6px;border-radius:100px}
+.b7{background:rgba(233,69,96,.15);color:var(--acc)}
+.b4{background:rgba(245,200,66,.15);color:var(--gold)}
+.b3{background:rgba(0,214,143,.15);color:var(--grn)}
+.content{flex:1;overflow-y:auto;padding:20px}
+.hero{background:linear-gradient(135deg,var(--bg3),#1a1d35);border:1px solid var(--bdr);border-radius:var(--r);padding:28px;margin-bottom:18px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(124,106,245,.12) 0%,transparent 70%);pointer-events:none}
+.htag{display:inline-block;background:rgba(124,106,245,.15);color:var(--acc2);font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.htitle{font-family:'Syne',system-ui,sans-serif;font-size:28px;font-weight:800;line-height:1.1;margin-bottom:8px}
+.htitle span{color:var(--acc)}
+.hdesc{color:var(--txt2);font-size:13.5px;line-height:1.6;margin-bottom:18px}
+.stats{display:flex;gap:18px;flex-wrap:wrap}
+.stat .sn{font-family:'Syne',system-ui,sans-serif;font-size:26px;font-weight:800;color:var(--acc)}
+.stat .sl{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:1px}
+.sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--txt3);margin-bottom:10px;margin-top:16px}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px;margin-bottom:16px}
+.ucard{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .2s}
+.ucard:hover{border-color:var(--acc2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+.uico{font-size:20px;margin-bottom:6px}
+.unm{font-family:'Syne',system-ui,sans-serif;font-size:13.5px;font-weight:700;margin-bottom:3px}
+.ucnt{font-size:11px;color:var(--txt3)}
+.hq-item{background:var(--card);border:1px solid var(--bdr);border-radius:var(--rs);padding:10px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;margin-bottom:7px;transition:all .15s}
+.hq-item:hover{border-color:var(--acc2)}
+.hqn{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--acc)}
+.qhdr{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:18px;margin-bottom:14px}
+.qmeta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.chip{font-size:11px;font-weight:700;padding:3px 9px;border-radius:100px}
+.chip-q{background:rgba(124,106,245,.15);color:var(--acc2)}
+.chip-hi{background:rgba(233,69,96,.15);color:var(--acc)}
+.chip-med{background:rgba(245,200,66,.15);color:var(--gold)}
+.chip-lo{background:rgba(0,214,143,.15);color:var(--grn)}
+.qtitle{font-family:'Syne',system-ui,sans-serif;font-size:17px;font-weight:700;line-height:1.3;margin-bottom:8px}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
+.tag{font-size:10px;background:var(--bg3);color:var(--txt3);padding:2px 8px;border-radius:100px;border:1px solid var(--bdr)}
+.tabs{display:flex;gap:4px;margin-bottom:14px;flex-wrap:wrap}
+.tb{font-family:inherit;font-size:12px;padding:7px 12px;border-radius:var(--rs);border:1px solid var(--bdr);background:var(--bg3);color:var(--txt2);cursor:pointer;transition:all .18s}
+.tb:hover{border-color:var(--acc2);color:var(--txt)}
+.tb.on{background:var(--acc2);border-color:var(--acc2);color:#fff}
+.panel{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.ptitle{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px}
+.ptitle.blu{color:var(--blu)}.ptitle.gold{color:var(--gold)}.ptitle.grn{color:var(--grn)}.ptitle.pur{color:var(--acc2)}.ptitle.red{color:var(--acc)}
+.def{font-size:13.5px;line-height:1.7;background:var(--bg3);padding:12px;border-radius:var(--rs);border-left:3px solid var(--acc2);margin-bottom:12px}
+.pts{list-style:none}
+.pts li{font-size:13px;color:var(--txt2);line-height:1.6;padding:5px 0 5px 16px;position:relative;border-bottom:1px solid var(--bdr)}
+.pts li:last-child{border-bottom:none}
+.pts li::before{content:'▸';position:absolute;left:0;color:var(--acc2);font-size:11px;top:7px}
+.diag{background:#080a11;border:1px solid #1e2540;border-radius:var(--rs);padding:13px;font-family:'JetBrains Mono',monospace;font-size:11px;color:#7ecfcf;line-height:1.7;white-space:pre;overflow-x:auto}
+.kws{display:flex;flex-wrap:wrap;gap:7px}
+.kw{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:rgba(124,106,245,.15);color:var(--acc2);border:1px solid rgba(124,106,245,.25)}
+.el10p{background:linear-gradient(135deg,#1a1500,#1f1900);border:1px solid rgba(245,200,66,.25);border-radius:var(--r);padding:16px;margin-bottom:12px}
+.el10l{font-size:13.5px;color:#e8d88a;line-height:1.7;padding:3px 0}
+.fcard{background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);overflow:hidden;margin-bottom:9px}
+.fq{background:rgba(77,184,255,.12);padding:9px 12px;font-size:12.5px;font-weight:600;color:var(--blu);border-bottom:1px solid rgba(77,184,255,.1)}
+.fa{padding:9px 12px;font-size:13px;color:var(--txt);line-height:1.5}
+.sc{font-size:13px;padding:9px 12px;border-left:3px solid var(--acc2);background:var(--bg3);margin-bottom:7px;border-radius:0 var(--rs) var(--rs) 0;color:var(--txt);line-height:1.5}
+.ev{font-size:12.5px;padding:7px 0;border-bottom:1px solid var(--bdr);color:var(--txt);font-family:'JetBrains Mono',monospace;line-height:1.5}
+.ev:last-child{border-bottom:none}
+.exam-wrap{background:linear-gradient(135deg,#0a1a0a,#0d1f0d);border:1px solid rgba(0,214,143,.3);border-radius:var(--r);padding:16px}
+.rev-row{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-bottom:1px solid var(--bdr);border-radius:var(--rs);transition:background .15s;cursor:pointer}
+.rev-row:hover{background:var(--bg3)}
+.rev-q{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:var(--acc2);min-width:30px;margin-top:2px}
+.rev-t{font-size:12px;color:var(--txt2);min-width:150px;max-width:150px;line-height:1.4}
+.rev-a{font-size:11.5px;color:var(--txt);font-family:'JetBrains Mono',monospace;line-height:1.5;flex:1}
+.qnav{display:flex;gap:8px;margin-top:14px}
+.qnb{flex:1;padding:10px;background:var(--bg3);border:1px solid var(--bdr);border-radius:var(--rs);cursor:pointer;font-family:inherit;color:var(--txt2);font-size:12px;transition:all .18s;text-align:center}
+.qnb:hover{border-color:var(--acc2);color:var(--txt)}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:var(--bg2)}
+::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--acc2)}
+@media(max-width:700px){.sb{display:none}.content{padding:14px}.htitle{font-size:20px}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="institute-badge">AIT · CE DEPT · 2026</div>
-  <h1>COMPUTER ORGANIZATION<br>&amp; ARCHITECTURE</h1>
-  <div class="subtitle">BE04000251 &nbsp;·&nbsp; QUESTION BANK &nbsp;·&nbsp; EL10</div>
-  <div class="meta-row">
-    <div class="meta-chip">21 QUESTIONS</div>
-    <div class="meta-chip">6 TOPICS</div>
-    <div class="meta-chip">GTU · BE SEM 4</div>
-  </div>
-  <div class="progress-bar" style="margin-top:20px">
-    <div class="progress-fill" id="progress" style="width:0%"></div>
-  </div>
-</header>
-
-<div class="controls">
-  <div class="search-wrap">
-    <input type="text" id="search" placeholder="Search questions..." oninput="filterCards()">
-  </div>
-  <div class="filter-btns">
-    <button class="filter-btn active" onclick="filterTag('all',this)">ALL</button>
-    <button class="filter-btn" onclick="filterTag('arch',this)">ARCH</button>
-    <button class="filter-btn" onclick="filterTag('num',this)">NUMBER SYS</button>
-    <button class="filter-btn" onclick="filterTag('instr',this)">INSTRUCTIONS</button>
-    <button class="filter-btn" onclick="filterTag('rtl',this)">RTL</button>
-    <button class="filter-btn" onclick="filterTag('alu',this)">ALU/OPS</button>
-    <button class="filter-btn" onclick="filterTag('asm',this)">ASSEMBLY</button>
-  </div>
-  <div class="counter" id="counter">21 / 21</div>
-</div>
-
-<main id="main">
-
-<!-- Q1 -->
-<div class="q-card" data-tag="arch" data-q="1">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">01</div>
-    <div class="q-title">Explain Von Neumann Architecture.</div>
-    <span class="q-tag tag-arch">ARCH</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>Von Neumann architecture is a computer design where <strong>instructions and data are stored in the same memory space</strong>. The CPU fetches both from the same memory using the same pathways.</p>
-
-      <h3>Types of Computers</h3>
-      <ul>
-        <li><strong>Fixed Program Computers</strong> — Function-specific, cannot be reprogrammed (e.g., calculators).</li>
-        <li><strong>Stored Program Computers</strong> — Programmable; applications are stored in memory.</li>
-      </ul>
-
-      <h3>3 Main Components</h3>
-      <h4>1. CPU (Central Processing Unit)</h4>
-      <p>The CPU is the brain of the computer. It consists of the Control Unit, ALU, and Registers.</p>
-      <ul>
-        <li><strong>CU (Control Unit)</strong> — Sends control signals; manages data flow, I/O, and instruction fetch.</li>
-        <li><strong>ALU (Arithmetic Logic Unit)</strong> — Handles arithmetic (add, sub) and logical (comparisons, shifts) operations.</li>
-      </ul>
-
-      <h4>Registers (Fastest Memory, Inside CPU)</h4>
-      <table class="data-table">
-        <thead><tr><th>Register</th><th>Full Name</th><th>Function</th></tr></thead>
-        <tbody>
-          <tr><td>AC</td><td>Accumulator</td><td>Stores ALU results</td></tr>
-          <tr><td>PC</td><td>Program Counter</td><td>Holds address of next instruction</td></tr>
-          <tr><td>MAR</td><td>Memory Address Register</td><td>Stores memory address to access</td></tr>
-          <tr><td>MDR</td><td>Memory Data Register</td><td>Stores data fetched/to be stored</td></tr>
-          <tr><td>IR (CIR)</td><td>Instruction Register</td><td>Holds current instruction being decoded</td></tr>
-          <tr><td>GPR</td><td>General Purpose Registers</td><td>Temp data storage during processing</td></tr>
-        </tbody>
-      </table>
-
-      <h4>2. Memory</h4>
-      <p>Stores both data and instructions (the defining feature of Von Neumann design).</p>
-
-      <h4>3. I/O Devices</h4>
-      <p>Input devices send data to main memory; output devices present results to the user.</p>
-
-      <h4>Buses</h4>
-      <ul>
-        <li><strong>Control Bus</strong> — Carries control signals and status flags.</li>
-        <li><strong>Address Bus</strong> — Carries memory addresses (not data).</li>
-        <li><strong>Data Bus</strong> — Carries actual data between CPU, memory, and I/O.</li>
-      </ul>
-
-      <div class="info-box">Key Feature: Von Neumann Bottleneck — since data and instructions share the same bus, they cannot be fetched simultaneously, limiting performance.</div>
-    </div>
+<div class="topbar">
+  <div class="logo">COA <span>Revision</span></div>
+  <div class="srch-wrap"><span class="si">🔍</span><input class="srch" id="srch" placeholder="Search questions, topics..." oninput="doSearch()"></div>
+  <div class="nav-pills">
+    <button class="np on" id="nb-home" onclick="setView('home')">Home</button>
+    <button class="np" id="nb-qs" onclick="setView('questions')">Questions</button>
+    <button class="np rev" id="nb-rev" onclick="setView('revision')">⚡ Revision</button>
   </div>
 </div>
-
-<!-- Q2 -->
-<div class="q-card" data-tag="arch" data-q="2">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">02</div>
-    <div class="q-title">Define: 1. Multiprocessor &nbsp; 2. Multicomputer</div>
-    <span class="q-tag tag-arch">ARCH</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>1. Multiprocessor</h4>
-      <p>A system with <strong>two or more CPUs</strong> that share common resources.</p>
-      <ul>
-        <li>Common main memory</li>
-        <li>Common clock</li>
-        <li>Shared I/O devices</li>
-        <li>Single operating system</li>
-      </ul>
-      <div class="info-box">Think of it as multiple workers sharing one office with one manager (OS).</div>
-
-      <h4>2. Multicomputer</h4>
-      <p>Multiple <strong>independent computers (nodes)</strong> connected via a communication network.</p>
-      <ul>
-        <li>Each node has its own private memory</li>
-        <li>Each node has its own operating system</li>
-        <li>Each node has its own processor</li>
-      </ul>
-      <div class="info-box">Think of it as separate offices in different buildings, communicating over a network.</div>
-
-      <table class="data-table">
-        <thead><tr><th>Feature</th><th>Multiprocessor</th><th>Multicomputer</th></tr></thead>
-        <tbody>
-          <tr><td>Memory</td><td>Shared</td><td>Private per node</td></tr>
-          <tr><td>OS</td><td>Single</td><td>One per node</td></tr>
-          <tr><td>Communication</td><td>Shared bus</td><td>Network messages</td></tr>
-          <tr><td>Coupling</td><td>Tightly coupled</td><td>Loosely coupled</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+<div class="body">
+  <div class="sb" id="sidebar"></div>
+  <div class="content" id="content"></div>
 </div>
-
-<!-- Q3 -->
-<div class="q-card" data-tag="num" data-q="3">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">03</div>
-    <div class="q-title">Convert Hexadecimal 4A into Decimal, Octal, and Binary.</div>
-    <span class="q-tag tag-num">NUMBER SYS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h3>Given: 4A₁₆</h3>
-      <p>Hex digits: 4 = 4, A = 10</p>
-
-      <h4>Step 1: Hex → Decimal</h4>
-      <div class="formula-box">4A₁₆ = (4 × 16¹) + (10 × 16⁰)
-= (4 × 16) + (10 × 1)
-= 64 + 10
-= 74₁₀</div>
-
-      <h4>Step 2: Hex → Binary (each digit = 4 bits)</h4>
-      <table class="data-table">
-        <thead><tr><th>Hex</th><th>Binary</th></tr></thead>
-        <tbody>
-          <tr><td>4</td><td>0100</td></tr>
-          <tr><td>A (10)</td><td>1010</td></tr>
-        </tbody>
-      </table>
-      <div class="formula-box">4A₁₆ = 01001010₂</div>
-
-      <h4>Step 3: Binary → Octal (group into 3 bits from right)</h4>
-      <div class="code-block">01001010₂
-→ 001 | 001 | 010
-→   1 |   1 |   2
-→ 112₈</div>
-
-      <h3>Final Answers</h3>
-      <table class="data-table">
-        <thead><tr><th>System</th><th>Answer</th></tr></thead>
-        <tbody>
-          <tr><td>Decimal</td><td>74₁₀</td></tr>
-          <tr><td>Binary</td><td>01001010₂</td></tr>
-          <tr><td>Octal</td><td>112₈</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- Q4 -->
-<div class="q-card" data-tag="num" data-q="4">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">04</div>
-    <div class="q-title">Explain Floating Point and Fixed Point Representation.</div>
-    <span class="q-tag tag-num">NUMBER SYS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>Fixed Point Representation</h4>
-      <p>The binary point is always at a <strong>fixed position</strong>. Two common positions:</p>
-      <ul>
-        <li>Extreme <strong>left</strong> → number is a fraction</li>
-        <li>Extreme <strong>right</strong> → number is an integer</li>
-      </ul>
-
-      <h3>Integer (Signed) Representation</h3>
-      <p>Positive numbers: sign bit = <strong>0</strong>, magnitude follows.</p>
-      <p>Negative numbers: sign bit = <strong>1</strong>, rest represented in one of three ways:</p>
-      <table class="data-table">
-        <thead><tr><th>Method</th><th>-14 in 8 bits</th><th>How Obtained</th></tr></thead>
-        <tbody>
-          <tr><td>Signed Magnitude</td><td>1 0001110</td><td>Complement only the sign bit of +14</td></tr>
-          <tr><td>Signed 1's Complement</td><td>1 1110001</td><td>Complement ALL bits of +14</td></tr>
-          <tr><td>Signed 2's Complement</td><td>1 1110010</td><td>1's complement + 1</td></tr>
-        </tbody>
-      </table>
-      <div class="info-box">Most CPUs use 2's complement for subtraction — only an adder is needed, reducing hardware complexity.</div>
-
-      <h4>Floating Point Representation (IEEE 754)</h4>
-      <p>Numbers stored as <strong>{Sign, Mantissa, Exponent}</strong>. The radix point is not fixed.</p>
-      <div class="formula-box">(sign) × (mantissa) × 2^(±exponent)</div>
-
-      <table class="data-table">
-        <thead><tr><th>Precision</th><th>Total Bits</th><th>Sign</th><th>Exponent</th><th>Mantissa</th><th>Bias</th></tr></thead>
-        <tbody>
-          <tr><td>Single</td><td>32 bits</td><td>1</td><td>8</td><td>23</td><td>127</td></tr>
-          <tr><td>Double</td><td>64 bits</td><td>1</td><td>11</td><td>52</td><td>1023</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Steps to Represent a Number in Floating Point</h4>
-      <ol>
-        <li>Convert number to signed binary</li>
-        <li>Normalize: move radix point after first 1 → get exponent</li>
-        <li>Add bias (127 for 32-bit, 1023 for 64-bit) to exponent</li>
-        <li>Convert biased exponent to binary</li>
-        <li>Store mantissa bits (bits after decimal point, padded to 23/52 bits)</li>
-        <li>Set sign bit (0 = positive, 1 = negative)</li>
-      </ol>
-
-      <h4>Example: 110.111₂</h4>
-      <div class="code-block">110.111 = 1.10111 × 2²   (shifted 2 places → exponent = 2)
-Biased exp = 2 + 127 = 129 = 10000001₂
-Sign: 0
-Format: 0 | 10000001 | 10111000000000000000000</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q5 -->
-<div class="q-card" data-tag="num" data-q="5">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">05</div>
-    <div class="q-title">Represent (1259.125)₁₀ in Single Precision and Double Precision format.</div>
-    <span class="q-tag tag-num">NUMBER SYS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>Step 1: Convert Decimal → Binary</h4>
-      <p><strong>Integer 1259:</strong></p>
-      <div class="formula-box">1259₁₀ = 10011101011₂</div>
-      <p><strong>Fraction 0.125:</strong></p>
-      <div class="code-block">0.125 × 2 = 0.25  → 0
-0.25  × 2 = 0.50  → 0
-0.50  × 2 = 1.00  → 1
-∴ 0.125₁₀ = 0.001₂</div>
-      <div class="formula-box">1259.125₁₀ = 10011101011.001₂</div>
-
-      <h4>Step 2: Normalize</h4>
-      <div class="formula-box">1.0011101011001 × 2¹⁰   (shifted 10 places left)</div>
-      <p>Exponent = 10</p>
-
-      <h3>Single Precision (32-bit)</h3>
-      <ul>
-        <li><strong>Sign bit:</strong> 0 (positive)</li>
-        <li><strong>Biased exponent:</strong> 10 + 127 = 137 = 10001001₂</li>
-        <li><strong>Mantissa:</strong> 0011101011001 → padded to 23 bits: 00111010110010000000000</li>
-      </ul>
-      <div class="code-block">0 | 10001001 | 00111010110010000000000
-S    Exponent      Mantissa (23 bits)</div>
-
-      <h3>Double Precision (64-bit)</h3>
-      <ul>
-        <li><strong>Sign bit:</strong> 0</li>
-        <li><strong>Biased exponent:</strong> 10 + 1023 = 1033 = 10000001001₂</li>
-        <li><strong>Mantissa:</strong> padded to 52 bits: 0011101011001000000000000000000000000000000000000000</li>
-      </ul>
-      <div class="code-block">0 | 10000001001 | 0011101011001 + zeros to 52 bits
-S   Exponent(11)   Mantissa (52 bits)</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q6 -->
-<div class="q-card" data-tag="arch" data-q="6">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">06</div>
-    <div class="q-title">Differentiate Hardwired Control and Microprogrammed Control.</div>
-    <span class="q-tag tag-arch">ARCH</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <table class="data-table">
-        <thead><tr><th>Feature</th><th>Hardwired Control</th><th>Microprogrammed Control</th></tr></thead>
-        <tbody>
-          <tr><td>Implementation</td><td>Gates, flip-flops, decoders, digital circuits</td><td>Control information stored in control memory</td></tr>
-          <tr><td>Speed</td><td>Faster — optimized logic</td><td>Slower — memory access needed</td></tr>
-          <tr><td>Modification</td><td>Requires physical rewiring</td><td>Update the microprogram in memory</td></tr>
-          <tr><td>Flexibility</td><td>Rigid, hard to change</td><td>Flexible, easy to update</td></tr>
-          <tr><td>Complexity</td><td>Complex circuit design</td><td>Simpler design, more storage</td></tr>
-          <tr><td>Cost</td><td>Higher for complex ISAs</td><td>Lower for complex ISAs</td></tr>
-        </tbody>
-      </table>
-      <div class="info-box">RISC processors typically use Hardwired Control for speed. CISC processors (like x86) traditionally used Microprogrammed Control for flexibility.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q7 -->
-<div class="q-card" data-tag="arch" data-q="7">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">07</div>
-    <div class="q-title">Draw the flowchart of the basic instruction cycle and briefly explain it.</div>
-    <span class="q-tag tag-arch">ARCH</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>A program in memory is executed by going through a cycle for each instruction. Each cycle is subdivided into phases/sub-cycles.</p>
-
-      <h3>Basic Instruction Cycle Phases</h3>
-      <div class="code-block">  ┌──────────────────────┐
-  │  START               │
-  └──────────┬───────────┘
-             ▼
-  ┌──────────────────────┐
-  │  1. FETCH            │ ← Get instruction from memory (PC → MAR → IR)
-  └──────────┬───────────┘
-             ▼
-  ┌──────────────────────┐
-  │  2. DECODE           │ ← CU decodes opcode in IR
-  └──────────┬───────────┘
-             ▼
-  ┌──────────────────────┐
-  │  3. EXECUTE          │ ← ALU performs operation
-  └──────────┬───────────┘
-             ▼
-  ┌──────────────────────┐
-  │  HALT? ──No──────────┼──→ back to FETCH
-  └──────────────────────┘
-        │ Yes
-        ▼
-      STOP</div>
-
-      <h4>With Interrupt Handling (Extended Cycle)</h4>
-      <ol>
-        <li>Fetch instruction from memory</li>
-        <li>Decode the instruction</li>
-        <li>Execute the instruction</li>
-        <li><strong>Check for interrupts</strong> — if yes, save state and process interrupt; then return</li>
-      </ol>
-
-      <div class="info-box">The cycle repeats indefinitely until a HALT instruction is encountered.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q8 -->
-<div class="q-card" data-tag="instr" data-q="8">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">08</div>
-    <div class="q-title">Explain Direct and Indirect Addressing with suitable examples.</div>
-    <span class="q-tag tag-instr">INSTRUCTIONS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>Instruction format: <strong>1-bit I (indirect) + 3-bit Opcode + 12-bit Address</strong></p>
-      <ul>
-        <li>I = 0 → <strong>Direct Address</strong></li>
-        <li>I = 1 → <strong>Indirect Address</strong></li>
-      </ul>
-
-      <h4>Direct Addressing (I = 0)</h4>
-      <p>The address field directly contains the address of the operand.</p>
-      <div class="code-block">Instruction at address 22:  [ 0 | ADD | 457 ]
-→ I=0, so direct
-→ Fetch operand from memory[457]
-→ AC ← AC + memory[457]</div>
-      <div class="info-box">1 memory access to get operand → Faster</div>
-
-      <h4>Indirect Addressing (I = 1)</h4>
-      <p>The address field contains the <strong>address of the address</strong> of the operand.</p>
-      <div class="code-block">Instruction at address 35:  [ 1 | ADD | 300 ]
-→ I=1, so indirect
-→ Go to memory[300] → find address = 1350
-→ Fetch operand from memory[1350]
-→ AC ← AC + memory[1350]</div>
-      <div class="warn-box">2 memory accesses needed → Slower, but allows pointer-based data access</div>
-
-      <table class="data-table">
-        <thead><tr><th>Feature</th><th>Direct</th><th>Indirect</th></tr></thead>
-        <tbody>
-          <tr><td>Memory accesses</td><td>1</td><td>2</td></tr>
-          <tr><td>Speed</td><td>Faster</td><td>Slower</td></tr>
-          <tr><td>Addressable range</td><td>Limited by address field</td><td>Larger (pointer)</td></tr>
-          <tr><td>I bit</td><td>0</td><td>1</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
-
-<!-- Q9 -->
-<div class="q-card" data-tag="instr" data-q="9">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">09</div>
-    <div class="q-title">Memory unit: 256K×32-bit words. Find opcode bits, draw format, memory input bits.</div>
-    <span class="q-tag tag-instr">INSTRUCTIONS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h3>Given</h3>
-      <ul>
-        <li>Memory size = 256K words</li>
-        <li>Each word = 32 bits</li>
-        <li>Instruction parts: Indirect bit + Opcode + Register code (64 regs) + Address</li>
-      </ul>
-
-      <h4>1. Bit Calculations</h4>
-      <p><strong>Address bits:</strong> 256K = 2⁸ × 2¹⁰ = 2¹⁸ → <strong>18 bits</strong></p>
-      <p><strong>Register code bits:</strong> 64 registers = 2⁶ → <strong>6 bits</strong></p>
-      <p><strong>Opcode bits:</strong></p>
-      <div class="formula-box">32 − 1 (indirect) − 6 (register) − 18 (address) = 7 bits</div>
-
-      <table class="data-table">
-        <thead><tr><th>Field</th><th>Bits</th></tr></thead>
-        <tbody>
-          <tr><td>Indirect bit (I)</td><td>1</td></tr>
-          <tr><td>Opcode</td><td>7</td></tr>
-          <tr><td>Register Code</td><td>6</td></tr>
-          <tr><td>Address</td><td>18</td></tr>
-          <tr><td><strong>Total</strong></td><td><strong>32</strong></td></tr>
-        </tbody>
-      </table>
-
-      <h4>2. Instruction Word Format (32 bits)</h4>
-      <div class="code-block">Bit 31       30    24       23       17          0
-  ┌───┬──────────┬──────────┬──────────────────┐
-  │ I │  Opcode  │ Register │     Address      │
-  │ 1 │  7 bits  │  6 bits  │    18 bits       │
-  └───┴──────────┴──────────┴──────────────────┘</div>
-
-      <h4>3. Memory Input Lines</h4>
-      <ul>
-        <li><strong>Data input lines:</strong> 32 bits (each word = 32 bits)</li>
-        <li><strong>Address input lines:</strong> 18 bits (2¹⁸ = 256K locations)</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q10 -->
-<div class="q-card" data-tag="asm" data-q="10">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">10</div>
-    <div class="q-title">Explain MVI, ADD, LDA, MOV, STA instructions with examples.</div>
-    <span class="q-tag tag-asm">ASSEMBLY</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <table class="data-table">
-        <thead><tr><th>Instruction</th><th>Full Name</th><th>Operation</th><th>Example</th></tr></thead>
-        <tbody>
-          <tr><td>MVI</td><td>Move Immediate</td><td>Copies 8-bit immediate data into register/memory</td><td>MVI A, 25H</td></tr>
-          <tr><td>ADD</td><td>Add</td><td>Adds register content to Accumulator; result in AC</td><td>ADD B</td></tr>
-          <tr><td>LDA</td><td>Load Accumulator</td><td>Loads AC with data from 16-bit memory address</td><td>LDA 2050H</td></tr>
-          <tr><td>MOV</td><td>Move</td><td>Copies data from one register to another</td><td>MOV A, B</td></tr>
-          <tr><td>STA</td><td>Store Accumulator</td><td>Stores AC content into specified memory address</td><td>STA 3050H</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Detailed Examples</h4>
-      <div class="code-block">MVI A, 25H    ; A ← 0x25  (immediate load)
-ADD B         ; A ← A + B
-LDA 2050H    ; A ← Memory[2050H]
-MOV A, B     ; A ← B  (register copy)
-STA 3050H    ; Memory[3050H] ← A</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q11 -->
-<div class="q-card" data-tag="num" data-q="11">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">11</div>
-    <div class="q-title">Signed representation of integer. Write (–12)₁₀ in 8-bit Signed Magnitude, 1's Complement, 2's Complement.</div>
-    <span class="q-tag tag-num">NUMBER SYS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>In binary, the <strong>MSB (leftmost bit)</strong> is the sign bit: <strong>0 = positive, 1 = negative</strong>.</p>
-
-      <h4>Representations of negative numbers</h4>
-      <ol>
-        <li><strong>Signed Magnitude</strong> — Only sign bit is complemented</li>
-        <li><strong>Signed 1's Complement</strong> — All bits (including sign) are complemented</li>
-        <li><strong>Signed 2's Complement</strong> — 1's complement + 1</li>
-      </ol>
-
-      <h3>Example: Represent (–12)₁₀ in 8 bits</h3>
-      <p>First, +12 in 8-bit binary = <strong>0 0001100</strong></p>
-
-      <div class="code-block">+12  =  0 0001100
-
-Signed Magnitude (-12):
-  → Flip only sign bit
-  → 1 0001100
-
-Signed 1's Complement (-12):
-  → Flip ALL bits
-  → 1 1110011
-
-Signed 2's Complement (-12):
-  → 1's complement of +12: 1 1110011
-  → Add 1:                  1 1110011
-                           +         1
-                           = 1 1110100</div>
-
-      <table class="data-table">
-        <thead><tr><th>Method</th><th>-12 in 8 bits</th></tr></thead>
-        <tbody>
-          <tr><td>Signed Magnitude</td><td>1 0001100</td></tr>
-          <tr><td>Signed 1's Complement</td><td>1 1110011</td></tr>
-          <tr><td>Signed 2's Complement</td><td>1 1110100</td></tr>
-        </tbody>
-      </table>
-
-      <div class="info-box">Most computers use 2's complement because: no separate subtractor needed (add the 2's complement = subtract), and there is only one representation of zero.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q12 -->
-<div class="q-card" data-tag="rtl" data-q="12">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">12</div>
-    <div class="q-title">Define RTL. Give block diagram and timing diagram of transfer of R1 to R2 when P=1.</div>
-    <span class="q-tag tag-rtl">RTL</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>RTL — Register Transfer Language</h4>
-      <p>A symbolic language used to describe <strong>micro-operations performed between registers</strong> in a digital system.</p>
-      <p>RTL specifies: Source register, Destination register, and Control condition.</p>
-
-      <h4>Notation</h4>
-      <div class="formula-box">P : R2 ← R1</div>
-      <p>Meaning: When control signal <strong>P = 1</strong>, contents of R1 are transferred to R2.</p>
-
-      <h4>Block Diagram</h4>
-      <div class="code-block">  ┌──────────────┐     P (Load)    ┌─────────┐
-  │ Control      ├────────────────►│   R2    │◄── Clock
-  │ Circuit      │                 └────▲────┘
-  └──────────────┘                      │ n bits
-                                   ┌────┴────┐
-                                   │   R1    │
-                                   └─────────┘</div>
-
-      <h4>Timing Diagram</h4>
-      <div class="code-block">          t         t+1
-Clock  ─┐ ┌──┐ ┌──┐ ┌──┐ ┌──
-        └─┘  └─┘  └─┘  └─┘
-
-Load   ──────────┐     ┌────
-(P)             │     │
-           (P goes HIGH)
-                       ↑
-               Transfer occurs here at t+1 rising edge</div>
-
-      <ul>
-        <li>P is activated by rising edge of clock at time <strong>t</strong></li>
-        <li>Transfer happens at the <strong>next positive transition</strong> (time t+1)</li>
-        <li>Transfer repeats with each clock pulse while P remains active</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Q13 -->
-<div class="q-card" data-tag="alu" data-q="13">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">13</div>
-    <div class="q-title">Discuss 4-bit Binary Adder with neat diagram.</div>
-    <span class="q-tag tag-alu">ALU</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>Structure</h4>
-      <p>A 4-bit binary adder uses <strong>4 Full Adders (FA)</strong> connected in a chain (ripple carry).</p>
-
-      <div class="code-block">B3 A3  B2 A2  B1 A1  B0 A0
- ↓  ↓   ↓  ↓   ↓  ↓   ↓  ↓
-┌────┐  ┌────┐  ┌────┐  ┌────┐
-│ FA │←C│ FA │←C│ FA │←C│ FA │← C0 (input carry)
-└─┬──┘  └─┬──┘  └─┬──┘  └─┬──┘
-  ↓        ↓        ↓        ↓
-C4=Cout   S3       S2       S1       S0</div>
-
-      <h4>Key Points</h4>
-      <ul>
-        <li>Input carry to the adder is <strong>C0</strong>; output carry is <strong>C4</strong></li>
-        <li>The S outputs (S0–S3) give the sum bits</li>
-        <li>An n-bit adder requires <strong>n full adders</strong></li>
-        <li>Output carry of each FA connects to input carry of the next higher FA (ripple carry)</li>
-        <li>A inputs come from register R1, B inputs from register R2</li>
-        <li>Sum can be stored back to R1, R2, or a third register</li>
-      </ul>
-
-      <div class="warn-box">Ripple Carry Adder: carry must propagate through all FAs → delay increases with n bits. Solution: Carry Lookahead Adder (faster).</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q14 -->
-<div class="q-card" data-tag="rtl" data-q="14">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">14</div>
-    <div class="q-title">Construct diagram of common bus system of four 4-bit registers using multiplexers.</div>
-    <span class="q-tag tag-rtl">RTL</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>A common bus system allows multiple registers to <strong>share a single data path</strong> using multiplexers.</p>
-
-      <h4>Structure</h4>
-      <p>4 registers × 4 bits each → 4 MUX (4×1), each handling one bit position. 2 select lines S1, S0 choose which register drives the bus.</p>
-
-      <div class="code-block">S1 ──────────────────────────────────────────
-S0 ──────────────────────────────────────────
-      ┌────────┐  ┌────────┐  ┌────────┐  ┌────────┐
-      │4×1 MUX3│  │4×1 MUX2│  │4×1 MUX1│  │4×1 MUX0│
-      │3 2 1 0 │  │3 2 1 0 │  │3 2 1 0 │  │3 2 1 0 │
-      └───┬────┘  └───┬────┘  └───┬────┘  └───┬────┘
-          │           │           │           │
-         [D] [C]    [C] [B]    [B] [A]    [A] ...
-        Reg D     Reg C     Reg B     Reg A
-          └─────────────────────────────────┘
-                    4-bit Common Bus</div>
-
-      <h4>Select Line Truth Table</h4>
-      <table class="data-table">
-        <thead><tr><th>S1 S0</th><th>Register Selected</th></tr></thead>
-        <tbody>
-          <tr><td>0 0</td><td>Register A</td></tr>
-          <tr><td>0 1</td><td>Register B</td></tr>
-          <tr><td>1 0</td><td>Register C</td></tr>
-          <tr><td>1 1</td><td>Register D</td></tr>
-        </tbody>
-      </table>
-
-      <div class="info-box">When S1S0 = 00, input 0 of all MUXes is selected. Since Register A feeds input 0 of all MUXes, Register A drives the bus.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q15 -->
-<div class="q-card" data-tag="asm" data-q="15">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">15</div>
-    <div class="q-title">Write assembly language code in GNUsim8085 to subtract two 8-bit numbers.</div>
-    <span class="q-tag tag-asm">ASSEMBLY</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>Problem</h4>
-      <p>Subtract two 8-bit numbers stored at memory locations 2000H and 2001H. Store result at 2002H.</p>
-
-      <h4>Algorithm</h4>
-      <ol>
-        <li>Load first number into A</li>
-        <li>Move A to B (save first number)</li>
-        <li>Load second number into A</li>
-        <li>Subtract B from A → A = A - B</li>
-        <li>Store result</li>
-        <li>Halt</li>
-      </ol>
-
-      <div class="code-block">LDA  2000H   ; A ← Memory[2000H]  (load first number)
-MOV  B, A   ; B ← A              (save first number in B)
-LDA  2001H  ; A ← Memory[2001H]  (load second number)
-SUB  B      ; A ← A - B          (subtract)
-STA  2002H  ; Memory[2002H] ← A  (store result)
-HLT         ; Stop execution</div>
-
-      <div class="info-box">SUB B internally uses 2's complement: A = A + (2's complement of B). Result and flags (carry, zero, sign) are updated in the flag register.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q16 -->
-<div class="q-card" data-tag="instr" data-q="16">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">16</div>
-    <div class="q-title">Explain Memory Reference Instructions (MRI).</div>
-    <span class="q-tag tag-instr">INSTRUCTIONS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <h4>Instruction Format</h4>
-      <div class="code-block">┌───┬────────────┬──────────────────┐
-│ I │  Opcode    │    Address       │
-│ 1 │   3 bits   │    12 bits       │
-└───┴────────────┴──────────────────┘
-I = 0 → Direct   |   I = 1 → Indirect</div>
-
-      <h4>MRI Instruction Set</h4>
-      <table class="data-table">
-        <thead><tr><th>Symbol</th><th>Hex Code</th><th>Operation</th></tr></thead>
-        <tbody>
-          <tr><td>AND</td><td>0xxx / 8xxx</td><td>AC ← AC ∧ M[Address]</td></tr>
-          <tr><td>ADD</td><td>1xxx / 9xxx</td><td>AC ← AC + M[Address]</td></tr>
-          <tr><td>LDA</td><td>2xxx / Axxx</td><td>AC ← M[Address]</td></tr>
-          <tr><td>STA</td><td>3xxx / Bxxx</td><td>M[Address] ← AC</td></tr>
-          <tr><td>BUN</td><td>4xxx / Cxxx</td><td>PC ← Address (unconditional branch)</td></tr>
-          <tr><td>BSA</td><td>5xxx / Dxxx</td><td>M[Address] ← PC, PC ← Address + 1</td></tr>
-          <tr><td>ISZ</td><td>6xxx / Exxx</td><td>M[Address]++; if result = 0, skip next instruction</td></tr>
-        </tbody>
-      </table>
-
-      <div class="info-box">First hex digit: 0–6 = Direct (I=0), 8–E = Indirect (I=1). All MRI instructions access memory for their operand.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q17 -->
-<div class="q-card" data-tag="alu" data-q="17">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">17</div>
-    <div class="q-title">Explain any two Shift Micro-operations with examples.</div>
-    <span class="q-tag tag-alu">ALU</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>Shift micro-operations move bits in a register left or right. Three types:</p>
-
-      <h4>1. Logical Shift</h4>
-      <p>Shifts bits left or right; <strong>fills vacated bits with 0</strong>.</p>
-      <div class="code-block">Logical Shift Left (shl):
-  Register: 1 0 1 1 0 1 0 0
-  After:    0 1 1 0 1 0 0 0   ← 0 fills from right
-  RTL: R ← shl R  (serial input = 0)
-
-Logical Shift Right (shr):
-  Register: 1 0 1 1 0 1 0 0
-  After:    0 1 0 1 1 0 1 0   ← 0 fills from left
-  RTL: R ← shr R  (serial input = 0)</div>
-
-      <h4>2. Circular Shift (Rotate)</h4>
-      <p>Bits shifted out from one end <strong>come back in from the other end</strong>. No bits lost.</p>
-      <div class="code-block">Circular Shift Left (cil):
-  Register: 1 0 1 1 0 1 0 0
-  After:    0 1 1 0 1 0 0 1   ← MSB wraps to LSB
-  RTL: R ← cil R
-
-Circular Shift Right (cir):
-  Register: 1 0 1 1 0 1 0 0
-  After:    0 1 0 1 1 0 1 0  → wait, LSB (0) wraps to MSB
-  RTL: R ← cir R</div>
-
-      <h4>3. Arithmetic Shift</h4>
-      <p>Preserves the <strong>sign bit</strong>. Used for multiplication/division by 2.</p>
-      <div class="code-block">Arithmetic Shift Right:
-  Register: 1 0 1 1 0 1 0 0
-  After:    1 1 0 1 1 0 1 0   ← sign bit (1) replicated
-  (÷ 2 while preserving sign)</div>
-
-      <div class="info-box">Arithmetic shift left by 1 = multiply by 2. Arithmetic shift right by 1 = divide by 2.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q18 -->
-<div class="q-card" data-tag="instr" data-q="18">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">18</div>
-    <div class="q-title">Difference between MRI and Non-MRI Instructions.</div>
-    <span class="q-tag tag-instr">INSTRUCTIONS</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <table class="data-table">
-        <thead><tr><th>Basis</th><th>MRI (Memory Reference)</th><th>Non-MRI (Non-Memory Reference)</th></tr></thead>
-        <tbody>
-          <tr><td>Definition</td><td>Refers to memory location for operand</td><td>Does not refer to any memory location</td></tr>
-          <tr><td>Operand Location</td><td>Stored in memory</td><td>Stored in registers or implied</td></tr>
-          <tr><td>Address Field</td><td>Contains memory address</td><td>No address field</td></tr>
-          <tr><td>Memory Access</td><td>Yes — during execution</td><td>No memory access</td></tr>
-          <tr><td>Types</td><td>Memory reference only</td><td>Register-reference + I/O instructions</td></tr>
-          <tr><td>Examples</td><td>AND, ADD, LDA, STA, BUN, BSA, ISZ</td><td>CLA, CLE, CMA, CIR, CIL, INP, OUT</td></tr>
-          <tr><td>Speed</td><td>Slower (memory access overhead)</td><td>Faster (register or implicit ops)</td></tr>
-        </tbody>
-      </table>
-
-      <div class="info-box">Non-MRI instructions are further divided into Register Reference (operate on AC/flags) and Input-Output instructions (INP, OUT, SKI, SKO, ION, IOF).</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q19 -->
-<div class="q-card" data-tag="arch" data-q="19">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">19</div>
-    <div class="q-title">Explain computer registers in detail.</div>
-    <span class="q-tag tag-arch">ARCH</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>Registers are <strong>high-speed memory storage units</strong> inside the CPU processor. They hold data actively being processed.</p>
-
-      <table class="data-table">
-        <thead><tr><th>Register</th><th>Full Name</th><th>Bits</th><th>Function</th></tr></thead>
-        <tbody>
-          <tr><td>AR</td><td>Address Register</td><td>12</td><td>Holds memory address of instruction/data to access</td></tr>
-          <tr><td>PC</td><td>Program Counter</td><td>12</td><td>Stores address of next instruction to execute</td></tr>
-          <tr><td>DR</td><td>Data Register</td><td>16</td><td>Holds data read from / to be written to memory</td></tr>
-          <tr><td>AC</td><td>Accumulator</td><td>16</td><td>Arithmetic/logic results; primary working register</td></tr>
-          <tr><td>IR</td><td>Instruction Register</td><td>16</td><td>Holds current instruction being decoded/executed</td></tr>
-          <tr><td>TR</td><td>Temporary Register</td><td>16</td><td>Stores temporary data during instruction execution</td></tr>
-          <tr><td>INPR</td><td>Input Register</td><td>8</td><td>Receives 8-bit data from input devices</td></tr>
-          <tr><td>OUTR</td><td>Output Register</td><td>8</td><td>Holds 8-bit data to be sent to output devices</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Register Data Flow (typical fetch cycle)</h4>
-      <div class="code-block">PC → AR       (send next instruction address to AR)
-Memory[AR] → IR   (fetch instruction into IR)
-PC = PC + 1       (increment PC)
-IR → CU           (decode instruction in Control Unit)
-CU → AR, DR, AC   (execute: load operands, compute, store)</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q20 -->
-<div class="q-card" data-tag="alu" data-q="20">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">20</div>
-    <div class="q-title">Explain Arithmetic Micro-operations.</div>
-    <span class="q-tag tag-alu">ALU</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>Arithmetic micro-operations perform <strong>basic numerical computations</strong> on data stored in registers.</p>
-
-      <table class="data-table">
-        <thead><tr><th>Operation</th><th>RTL Notation</th><th>Description</th></tr></thead>
-        <tbody>
-          <tr><td>Add</td><td>R3 ← R1 + R2</td><td>Adds contents of R1 and R2</td></tr>
-          <tr><td>Subtract</td><td>R3 ← R1 − R2</td><td>Subtracts R2 from R1</td></tr>
-          <tr><td>Increment</td><td>R1 ← R1 + 1</td><td>Adds 1 to register</td></tr>
-          <tr><td>Decrement</td><td>R1 ← R1 − 1</td><td>Subtracts 1 from register</td></tr>
-          <tr><td>Negate (2's comp)</td><td>R2 ← R̄1 + 1</td><td>2's complement (arithmetic negation)</td></tr>
-          <tr><td>Add with Carry</td><td>R3 ← R1 + R2 + Cin</td><td>Adds with carry-in bit</td></tr>
-          <tr><td>Subtract with Borrow</td><td>R3 ← R1 − R2 − Bin</td><td>Subtracts with borrow bit</td></tr>
-        </tbody>
-      </table>
-
-      <h4>Hardware Implementation</h4>
-      <p>A single <strong>Binary Adder</strong> can implement all the above by clever input manipulation:</p>
-      <ul>
-        <li>To subtract: apply 2's complement of R2 (invert bits + set Cin = 1)</li>
-        <li>To increment: set B input = 0 and Cin = 1</li>
-        <li>To decrement: set B = all 1s (= −1 in 2's complement) and Cin = 0</li>
-      </ul>
-
-      <div class="info-box">This is why modern CPUs only need an adder — not separate hardware for each operation. 2's complement unifies addition and subtraction.</div>
-    </div>
-  </div>
-</div>
-
-<!-- Q21 -->
-<div class="q-card" data-tag="alu" data-q="21">
-  <div class="q-header" onclick="toggle(this)">
-    <div class="q-num">21</div>
-    <div class="q-title">Explain Selective Set, Selective Complement, and Selective Clear operations.</div>
-    <span class="q-tag tag-alu">ALU</span>
-    <div class="q-chevron">▾</div>
-  </div>
-  <div class="q-body">
-    <div class="q-content">
-      <p>These are <strong>logic micro-operations</strong> that selectively modify specific bits in register A using register B as a mask.</p>
-
-      <h4>1. Selective Set (OR)</h4>
-      <p>Sets bits in A to 1 where B has 1. Doesn't affect bits where B = 0.</p>
-      <div class="formula-box">A ← A ∨ B   (OR operation)</div>
-      <div class="code-block">A:      0 1 0 1 1 0 0 0
-B:      0 0 0 0 0 1 1 1
-A∨B:    0 1 0 1 1 1 1 1  ← last 3 bits SET to 1</div>
-
-      <h4>2. Selective Complement (XOR)</h4>
-      <p>Complements bits in A where B has 1. Doesn't affect bits where B = 0.</p>
-      <div class="formula-box">A ← A ⊕ B   (XOR operation)</div>
-      <div class="code-block">A:      0 1 0 1 1 0 0 0
-B:      0 0 0 0 0 1 1 1
-A⊕B:    0 1 0 1 1 1 1 1  ← last 3 bits COMPLEMENTED (0→1)</div>
-
-      <h4>3. Selective Clear (AND with complement)</h4>
-      <p>Clears bits in A to 0 where B has 1. Doesn't affect bits where B = 0.</p>
-      <div class="formula-box">A ← A ∧ B'   (AND with NOT B)</div>
-      <div class="code-block">A:      0 1 0 1 1 0 0 0
-B:      0 0 0 0 0 1 1 1
-B':     1 1 1 1 1 0 0 0
-A∧B':   0 1 0 1 1 0 0 0  ← last 3 bits CLEARED to 0</div>
-
-      <table class="data-table">
-        <thead><tr><th>Operation</th><th>RTL</th><th>Effect where B=1</th><th>Effect where B=0</th></tr></thead>
-        <tbody>
-          <tr><td>Selective Set</td><td>A ← A ∨ B</td><td>Set to 1</td><td>Unchanged</td></tr>
-          <tr><td>Selective Complement</td><td>A ← A ⊕ B</td><td>Toggle</td><td>Unchanged</td></tr>
-          <tr><td>Selective Clear</td><td>A ← A ∧ B'</td><td>Clear to 0</td><td>Unchanged</td></tr>
-        </tbody>
-      </table>
-
-      <div class="info-box">B acts as a mask — it selects WHICH bits of A to operate on. This is fundamental to bit manipulation in low-level programming.</div>
-    </div>
-  </div>
-</div>
-
-<div id="no-results">NO QUESTIONS MATCH YOUR SEARCH</div>
-
-</main>
-
-<footer>
-  AHMEDABAD INSTITUTE OF TECHNOLOGY &nbsp;·&nbsp; COMPUTER ENGINEERING &nbsp;·&nbsp; COA BE04000251 &nbsp;·&nbsp; 2026
-</footer>
 
 <script>
-  let activeTag = 'all';
-  let openCount = 0;
+const QS=[
+{id:1,marks:7,pri:"high",unit:"I/O & Interrupts",tags:["interrupt","ISR","IEN","cycle"],
+title:"What is an Interrupt? Explain interrupt cycle with flowchart.",
+def:"An interrupt is a hardware or software signal that forces the CPU to temporarily pause its current program, save its state, and execute a special routine called the Interrupt Service Routine (ISR). After the ISR completes, the CPU resumes the original program.",
+pts:["Types: Hardware (I/O devices), Software (INT instruction), Internal (overflow, divide-by-zero)","IEN (Interrupt Enable Flip-Flop): Must be 1 for CPU to accept interrupts","ISR: Special code that handles the device's request","Return Address: Saved to stack/memory location 0 so CPU can return","Key Registers: PC (Program Counter), IEN, Stack Pointer"],
+diag:`  Fetch → Decode → Execute
+                    |
+         [Check Interrupt?]
+        /                  \\
+   IEN=0?              IEN=1 & Pending?
+  (No INT)                  |
+                    Save PC → Stack
+                    IEN ← 0
+                    PC  ← ISR Address
+                    Execute ISR
+                    Restore PC, IEN ← 1
+                    Return to Program`,
+kws:["Interrupt","ISR","IEN","PC","Stack","Fetch-Decode-Execute"],
+el10:["🏠 Imagine doing homework (CPU executing program).","Suddenly mom calls you — that's an interrupt!","You bookmark your homework (save PC to stack),","go answer mom (execute ISR), then continue (restore PC).","IEN = 0 means Do Not Disturb mode is ON."],
+fc:[["What is an interrupt?","Signal that pauses CPU to handle urgent event, then resumes program."],["What is ISR?","Interrupt Service Routine — special code that handles the interrupt."],["What does IEN do?","IEN=1 allows interrupts; IEN=0 disables them."],["Where is return address saved?","Memory location 0 or top of stack."],["Interrupt cycle sequence?","Execute → Check IEN → Save PC → IEN=0 → Jump ISR → Restore PC → IEN=1"],["Hardware vs software interrupt?","Hardware: from I/O device. Software: from INT instruction."],["What if IEN=0 when interrupt arrives?","CPU ignores interrupt and continues current program."]],
+sh:["⚡ Mnemonic: SIRE = Save PC → IEN=0 → Run ISR → Enable IEN","⚡ Exam trap: Always say 'IEN=0 to prevent nested interrupts during ISR'","⚡ 5 steps: Check → Save → Disable → Execute ISR → Restore","⚡ Think: Pause → Bookmark → Handle → Resume"],
+ev:["Definition: Signal to CPU to pause and execute ISR.","Steps:","1. CPU finishes current instruction.","2. Checks: IEN=1 AND interrupt pending?","3. YES: Save PC to stack, set IEN=0.","4. Load ISR address into PC.","5. Execute ISR.","6. Restore PC, set IEN=1. Return to program.","Types: Hardware, Software, Internal (overflow)."]},
+{id:2,marks:7,pri:"high",unit:"Assembler",tags:["assembler","pass2","symbol table","machine code"],
+title:"Draw and briefly explain flowchart for Second Pass of Assembler.",
+def:"The Second Pass translates the intermediate file (from Pass 1) into final machine code (object code). It uses the Symbol Table built in Pass 1 to resolve all label addresses.",
+pts:["Input: Intermediate file from Pass 1 + Symbol Table","Output: Object file (binary machine code)","MRI: Opcode + address from Symbol Table + I-bit","Non-MRI: Register/IO instructions translated directly","I-bit: Set if indirect addressing mode is used"],
+diag:`  [Start Pass 2]
+  Read next line from Intermediate File
+  [Pseudo Instruction?]→YES→ Process (ORG/DEC/END)
+      |NO
+  [MRI?]→YES→ Lookup Symbol Table
+      |        → Assemble: Opcode + Address + I-bit
+      |NO
+  [Non-MRI]→ Use Opcode Table directly
+  Write machine code to Object File
+  [END?]→YES→ Stop | NO→ next line`,
+kws:["Pass 2","Symbol Table","MRI","Object Code","Opcode","I-bit","Indirect"],
+el10:["📚 Pass 1 was a scout who made a MAP (symbol table).","Pass 2 is the builder who uses that MAP to build the house (machine code).","For every instruction: 'LOOP is at address 150? Put 150 in machine code!'","MRI = need memory address. Non-MRI = no address needed."],
+fc:[["What does Pass 2 take as input?","Intermediate file + Symbol Table from Pass 1."],["What does Pass 2 produce?","Object file — final binary machine code."],["What is an MRI?","Memory Reference Instruction — needs a memory address."],["What is the I-bit?","Indirect bit — set to 1 if instruction uses indirect addressing."],["How is Non-MRI handled?","Translated using predefined opcode table, no address needed."],["What does END do?","Signals end of assembly — terminates Pass 2."]],
+sh:["⚡ Mnemonic: PMON = Pseudo? MRI? Opcode+Addr? Non-MRI?","⚡ Pass 1 = Build Symbol Table. Pass 2 = USE it.","⚡ Draw 4-decision flowchart for full marks","⚡ MRI: [Opcode 3bits][I-bit 1bit][Address 12bits] = 16-bit word"],
+ev:["Definition: Pass 2 translates to machine code using Symbol Table.","1. Read line from intermediate file.","2. Pseudo? (ORG/DEC/END) → Process.","3. MRI? → Opcode + Symbol Table address + I-bit.","4. Non-MRI? → Predefined opcode table.","5. Write to object file.","6. Repeat until END."]},
+{id:3,marks:7,pri:"high",unit:"Instruction Set",tags:["addressing modes","immediate","direct","indirect","indexed"],
+title:"Explain any seven addressing modes with appropriate examples.",
+def:"Addressing Modes define HOW an instruction locates its operand — whether the operand is in the instruction itself, a register, a memory location, or accessed via a pointer.",
+pts:["1. Immediate: Operand IN instruction. MOV AL,5. No memory lookup.","2. Register: Operand in CPU register. MOV AX,BX. Fastest.","3. Direct: Instruction has exact address. LDA 2050.","4. Indirect: Address-of-address. ADD @R0. Two memory reads!","5. Register Indirect: Register holds address. MOV AX,[BX].","6. Relative: EA = PC + Offset. JMP +5. Used for jumps.","7. Indexed: EA = Base + Index Register. ARRAY[SI]. For arrays."],
+diag:`  Mode         | EA Calculation   | Speed   | Use
+  -------------|-----------------|---------|------
+  Immediate    | Operand IN instr | Fastest | Constants
+  Register     | Operand IN reg   | V.Fast  | Temp vars
+  Direct       | EA = Address     | Fast    | Global vars
+  Indirect     | EA = M[Address]  | Slow    | Pointers
+  Reg Indirect | EA = M[Reg]      | Medium  | Pointers
+  Relative     | EA = PC + offset | Medium  | Branches
+  Indexed      | EA = Base+Index  | Medium  | Arrays`,
+kws:["EA","Immediate","Direct","Indirect","Register","Relative","Indexed","Operand"],
+el10:["🔍 Finding a book = finding an operand in memory.","Immediate = 'Book is IN my hands!' (no lookup, fastest)","Register = 'Book in my desk drawer' — fast!","Direct = 'Book at shelf #205' — go directly.","Indirect = 'Shelf #205 has a note: Go to shelf #410' — two trips!","Indexed = 'Start shelf 200 + index 5 = shelf 205' — great for arrays!"],
+fc:[["Effective Address (EA)?","Actual memory address where operand is located."],["Immediate mode?","Operand IS the data — no EA calculation."],["Relative mode formula?","EA = PC + Signed Offset."],["Indexed mode formula?","EA = Base Address + Index Register contents."],["Best mode for arrays?","Indexed Addressing Mode."],["Which mode has 2 memory reads?","Indirect Mode."],["Fastest mode?","Register Mode — operand already in CPU register."]],
+sh:["⚡ Speed order: Reg > Imm > Direct > Indexed > Relative > Reg-Indirect > Indirect","⚡ Exam trap: 'Indirect needs 2 memory reads' — always mention!","⚡ Indexed = ARRAYS. Relative = JUMPS. Remember!"],
+ev:["Addressing modes define how operand is located.","1. Immediate: MOV AL,5","2. Register: MOV AX,BX","3. Direct: LDA 2050","4. Indirect: ADD @R0 (2 reads)","5. Reg Indirect: MOV AX,[BX]","6. Relative: JMP +5 (EA=PC+Offset)","7. Indexed: ARRAY[SI] (EA=Base+Index)"]},
+{id:4,marks:3,pri:"medium",unit:"Parallel Processing",tags:["Flynn","SISD","SIMD","MISD","MIMD"],
+title:"Write Flynn's classification of parallel processing and explain any one class.",
+def:"Flynn's Taxonomy (1966) classifies computer architectures based on the number of simultaneous Instruction Streams and Data Streams into 4 fundamental classes.",
+pts:["SISD: Single Instruction, Single Data. Traditional uniprocessor.","SIMD: Single Instruction, Multiple Data. One instruction on many data. GPUs.","MISD: Multiple Instruction, Single Data. Rare. Fault-tolerant systems.","MIMD: Multiple Instruction, Multiple Data. Multicore CPUs."],
+diag:`             | Single Data   | Multiple Data
+  -----------|---------------|---------------
+  Single Instr|    SISD       |     SIMD
+              | (Uniprocessor)| (GPU/Vector)
+  -----------|---------------|---------------
+  Multiple    |    MISD       |     MIMD
+  Instr       | (Fault tol.)  | (Multicore)`,
+kws:["Flynn","SISD","SIMD","MISD","MIMD","Instruction Stream","Data Stream"],
+el10:["👨‍🍳 Think of a cooking competition:","SISD = One chef, one dish (normal cooking).","SIMD = One recipe, 4 chefs making same dish with different ingredients.","MIMD = 4 chefs, 4 recipes, 4 ingredients. Full parallelism!","SIMD = exactly how a GPU works — same op on millions of pixels!"],
+fc:[["SISD full form?","Single Instruction, Single Data — traditional uniprocessor."],["SIMD full form?","Single Instruction, Multiple Data — GPU, vector processor."],["MIMD full form?","Multiple Instruction, Multiple Data — modern multicore."],["Rarest Flynn class?","MISD — Multiple Instruction, Single Data."],["GPUs use which class?","SIMD."],["2 dimensions in Flynn's?","Instruction streams × Data streams."]],
+sh:["⚡ Draw 2×2 grid: (Single/Multiple Instr) × (Single/Multiple Data)","⚡ Memory: SS-SM-MS-MM → SISD, SIMD, MISD, MIMD","⚡ GPU=SIMD, Multicore=MIMD, Old PC=SISD","⚡ MISD = always 'fault-tolerant systems' in GTU"],
+ev:["Flynn's Taxonomy: 4 classes based on instruction × data streams.","Classes: SISD | SIMD | MISD | MIMD","SIMD Explanation:","• Single instruction to multiple processing units simultaneously.","• Each unit operates on different data with SAME instruction.","• Example: GPU applies pixel shader to millions of pixels.","• Used in: GPUs, DSPs, vector processors, multimedia."]},
+{id:5,marks:3,pri:"medium",unit:"CPU Architecture",tags:["RISC","CISC","comparison","hardwired"],
+title:"Differentiate RISC and CISC architecture.",
+def:"RISC (Reduced Instruction Set Computer) uses simple, fixed-length instructions in one clock cycle. CISC (Complex Instruction Set Computer) uses complex, variable-length instructions doing more per instruction but taking multiple cycles.",
+pts:[],
+diag:`  Feature      | RISC             | CISC
+  -------------|------------------|-------------------
+  Instructions | Simple, fixed    | Complex, variable
+  Execution    | 1 clock cycle    | Multiple cycles
+  Control Unit | Hardwired (fast) | Microprogrammed
+  Memory Access| Load/Store only  | Any instruction
+  Registers    | Large bank       | Fewer registers
+  Pipeline     | Easy             | Harder
+  Examples     | ARM, MIPS        | Intel x86, 8086`,
+kws:["RISC","CISC","Hardwired","Microprogrammed","Load-Store","Pipeline","ARM","x86"],
+el10:["🔧 RISC = specialized toolkit — one tool does ONE thing FAST.","CISC = Swiss Army knife — does MANY things but is complex.","RISC (ARM phone): 'ADD two numbers' — simple, 1 step.","CISC (Intel laptop): Multi-step complex operations internally.","Modern CISC chips convert to RISC micro-ops internally!"],
+fc:[["RISC full form?","Reduced Instruction Set Computer."],["CISC full form?","Complex Instruction Set Computer."],["Which uses hardwired control?","RISC — faster."],["Which uses microprogrammed?","CISC — flexible."],["RISC memory rule?","Only LOAD and STORE access memory."],["RISC examples?","ARM, MIPS, SPARC, PowerPC."],["CISC examples?","Intel x86, AMD, 8086."]],
+sh:["⚡ RISC = Rapid, Regular, Simple, Fast, Fixed","⚡ CISC = Complex, Slow, Flexible, Variable","⚡ GTU hack: 6-row comparison table = full marks!","⚡ RISC=mobile (ARM). CISC=desktop (Intel). Always mention!"],
+ev:["| Feature | RISC | CISC |","| Instructions | Simple, fixed | Complex, variable |","| Execution | 1 clock cycle | Multiple cycles |","| Control | Hardwired | Microprogrammed |","| Memory | Load/Store only | Any instruction |","| Registers | Large bank | Fewer |","| Examples | ARM, MIPS | Intel x86, 8086 |"]},
+{id:6,marks:4,pri:"medium",unit:"I/O & Interrupts",tags:["DMA","burst","cycle stealing","DMAC"],
+title:"Write short note on DMA (Direct Memory Access).",
+def:"DMA (Direct Memory Access) allows I/O devices to transfer data directly to/from main memory WITHOUT CPU involvement. The DMA Controller (DMAC) handles the transfer, freeing the CPU.",
+pts:["Problem solved: CPU wastes time on byte-by-byte Programmed I/O.","How DMA works: CPU gives DMAC start address, byte count, direction.","Burst Mode: DMAC takes full bus, transfers entire block. CPU locked out.","Cycle Stealing: DMAC steals one bus cycle at a time. CPU not blocked.","Transparent Mode: Transfers only when CPU not using bus. Slowest."],
+diag:`  CPU --bus request--> DMAC
+  CPU <--bus grant---  DMAC
+  DMAC ===data transfer===> Memory
+  I/O Device <===> DMAC
+  Transfer complete → DMAC sends interrupt → CPU resumes`,
+kws:["DMA","DMAC","Burst Mode","Cycle Stealing","Bus Grant","Interrupt"],
+el10:["🏢 CPU is CEO. Without DMA: CEO carries every box personally. Slow!","With DMA: CEO hires courier (DMAC). 'Move 1000 boxes.'","CEO returns to work. Courier calls when done (interrupt).","Burst = courier blocks entire road while moving all boxes.","Cycle Steal = courier borrows road for 1 second at a time."],
+fc:[["What is DMA?","Hardware that transfers data between I/O and memory without CPU."],["3 things CPU gives DMAC?","Start address, byte count, read/write direction."],["What is Burst Mode?","DMAC locks CPU out, transfers entire block at once."],["What is Cycle Stealing?","DMAC steals one bus cycle at a time."],["DMAC notifies CPU how?","Sends interrupt after transfer is complete."]],
+sh:["⚡ DMA sequence: REQ → GRANT → TRANSFER → INTERRUPT","⚡ 3 modes: Burst > Cycle Steal > Transparent (speed order)","⚡ Draw CPU-DMAC-Memory triangle diagram!","⚡ 'DMAC has 3 registers: Address, Word Count, Control'"],
+ev:["DMA = I/O transfers data directly to memory without CPU.","Working: CPU gives DMAC start address + count + direction.","DMAC requests bus → CPU grants → DMAC transfers → sends interrupt.","Modes: 1.Burst (CPU blocked) 2.Cycle Stealing 3.Transparent","Advantage: CPU free for other tasks during bulk data transfer."]},
+{id:7,marks:3,pri:"medium",unit:"I/O & Interrupts",tags:["handshaking","asynchronous","data valid"],
+title:"Explain source-initiated asynchronous data transfer using handshaking.",
+def:"Asynchronous handshaking is a protocol between two devices at different speeds using control signals (Data Valid and Data Accepted) to synchronize without a shared clock.",
+pts:["Source-Initiated: Transfer started by the sender (source device).","Step 1: Source places data on the data lines.","Step 2: Source asserts 'Data Valid' → 'valid data is ready'.","Step 3: Destination reads data, asserts 'Data Accepted' → 'I got it'.","Step 4: Source sees ACK, removes data, drops 'Data Valid'.","Step 5: Destination drops 'Data Accepted'. Reset for next transfer."],
+diag:`  Source       Signals      Destination
+  Place data → [Data Bus] →
+  Assert Data_Valid →      |
+                           ← Data_Accepted
+  Remove data ←            |
+  Drop Data_Valid
+                    Drop Data_Accepted
+               [Cycle Complete]`,
+kws:["Handshaking","Data Valid","Data Accepted","Asynchronous","Source-Initiated"],
+el10:["📝 Think of passing notes in class.","You write a note: 'Note Ready!' (Data Valid).","Friend reads, taps desk: 'Got it!' (Data Accepted).","You remove the note. Friend stops tapping. Done!","No shared clock — each action triggers the next. That's asynchronous!"],
+fc:[["What is handshaking?","Protocol using control signals to synchronize data transfer."],["Data Valid means?","Source telling destination: valid data is on bus."],["Data Accepted means?","Destination: data has been read successfully."],["Why asynchronous?","No shared clock — signals trigger each other (event-driven)."],["Steps count?","5: Place → Data Valid → Data Accepted → Remove → Drop ACK."]],
+sh:["⚡ Steps: PLACE → VALID → READ → ACCEPT → CLEAR","⚡ 2 control signals: Data Valid + Data Accepted","⚡ Draw timing diagram — both signals go high then low","⚡ 'Source-initiated' = sender starts it"],
+ev:["Asynchronous handshaking = control signals, no shared clock.","Steps (Source-Initiated):","1. Source places data on bus.","2. Source asserts DATA_VALID.","3. Destination reads data, asserts DATA_ACCEPTED.","4. Source detects ACK, removes data, drops DATA_VALID.","5. Destination drops DATA_ACCEPTED — transfer complete."]},
+{id:8,marks:7,pri:"high",unit:"Arithmetic",tags:["booth","algorithm","multiplication","2s complement"],
+title:"Explain Booth's Algorithm with an appropriate example.",
+def:"Booth's Algorithm efficiently multiplies two signed binary integers in 2's complement form by scanning pairs of multiplier bits to find blocks of 1s, reducing add/subtract operations.",
+pts:["Key Insight: '1111'(15) = 1000-0001. 4 adds → 1 sub + 1 add!","Setup: A(acc=0), Q(multiplier), Q-1(extra bit=0), M(multiplicand), SC(counter=n)","Q0Q-1=00 → ASR only","Q0Q-1=11 → ASR only","Q0Q-1=10 → A = A-M, then ASR (entering 1s block)","Q0Q-1=01 → A = A+M, then ASR (exiting 1s block)","Repeat n times. Result in AQ register."],
+diag:`  Registers: [ A | Q | Q-1 ]  SC = n
+  
+  Q0 Q-1 | Action
+  -------|---------------------------
+   0  0  | ASR only (in 0s block)
+   1  1  | ASR only (in 1s block)
+   1  0  | A = A-M, then ASR
+   0  1  | A = A+M, then ASR
+  
+  Repeat n times. Result in AQ.`,
+kws:["Booth's Algorithm","ASR","2's Complement","Accumulator","Q-1","SC"],
+el10:["🔢 Normal multiply: every '1' bit = add. '1111'=4 adds. Slow!","Booth: '1111' = '10000-0001'. Just 1 sub + 1 add!","Looks at 2 bits: Q0 (current) and Q-1 (previous).","'10' = entered 1s block → subtract!","'01' = exited 1s block → add!","'00' or '11' = middle of block → just shift!"],
+fc:[["What does Booth's solve?","Efficient multiplication of signed binary in 2's complement."],["Initial value of A?","0000 (all zeros)."],["Initial value of Q-1?","0 (zero)."],["Q0Q-1=10 means?","Start of 1s block → A = A-M, then ASR."],["Q0Q-1=01 means?","End of 1s block → A = A+M, then ASR."],["How many iterations?","n iterations (n = number of bits)."],["Result stored where?","In the combined AQ register."],["What is ASR?","Arithmetic Shift Right — shifts right, preserving sign bit."]],
+sh:["⚡ Rule table: 00=shift, 11=shift, 10=subtract+shift, 01=add+shift","⚡ '10 = entering 1s = SUBtract' | '01 = exiting 1s = ADD'","⚡ Init: A=0, Q-1=0, SC=n","⚡ Exam trap: Don't forget ASR after each step!","⚡ Result in AQ (combined), not just A!"],
+ev:["Booth's Algorithm: multiply signed binary using 2's complement.","Setup: A=0, Q=multiplier, Q-1=0, M=multiplicand, SC=n.","Rules:","• Q0Q-1=00 or 11 → ASR only.","• Q0Q-1=10 → A=A-M, then ASR.","• Q0Q-1=01 → A=A+M, then ASR.","Repeat n times. Final product in AQ register."]},
+{id:9,marks:7,pri:"high",unit:"Arithmetic",tags:["booth","5x4","numerical","example"],
+title:"Assume A=(+5) and B=(+4). Multiply using Booth's Algorithm.",
+def:"Apply Booth's Algorithm: M=+5 (multiplicand), Q=+4 (multiplier). Both 4-bit 2's complement. Expected: 5×4=20.",
+pts:["M = +5 = 0101, Q = +4 = 0100, -M = 1011","A = 0000, Q-1 = 0, SC = 4"],
+diag:`  Step|Q0Q-1|Operation       | A    | Q    |Q-1
+  ----|-----|----------------|------|------|---
+  Init| - - |Setup           | 0000 | 0100 | 0
+   1  | 0 0 |ASR only        | 0000 | 0010 | 0
+   2  | 0 0 |ASR only        | 0000 | 0001 | 0
+   3  | 1 0 |A=A-M=1011,ASR  | 1101 | 1000 | 1
+   4  | 0 1 |A=A+M=0010,ASR  | 0001 | 0100 | 0
+  
+  Final AQ = 0001 0100 = 20 decimal ✓`,
+kws:["5×4=20","M=0101","Q=0100","-M=1011","AQ=00010100"],
+el10:["🧮 We want 5×4=20. Let's prove Booth's gives 20!","Scan Q(=4=0100) from right to left, one bit at a time.","Each bit: add M, subtract M, or nothing — then shift right.","After 4 iterations, AQ = 00010100 = 20. Magic! ✓"],
+fc:[["M = +5 in binary?","0101"],["Q = +4 in binary?","0100"],["-M (2's complement)?","1011"],["Initial values?","A=0000, Q=0100, Q-1=0, SC=4"],["Expected result?","20 = 00010100 in AQ register"]],
+sh:["⚡ Always write -M in setup — needed for subtract steps","⚡ Track 5 columns: SC | Q0Q-1 | Op | A | Q | Q-1","⚡ Verify: AQ decimal = product. 5×4=20 ✓","⚡ Common mistake: forgetting ASR after add/subtract!"],
+ev:["M=+5=0101, Q=+4=0100, -M=1011, A=0000, Q-1=0, SC=4.","Step 1: Q0Q-1=00 → ASR → A=0000,Q=0010,Q-1=0.","Step 2: Q0Q-1=00 → ASR → A=0000,Q=0001,Q-1=0.","Step 3: Q0Q-1=10 → A=A-M=1011,ASR → A=1101,Q=1000,Q-1=1.","Step 4: Q0Q-1=01 → A=A+M=0010,ASR → A=0001,Q=0100,Q-1=0.","Result: AQ=00010100=20 decimal. (5×4=20) ✓"]},
+{id:10,marks:3,pri:"medium",unit:"Assembler",tags:["assembly","LDA","ADD","STA","program"],
+title:"For C code (a=83, b=-23, c=a+b): write assembly language program.",
+def:"Translate C code to Morris Mano Basic Computer Assembly Language — accumulator-based architecture where all operations go through the AC (Accumulator).",
+pts:["LDA X: Load value at address X into AC.","ADD X: Add value at address X to AC.","STA X: Store AC value into memory address X.","DEC value: Declare variable with decimal value.","HLT: Halt program execution."],
+diag:`  C Code:         Assembly:
+  int a, b, c;    ORG 100  / Start at 100
+  a = 83;         LDA A    / AC = 83
+  b = -23;        ADD B    / AC = 83+(-23) = 60
+  c = a + b;      STA C    / Store in C
+                  HLT      / End
+              A,  DEC 83   / a = 83
+              B,  DEC -23  / b = -23
+              C,  DEC 0    / c = result
+                  END`,
+kws:["LDA","ADD","STA","HLT","DEC","ORG","Accumulator"],
+el10:["🖩 AC (accumulator) is like a calculator's display.","LDA A = 'Show value of A on display (AC=83)'","ADD B = 'Add B to display (AC=83+(-23)=60)'","STA C = 'Store display value into box C (C=60)'","HLT = 'Turn off the calculator'"],
+fc:[["What does LDA do?","Load AC with value from memory address."],["What does ADD do?","Add value from memory to current AC."],["What does STA do?","Store AC into specified memory address."],["What does DEC do?","Declare a decimal constant variable."],["What does ORG do?","Set origin — where program starts in memory."]],
+sh:["⚡ Pattern: LDA first → ADD second → STA result","⚡ Variables declared AFTER HLT with DEC","⚡ Always start ORG, end END","⚡ AC is implied — every arithmetic uses AC!"],
+ev:["ORG 100","LDA A    / Load a=83 into AC","ADD B    / AC = 83 + (-23) = 60","STA C    / Store result in C","HLT      / Stop","A, DEC 83 | B, DEC -23 | C, DEC 0","END"]},
+{id:11,marks:3,pri:"medium",unit:"CPU Architecture",tags:["hardwired","microprogrammed","control unit"],
+title:"State differences between Hardwired Control and Microprogrammed Control.",
+def:"Hardwired Control uses physical logic gates. Microprogrammed Control stores microinstructions in control memory (ROM).",
+pts:[],
+diag:`  Feature      | Hardwired          | Microprogrammed
+  -------------|--------------------|-----------------
+  Architecture | Logic gates,f-flops| Control memory ROM
+  Speed        | Very fast          | Slower (fetch mem)
+  Flexibility  | Rigid (redesign)   | Flexible (microcode)
+  Complexity   | RISC (simple)      | CISC (complex)
+  Cost         | Expensive design   | Cheaper
+  Used in      | ARM, MIPS          | Intel x86, 8086`,
+kws:["Hardwired","Microprogrammed","Control Memory","Microinstruction","RISC","CISC"],
+el10:["🎵 Hardwired = fixed music box. Melody built into gears. Fast, can't change!","Microprogrammed = MP3 player. Songs in memory. Slower, can add new songs!","RISC = hardwired (simple, fast). CISC = microprogrammed (complex, flexible)."],
+fc:[["Hardwired control?","Physical logic gates — fast but inflexible."],["Microprogrammed control?","Control signals stored as microinstructions in ROM."],["Which is faster?","Hardwired — no memory fetch."],["Which is flexible?","Microprogrammed — update by changing microcode."],["Uses per architecture?","Hardwired→RISC; Microprogrammed→CISC."]],
+sh:["⚡ Hard=Hardware=Fast=Rigid=RISC","⚡ Micro=Memory=Flexible=Slow=CISC","⚡ 5-row table = full marks!","⚡ Key terms: 'Control Memory', 'Microinstruction'"],
+ev:["| Feature | Hardwired | Microprogrammed |","| Architecture | Logic gates | Control memory |","| Speed | Fast | Slower |","| Flexibility | Rigid | Flexible |","| Used in | RISC (ARM) | CISC (x86) |"]},
+{id:12,marks:7,pri:"high",unit:"Memory",tags:["virtual memory","paging","page table","MMU","page fault"],
+title:"Why is virtual memory? Explain the address mapping in detail.",
+def:"Virtual Memory gives programs the illusion of more memory than physically available by using disk (HDD/SSD) as extension of RAM through page swapping.",
+pts:["Why needed: Programs larger than RAM. Multiprogramming. Programmer freedom.","Logical Address: CPU-generated. Page Number + Page Offset.","Physical Address: Actual RAM location. Frame Number + Frame Offset.","MMU: Hardware translating logical → physical address.","Page Table: OS-maintained. Maps Page Number → Frame Number.","Page Fault: Page not in RAM → OS fetches from disk, updates table.","TLB: Cache for page table entries — speeds up translation."],
+diag:`  CPU generates Logical Address
+  [Page Number | Page Offset]
+        ↓
+  [Page Table] (OS-maintained)
+        ↓
+  Frame Number + Page Offset
+        ↓
+  Physical Address in RAM
+  
+  Page NOT in RAM → PAGE FAULT
+  OS loads from Disk → Updates Page Table`,
+kws:["Virtual Memory","Logical Address","Physical Address","Page","Frame","MMU","Page Table","Page Fault","TLB"],
+el10:["💻 Computer says 8GB RAM but program needs 12GB.","Virtual memory: 'Use hard drive as fake RAM!'","Memory divided into pages (like book chapters).","Current pages in RAM (fast). Others on disk (slow).","Page Fault = 'That chapter is on the shelf — fetching it!'"],
+fc:[["What is virtual memory?","Technique using disk as extension of RAM."],["What is a Page?","Fixed-size block of virtual memory (~4KB)."],["What is a Frame?","Fixed-size block of physical RAM, same size as page."],["What is a Page Fault?","Required page not in RAM — OS loads from disk."],["What does MMU do?","Translates logical to physical address."],["Logical address structure?","Page Number + Page Offset."],["What is TLB?","Cache for page table — speeds up translation."]],
+sh:["⚡ Physical Address = Frame# × PageSize + PageOffset","⚡ Page=virtual chunk. Frame=physical chunk. Same size!","⚡ Page Table maps: Page# → Frame#","⚡ Must mention: Page Fault, MMU, TLB, Page Table"],
+ev:["Virtual Memory = illusion of large memory using disk.","Address Mapping:","1. CPU generates Logical Address = [Page No. | Page Offset].","2. MMU looks up Page Table: Page No. → Frame No.","3. Physical Address = Frame No. + Page Offset.","4. If page not in RAM: PAGE FAULT → OS loads from disk.","TLB: Cache for page table — reduces translation time."]},
+{id:13,marks:3,pri:"medium",unit:"Memory",tags:["cache coherence","snoopy","MESI","multiprocessor"],
+title:"What is cache coherence? What is the solution?",
+def:"Cache Coherence is the problem in multiprocessor systems where multiple CPUs with private caches hold copies of the same data, and one updates its copy without others knowing.",
+pts:["Problem: CPU1&CPU2 cache X=10. CPU1 updates X=50. CPU2 still sees X=10. Incoherent!","Write-Invalidate: Write to X → broadcast INVALIDATE → others mark copy Invalid.","Write-Update: Write to X → broadcast new value → all caches update.","Snoopy Protocol: Each cache controller monitors (snoops) the bus.","MESI States: Modified(M), Exclusive(E), Shared(S), Invalid(I)."],
+diag:`  CPU1(X=50) ---|--- Shared Bus ---| CPU2(X=10)
+  
+  CPU1 writes X=50 → INVALIDATE X broadcast
+  CPU2 snoops bus → sees INVALIDATE X
+  CPU2 marks X as INVALID
+  CPU2 next reads X → fetches X=50 from memory
+  
+  MESI: M=Modified|E=Exclusive|S=Shared|I=Invalid`,
+kws:["Cache Coherence","Snoopy Protocol","MESI","Invalidate","Write-Update","Multiprocessor"],
+el10:["📋 Group project: each person has notebook (cache).","Everyone copies X=10. One person changes X=50 silently.","Now everyone has DIFFERENT answers — incoherent!","Solution: When you change X, shout 'X changed!' (Snoopy).","Others erase stale copy (Invalidate), fetch fresh value next time."],
+fc:[["Cache coherence problem?","Multiple CPUs cache same data — one updates, others have stale copies."],["Write-invalidate?","Writer broadcasts INVALIDATE → others mark copy Invalid."],["Write-update?","Writer broadcasts new value → all caches update."],["Snoopy Protocol?","Cache controllers monitor shared bus for writes."],["MESI?","Modified, Exclusive, Shared, Invalid — 4 cache line states."]],
+sh:["⚡ Snoopy = each cache 'listens to' the bus","⚡ MESI: Modified(dirty)|Exclusive(1 copy)|Shared(many)|Invalid(stale)","⚡ Must mention 'Snoopy Protocol' and 'MESI' for full marks!"],
+ev:["Cache Coherence: multiple CPUs hold stale copies of shared data.","Problem: CPU1 X=50 in cache. CPU2 still sees X=10.","Solution 1 — Write-Invalidate: INVALIDATE signal → others mark Invalid.","Solution 2 — Write-Update: broadcast new value to all caches.","Snoopy Protocol: cache controllers snoop shared bus.","MESI: Modified, Exclusive, Shared, Invalid."]},
+{id:14,marks:3,pri:"medium",unit:"Parallel Processing",tags:["tightly coupled","loosely coupled","SMP"],
+title:"Differentiate tightly coupled and loosely coupled multiprocessor systems.",
+def:"Tightly Coupled: multiple CPUs share single memory and OS. Loosely Coupled (Distributed): independent processors, own memory and OS, connected via network.",
+pts:[],
+diag:`  Feature       | Tightly Coupled   | Loosely Coupled
+  --------------|-------------------|-----------------
+  Memory        | Shared global     | Distributed (private)
+  Communication | Shared memory R/W | Message passing
+  Speed         | Fast              | Slower (latency)
+  OS            | Single global OS  | Each node has own
+  Scalability   | Limited (bus)     | Highly scalable
+  Example       | SMP               | Cluster, Grid`,
+kws:["Tightly Coupled","Loosely Coupled","Shared Memory","Message Passing","SMP","Cluster"],
+el10:["⚔️ Tightly = Army platoon. All share one radio and one map. Fast!","Loosely = Coalition armies. Each has own radio, own map. Messages.","Tightly = FAST (shared memory). Loosely = SLOW (network messages).","Tightly = limited scale. Loosely = infinitely scalable!"],
+fc:[["Tightly coupled?","Multiple CPUs sharing single memory and OS."],["Loosely coupled?","Independent processors, own memory/OS, communicate via network."],["Which is faster?","Tightly coupled — shared memory, no network."],["Which scales better?","Loosely coupled — no shared bus bottleneck."],["SMP is?","Symmetric Multiprocessing — tightly coupled architecture."]],
+sh:["⚡ Tight=Together=Shared=Fast=Limited","⚡ Loose=Separate=Message=Slow=Scalable","⚡ Include SMP and Cluster as examples!"],
+ev:["| Feature | Tightly | Loosely |","| Memory | Shared | Distributed |","| Communication | Shared mem | Message passing |","| Speed | Fast | Slower |","| OS | Single | Each node own |","| Scalability | Limited | Highly scalable |","| Example | SMP | Cluster, Grid |"]},
+{id:15,marks:4,pri:"medium",unit:"Instruction Set",tags:["three address","zero address","stack","instruction format"],
+title:"Criticize Three-Address and Zero-Address instructions.",
+def:"Three-Address: 3 operand fields [Opcode|Dest|Src1|Src2]. Zero-Address: opcode only — uses implicit stack.",
+pts:["Three-Address: ADD Y,A,B → Y=A+B. 1 instruction. Original values preserved.","Three-Address Criticism: Long instruction, large memory bandwidth, complex decoder.","Zero-Address: PUSH A; PUSH B; ADD; POP Y (4 instructions).","Zero-Address Advantage: Compact instructions, simple hardware.","Zero-Address Criticism: High instruction count, PUSH/POP overhead."],
+diag:`  Problem: Y = A + B
+  
+  THREE-ADDRESS:     ZERO-ADDRESS (Stack):
+  ADD Y, A, B        PUSH A
+  (1 instruction)    PUSH B
+                     ADD
+                     POP Y
+                     (4 instructions)`,
+kws:["Three-Address","Zero-Address","Stack","PUSH","POP","Instruction Format"],
+el10:["📦 Three-addr = order form: 'Add A and B, deliver to Y.' One order!","Zero-addr = cafeteria trays. Push A. Push B. ADD combines top two. Pop to Y.","Three-addr: 1 instruction but VERY LONG.","Zero-addr: SHORT instructions but MANY needed."],
+fc:[["Three-address format?","[Opcode|Destination|Source1|Source2]"],["Zero-address format?","[Opcode only] — operands from stack."],["Three-addr criticism?","Long instruction → large memory bandwidth → complex decoder."],["Zero-addr criticism?","High instruction count — many PUSH/POP for simple ops."],["Zero-addr uses?","Stack (LIFO)."]],
+sh:["⚡ 3-addr: 1 instruction but LONG. 0-addr: SHORT but MANY.","⚡ Zero-addr = Java Bytecode (JVM is stack-based!)","⚡ Show code side-by-side in exam","⚡ 3-addr='memory bandwidth'; 0-addr='instruction count'"],
+ev:["Three-Address: ADD Y,A,B (Y=A+B) — 1 instruction.","Advantage: Fewer instructions, original values preserved.","Criticism: Long word → large memory bandwidth → complex decoder.","Zero-Address (Stack): PUSH A; PUSH B; ADD; POP Y — 4 instructions.","Advantage: Compact instructions, simple hardware.","Criticism: High instruction count — many PUSH/POP overhead."]},
+{id:16,marks:4,pri:"medium",unit:"Instruction Set",tags:["two address","three address","X=(a*b)/c+d"],
+title:"Program to evaluate X=(a*b)/c+d in two-address and three-address formats.",
+def:"Demonstrate X=(a*b)/c+d in two instruction formats. Three-address: all 3 operands explicit. Two-address: dest also = first source.",
+pts:["Three-Address: [Opcode, Dest, Src1, Src2]. 3 instructions.","Two-Address: [Opcode, Dest/Src1, Src2]. Needs extra MOV. 5 instructions."],
+diag:`  Expression: X = (a*b)/c + d
+  
+  THREE-ADDRESS (3 instructions):
+  MUL R1, a, b   / R1 = a*b
+  DIV R2, R1, c  / R2 = (a*b)/c
+  ADD X, R2, d   / X = result
+  
+  TWO-ADDRESS (5 instructions):
+  MOV R1, a      / R1 = a
+  MUL R1, b      / R1 = a*b
+  DIV R1, c      / R1 = (a*b)/c
+  ADD R1, d      / R1 = final
+  MOV X, R1      / X = result`,
+kws:["Two-Address","Three-Address","MUL","DIV","ADD","MOV"],
+el10:["🍳 Three-addr = precise chef. 'Mix A and B into bowl C.' One step!","Two-addr = student with one bowl. Reuse it: Mix→divide→add.","Three-addr: 3 instructions. Two-addr: 5 instructions."],
+fc:[["Three-addr format?","ADD R1,A,B → R1=A+B (3 operands)."],["Two-addr format?","ADD R1,B → R1=R1+B (dest=first source)."],["3-addr instructions for X=(a*b)/c+d?","3: MUL, DIV, ADD."],["2-addr instructions?","5: MOV, MUL, DIV, ADD, MOV."]],
+sh:["⚡ 3-addr=3 instr. 2-addr=5 instr.","⚡ More address fields = fewer instructions (but longer word).","⚡ Two-addr: 'MOV first, then operate' pattern","⚡ Always add / comments in assembly!"],
+ev:["Expression: X = (a*b)/c + d","Three-Address:","MUL R1,a,b / DIV R2,R1,c / ADD X,R2,d","Two-Address:","MOV R1,a | MUL R1,b | DIV R1,c | ADD R1,d | MOV X,R1"]},
+{id:17,marks:4,pri:"medium",unit:"Assembler",tags:["assembler","pass1","symbol table","location counter"],
+title:"Draw and explain flowchart for First Pass of Assembler.",
+def:"First Pass scans source code to build the Symbol Table — mapping every label to its memory address. Does NOT generate machine code.",
+pts:["Purpose: Build Symbol Table. Assign addresses to all labels.","Location Counter (LC): Tracks current memory address. Starts at 0.","Label found → store (Label, LC) in Symbol Table.","ORG → LC = specified value.","END → terminate Pass 1.","Otherwise → LC = LC + 1."],
+diag:`  [Start] → LC = 0
+  Read Next Line
+  [Label?]→YES→ Store (Label,LC) in Symbol Table
+      |NO
+  [Pseudo-ORG?]→YES→ LC = specified value
+      |NO
+  [Pseudo-END?]→YES→ [Stop Pass 1]
+      |NO
+  LC = LC + 1
+  → Back to Read Next Line`,
+kws:["Pass 1","Symbol Table","Location Counter","LC","Label","ORG","END"],
+el10:["📚 Pass 1 = librarian cataloguing books BEFORE putting on shelves.","Write down: 'Book LOOP is at shelf 150' (symbol table entry).","LC = librarian's current shelf number.","ORG 200 = 'Jump to shelf 200'. END = 'Stop cataloguing'.","Only THEN does Pass 2 actually place books (machine code)."],
+fc:[["What does Pass 1 build?","Symbol Table — labels mapped to memory addresses."],["What is LC?","Location Counter — tracks current memory address."],["ORG instruction?","LC set to specified address value."],["END instruction?","Pass 1 terminates."],["Does Pass 1 generate machine code?","No — only Pass 2 does that."]],
+sh:["⚡ Pass 1=Scout. Pass 2=Builder.","⚡ LC starts 0. ORG resets it. Label?→Store(Label,LC). END?→Stop.","⚡ Flowchart: 4 decisions: Label?→ORG?→END?→increment"],
+ev:["Pass 1 Purpose: Build Symbol Table (label→address).","1. Initialize LC = 0.","2. Read next source line.","3. If label: store (Label,LC) in Symbol Table.","4. If ORG: LC = specified value.","5. If END: stop.","6. Else: LC=LC+1. Go to step 2."]},
+{id:18,marks:4,pri:"medium",unit:"CPU Architecture",tags:["stack","register stack","memory stack","LIFO","SP"],
+title:"Explain register stack and memory stack.",
+def:"Stack is a LIFO data structure. Register Stack: inside CPU using flip-flop registers. Memory Stack: dedicated RAM region tracked by Stack Pointer (SP).",
+pts:["Register Stack: Inside CPU, flip-flops, hardware SP. Fast (0 bus cycles). Limited size.","Memory Stack: Region of RAM. SP holds top address. Slower (memory R/W). Large size.","PUSH: SP = SP-1, then M[SP] = data.","POP: data = M[SP], then SP = SP+1.","SP always points to top of stack."],
+diag:`  REGISTER STACK          MEMORY STACK
+  ┌─────────────┐          RAM:
+  │ REG[0](top) │← SP      Addr N:   [TOP] ← SP
+  │ REG[1]      │          Addr N+1: [   ]
+  │ ...         │          ...
+  └─────────────┘
+  Inside CPU (fast, small)  In RAM (slower, large)`,
+kws:["Stack","LIFO","Register Stack","Memory Stack","Stack Pointer","SP","PUSH","POP"],
+el10:["🍽️ Stack = plate dispenser. Last plate in = first out (LIFO)!","Register Stack = small dispenser INSIDE kitchen (CPU). Fast, ~10 plates.","Memory Stack = big dispenser in back (RAM). Slower, 1000 plates!","SP = spring inside — always points to top plate."],
+fc:[["What is LIFO?","Last In First Out — last pushed is first popped."],["Register stack?","Stack inside CPU using flip-flops — fast, limited."],["Memory stack?","Stack in RAM — slower but large. SP tracks top."],["SP points to?","Current top element of the stack."],["PUSH steps?","SP=SP-1, then M[SP]=data."],["POP steps?","data=M[SP], then SP=SP+1."]],
+sh:["⚡ PUSH=SP down, write. POP=read, SP up.","⚡ Register=fast+small. Memory=slow+large.","⚡ SP tracks top — critical for subroutine calls!"],
+ev:["Stack: LIFO (Last-In-First-Out).","Register Stack: Inside CPU, flip-flops. Fast, limited. Overflow→FULL flag.","Memory Stack: RAM region. SP holds top address. Slow, large.","PUSH: SP=SP-1, M[SP]=data.","POP: data=M[SP], SP=SP+1."]},
+{id:19,marks:4,pri:"medium",unit:"I/O & Interrupts",tags:["daisy chain","interrupt","priority","INTACK"],
+title:"Explain daisy chain priority interrupt.",
+def:"Daisy Chain Priority Interrupt is hardware-based priority where I/O devices are connected in series. The CPU's INTACK signal propagates through the chain until the requesting device is found.",
+pts:["All devices share one INTR line — CPU knows interrupt happened, not which device.","CPU sends INTACK down the chain after acknowledging.","INTACK wired in series — highest priority device first.","Signal hits D1 first: if D1 requested → blocks, sends vector address.","If D1 didn't request → passes INTACK to D2. And so on.","Priority = physical position. D1 = highest, last = lowest."],
+diag:`  CPU ← INTR (shared) ← Device1 ← Device2 ← Device3
+  CPU → INTACK → Device1 → Device2 → Device3
+  
+  Device2 requested:
+  1. Device2 raises INTR
+  2. CPU sends INTACK
+  3. Device1: not me → passes onward
+  4. Device2: yes me → intercepts, sends vector address
+  5. CPU executes Device2's ISR`,
+kws:["Daisy Chain","INTR","INTACK","Priority","Vector Address","ISR"],
+el10:["🏐 Daisy chain = passing a ball in a line of players.","All shout 'I need the ball!' (INTR).","Coach throws ball from left (INTACK).","Player 1 grabs if needed, else passes to Player 2...","Closest to coach = highest priority!"],
+fc:[["Daisy chain interrupt?","INTACK passes through devices in series; first needing it wins."],["INTR?","Interrupt Request — shared line all devices use."],["INTACK?","Interrupt Acknowledge — CPU response propagating through chain."],["Priority determined by?","Physical position — closest to CPU = highest."],["Vector address?","Device's ISR address — sent to CPU when device intercepts INTACK."]],
+sh:["⚡ Daisy=Series. Priority=Position. Closer=Higher.","⚡ INTR: device→CPU. INTACK: CPU→device chain.","⚡ Advantage: no software polling. Disadvantage: starvation."],
+ev:["Daisy Chain = hardware priority via series INTACK line.","1. Device raises INTR.","2. CPU sends INTACK signal.","3. INTACK propagates highest→lowest priority.","4. Requesting device intercepts, sends vector address.","5. CPU jumps to ISR.","Priority: position. Disadvantage: low-priority starvation."]},
+{id:20,marks:3,pri:"low",unit:"Memory",tags:["main memory","RAM","ROM","memory map"],
+title:"How is main memory useful? Explain memory address map of RAM and ROM.",
+def:"Main Memory is the CPU's primary working area. All programs must be in RAM/ROM for CPU access. Memory address map assigns address ranges to different chips.",
+pts:["Why: CPU can't execute from disk. Direct CPU access. Holds OS, code, data.","RAM: Read/Write, Volatile — stores running programs.","ROM: Read Only, Non-volatile — stores BIOS, boot programs.","Memory Map: High-order bits = chip select. Low bits = offset within chip.","Example: 512B RAM (0000-01FF) + 512B ROM (0200-03FF). A9=0→RAM, A9=1→ROM."],
+diag:`  Address Space (1KB = 10 address lines):
+  0x0000 ┌──────────────┐
+         │   RAM        │ 512 bytes (A9=0)
+         │  0000h-01FFh │
+  0x01FF └──────────────┘
+  0x0200 ┌──────────────┐
+         │   ROM        │ 512 bytes (A9=1)
+         │  0200h-03FFh │
+  0x03FF └──────────────┘`,
+kws:["Main Memory","RAM","ROM","Memory Map","Chip Select","Volatile"],
+el10:["🖥️ Main memory = your desk. Hard drive = filing cabinet.","CPU only works with what's on desk (main memory).","RAM = desk area (writable, cleared when off).","ROM = printed label glued to desk (read-only, survives poweroff).","Memory map = street map — each building (chip) has address range."],
+fc:[["Why main memory?","CPU can't execute from disk — must be in RAM/ROM."],["RAM vs ROM?","RAM=volatile,R/W. ROM=non-volatile,R-only."],["What is memory map?","Assigns address ranges to specific chips."],["Chip selected how?","High-order address bits as chip select signals."],["Volatile memory?","Loses data when power removed (RAM)."]],
+sh:["⚡ RAM=Read/Write+Volatile. ROM=ReadOnly+Non-volatile.","⚡ High bits=chip select. Low bits=offset within chip.","⚡ n address lines → 2^n locations.","⚡ Draw memory map with address ranges!"],
+ev:["Main Memory stores programs/data for direct CPU access.","RAM: volatile, R/W — running programs. ROM: non-volatile, R — BIOS.","Memory Map: address ranges by decoding high-order address bits.","Example: 512B RAM (0x0000–0x01FF) + 512B ROM (0x0200–0x03FF).","A9=0→RAM. A9=1→ROM. Low bits = offset within chip."]},
+{id:21,marks:4,pri:"medium",unit:"Instruction Set",tags:["BUN","BSA","MRI","branch","subroutine"],
+title:"Describe BUN and BSA memory reference instructions in detail.",
+def:"BUN (Branch Unconditionally) and BSA (Branch and Save Address) are MRI instructions controlling program flow via the Program Counter (PC).",
+pts:["BUN: Forces CPU to jump to new address. No condition checked.","BUN Micro-op: PC ← AR (jump to effective address).","Used for: unconditional jumps, infinite loops (like goto).","BSA: Jump but first save return address. Like a function call.","BSA Step 1: M[AR] ← PC (save current PC at target address).","BSA Step 2: PC ← AR+1 (jump to subroutine body).","Return: BUN M[AR] — indirect branch back to saved address."],
+diag:`  BUN (Branch Unconditionally):
+  PC ← AR   (jump, no save)
+  
+  BSA (Branch and Save Address):
+  Step 1: M[AR] ← PC  (save return address at AR)
+  Step 2: PC ← AR+1   (jump to subroutine)
+  
+  To RETURN from subroutine:
+  BUN M[AR]  (indirect branch to saved address)`,
+kws:["BUN","BSA","MRI","PC","AR","Subroutine","Branch","Micro-operation"],
+el10:["🗺️ BUN = Road sign: 'Detour! Go to Street 150.' No condition, just go.","BSA = Leaving home with sticky note: 'I'm at Shop, Street 50.'","Sticky note = saved return address M[AR].","After shop (subroutine), check note to return home!","BUN M[AR] = reading the sticky note."],
+fc:[["What does BUN do?","Unconditional branch — PC←AR."],["What does BSA do?","Branch and save return address — subroutine call."],["BSA micro-op 1?","M[AR]←PC (save return address)."],["BSA micro-op 2?","PC←AR+1 (jump to subroutine)."],["How to return from BSA?","BUN M[AR] — indirect branch to saved address."],["BUN vs BSA?","BUN just jumps. BSA saves return address before jumping."]],
+sh:["⚡ BUN=Goto. BSA=Function call.","⚡ BUN micro-op: just 'PC←AR'","⚡ BSA: 'M[AR]←PC' then 'PC←AR+1'. Two steps.","⚡ Return: 'BUN M[X]' where X used in BSA."],
+ev:["BUN (Branch Unconditionally):","Micro-op: PC←AR. CPU jumps unconditionally.","BSA (Branch and Save Address):","Micro-op 1: M[AR]←PC (save return address).","Micro-op 2: PC←AR+1 (jump to subroutine).","To RETURN: execute BUN M[AR]."]},
+{id:22,marks:3,pri:"medium",unit:"CPU Architecture",tags:["subroutine","CALL","RETURN","stack","micro-operation"],
+title:"Explain subroutine call and return with micro-operations.",
+def:"Subroutine CALL saves return address on stack and jumps to subroutine. RETURN pops return address from stack and resumes execution.",
+pts:["CALL: 1. SP←SP-1, 2. M[SP]←PC, 3. PC←EffectiveAddress.","RETURN: 1. PC←M[SP], 2. SP←SP+1.","Stack enables nested calls — each CALL pushes new return address."],
+diag:`  BEFORE CALL:   DURING CALL:       AFTER RETURN:
+  PC = 100       Stack: [100]        PC = 101 (resumes)
+  SP = N         SP = N-1            SP = N (restored)
+                 PC = Sub_Addr
+  CALL: SP=SP-1, M[SP]=PC, PC=Sub
+  RETURN: PC=M[SP], SP=SP+1`,
+kws:["Subroutine","CALL","RETURN","Stack Pointer","SP","PC","Push","Pop"],
+el10:["🎮 Subroutine = side quest in a game.","CALL: bookmark current position (push PC to stack).","Do the side quest (execute subroutine).","RETURN: grab bookmark (pop PC), return to exact position!","Nested calls = side quest within side quest. Stack holds ALL bookmarks!"],
+fc:[["CALL micro-operations?","SP←SP-1, M[SP]←PC, PC←EffectiveAddress."],["RETURN micro-operations?","PC←M[SP], SP←SP+1."],["Why use stack?","Allows nested calls — each CALL pushes, RETURN pops."],["SP direction?","SP decrements on CALL, increments on RETURN."]],
+sh:["⚡ CALL='Push PC, jump'. RETURN='pop PC'.","⚡ SP goes DOWN on CALL, UP on RETURN.","⚡ Nested calls work because stack is LIFO!"],
+ev:["Subroutine CALL micro-operations:","1. SP←SP-1 (make space).","2. M[SP]←PC (save return address).","3. PC←Effective Address (jump).","Subroutine RETURN micro-operations:","1. PC←M[SP] (restore address).","2. SP←SP+1 (free space).","Stack enables nested subroutine calls."]},
+{id:23,marks:4,pri:"medium",unit:"Memory",tags:["SRAM","DRAM","cache","refresh","comparison"],
+title:"Compare SRAM and DRAM.",
+def:"SRAM (Static RAM) stores data using flip-flops — holds data as long as powered. DRAM (Dynamic RAM) uses capacitors that leak and must be periodically refreshed.",
+pts:[],
+diag:`  Feature      | SRAM (Static)        | DRAM (Dynamic)
+  -------------|----------------------|--------------------
+  Storage      | Flip-flops           | Capacitors
+  Refresh      | Not needed           | Required (~few ms)
+  Speed        | Very fast            | Slower
+  Density      | Low (6 transistors)  | High (1T+1C per bit)
+  Cost         | Very expensive       | Cheap
+  Power        | Higher               | Lower
+  Usage        | CPU Cache (L1,L2,L3) | System RAM`,
+kws:["SRAM","DRAM","Flip-flop","Capacitor","Refresh","Cache","Main Memory"],
+el10:["📋 SRAM = whiteboard. Write on it — stays while powered. Fast!","DRAM = wet chalkboard. Words fade (cap discharge). Need re-writing (refresh).","SRAM: expensive (6T/bit) but FAST → CPU cache.","DRAM: cheap (1T+1C/bit) → your 8GB/16GB system RAM."],
+fc:[["SRAM storage?","Flip-flop circuits."],["DRAM storage?","Capacitors — charge = 1, no charge = 0."],["Why DRAM needs refresh?","Capacitors leak charge — data lost without recharge."],["Which is faster?","SRAM — no refresh delay."],["Which is cheaper?","DRAM — 1T+1C vs 6T in SRAM."],["SRAM used where?","CPU Cache (L1, L2, L3)."],["DRAM used where?","System main memory."]],
+sh:["⚡ SRAM=Stable+Speed+Cache (all S's!)","⚡ DRAM=Dynamic+Dense+cheap (all D's!)","⚡ Transistors: SRAM=6T, DRAM=1T+1C","⚡ 6-row table = full marks!"],
+ev:["| Feature | SRAM | DRAM |","| Storage | Flip-flops | Capacitors |","| Refresh | Not needed | Required |","| Speed | Very fast | Slower |","| Density | Low (6T/bit) | High (1T+1C) |","| Cost | Expensive | Cheap |","| Usage | CPU Cache | System RAM |"]},
+{id:24,marks:7,pri:"high",unit:"CPU Architecture",tags:["instruction cycle","fetch","decode","execute","interrupt"],
+title:"Explain different phases of Instruction Cycle with neat diagram.",
+def:"The Instruction Cycle is the fundamental heartbeat of the CPU — every instruction goes through Fetch, Decode, Read EA, Execute, and Check Interrupt phases repeatedly.",
+pts:["Phase 1 — Fetch: AR←PC, IR←M[AR], PC←PC+1.","Phase 2 — Decode: Control unit reads IR opcode. Determines type and addressing mode.","Phase 3 — Read EA: If indirect → AR←M[AR] (extra memory read).","Phase 4 — Execute: Carry out ALU op, data move, or jump.","Phase 5 — Check Interrupt: If IEN=1 and pending → save PC → IEN=0 → jump to ISR.","Then: Go back to Fetch. Cycle repeats indefinitely."],
+diag:`  ┌──────────────────────┐
+  │  FETCH PHASE         │
+  │  AR←PC, IR←M[AR]     │
+  │  PC←PC+1             │
+  └──────────┬───────────┘
+             │
+  ┌──────────▼───────────┐
+  │  DECODE PHASE        │
+  │  Decode IR opcode    │
+  │  Check address mode  │
+  └──────────┬───────────┘
+             │
+  ┌──────────▼───────────┐
+  │  READ EFFECTIVE ADDR │
+  │  If indirect:        │
+  │  AR ← M[AR]          │
+  └──────────┬───────────┘
+             │
+  ┌──────────▼───────────┐
+  │  EXECUTE PHASE       │
+  │  ALU / Data / Jump   │
+  └──────────┬───────────┘
+             │
+  ┌──────────▼───────────┐
+  │  CHECK INTERRUPT     │
+  │  IEN=1 & pending?    │
+  │  → Save PC → ISR     │
+  └──────────┬───────────┘
+             │
+     [Back to FETCH — repeat]`,
+kws:["Instruction Cycle","Fetch","Decode","Execute","Interrupt","AR","PC","IR","IEN","ISR"],
+el10:["👨‍🍳 Instruction cycle = cooking a recipe, every single time.","Fetch = Go to cookbook, find the recipe (get instruction from memory).","Decode = Read recipe to understand what to cook.","Read EA = 'Ingredients in pantry B' → go find pantry B (indirect).","Execute = Actually cook the dish (ALU operation).","Check Interrupt = 'Anyone ring the doorbell?' Then next recipe!"],
+fc:[["Instruction Cycle phases?","Fetch→Decode→ReadEA→Execute→CheckInterrupt→repeat."],["Fetch micro-operations?","AR←PC, IR←M[AR], PC←PC+1."],["What happens in Decode?","Control unit reads IR opcode to determine instruction type."],["When is Read EA needed?","Only for indirect addressing."],["Check Interrupt condition?","IEN=1 AND interrupt pending→save PC→IEN=0→jump ISR."],["IR holds what?","The fetched instruction."],["AR gets value from?","PC during Fetch phase."]],
+sh:["⚡ Mnemonic: FD-REA-EX-CI = Fetch,Decode,ReadEA,Execute,CheckIntr","⚡ Fetch = 3 exact steps: AR←PC, IR←M[AR], PC←PC+1","⚡ Read EA only for INDIRECT — highlight this!","⚡ For 7-mark: Draw full flowchart + all micro-operations"],
+ev:["Instruction Cycle phases:","1. Fetch: AR←PC, IR←M[AR], PC←PC+1.","2. Decode: Decode IR opcode. Determine type and mode.","3. Read EA: If indirect → AR←M[AR].","4. Execute: ALU / data transfer / branch.","5. Check Interrupt: IEN=1&pending→save PC,IEN=0,jump ISR.","6. Go back to Fetch. Repeats for every instruction."]}
+];
 
-  function toggle(header) {
-    const card = header.parentElement;
-    const wasOpen = card.classList.contains('open');
-    card.classList.toggle('open', !wasOpen);
-    updateProgress();
-  }
+const UNIT_ICONS={"I/O & Interrupts":"⚡","Assembler":"🔧","Instruction Set":"📋","CPU Architecture":"🖥️","Arithmetic":"🔢","Memory":"💾","Parallel Processing":"⚙️"};
+const TABS=["📝 GTU Answer","🧠 EL10","🃏 Flashcards","⚡ Hacks","✍️ Exam Ver"];
 
-  function filterTag(tag, btn) {
-    activeTag = tag;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterCards();
-  }
+let curView="home",curQ=1,curTab=0,srchTxt="";
 
-  function filterCards() {
-    const query = document.getElementById('search').value.toLowerCase();
-    const cards = document.querySelectorAll('.q-card');
-    let visible = 0;
+const bc=m=>m==7?"b7":m==4?"b4":"b3";
+const pc=p=>p=="high"?"chip-hi":p=="medium"?"chip-med":"chip-lo";
+const pl=p=>p=="high"?"⭐ Important":p=="medium"?"📌 Standard":"📎 Short";
 
-    cards.forEach((card, i) => {
-      const tag = card.dataset.tag;
-      const title = card.querySelector('.q-title').textContent.toLowerCase();
-      const content = card.querySelector('.q-content') ? card.querySelector('.q-content').textContent.toLowerCase() : '';
-      const tagMatch = activeTag === 'all' || tag === activeTag;
-      const searchMatch = !query || title.includes(query) || content.includes(query);
+function renderSidebar(){
+  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
+  document.getElementById("sidebar").innerHTML=`<div class="sb-lbl">Questions (${qs.length})</div>`+
+    qs.map(q=>`<div class="qi ${curView==='question'&&curQ===q.id?'on':''}" onclick="goQ(${q.id})">
+      <span class="qn">Q${q.id}</span>
+      <span class="qt">${q.title.substring(0,46)}${q.title.length>46?"...":""}</span>
+      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
+    </div>`).join("");
+}
 
-      if (tagMatch && searchMatch) {
-        card.classList.remove('hidden');
-        card.style.animationDelay = (visible * 0.04) + 's';
-        visible++;
-      } else {
-        card.classList.add('hidden');
-      }
-    });
+function renderHome(){
+  const uc={};QS.forEach(q=>{uc[q.unit]=(uc[q.unit]||0)+1});
+  document.getElementById("content").innerHTML=`
+  <div class="hero">
+    <div class="htag">GTU Semester 4 | BE04000251 | AIT</div>
+    <div class="htitle">COA <span>Master</span> Revision System</div>
+    <div class="hdesc">Complete exam-ready system with GTU answers, EL10 analogies, flashcards, memory hacks & exam writing versions for all 24 questions.</div>
+    <div class="stats">
+      <div class="stat"><div class="sn">24</div><div class="sl">Questions</div></div>
+      <div class="stat"><div class="sn">144+</div><div class="sl">Flashcards</div></div>
+      <div class="stat"><div class="sn">7</div><div class="sl">Units</div></div>
+      <div class="stat"><div class="sn">5</div><div class="sl">Sections/Q</div></div>
+    </div>
+  </div>
+  <div class="sec-title">Browse by Unit</div>
+  <div class="ugrid">${Object.entries(uc).map(([u,c])=>`
+    <div class="ucard" onclick="setView('questions')">
+      <div class="uico">${UNIT_ICONS[u]||"📚"}</div>
+      <div class="unm">${u}</div>
+      <div class="ucnt">${c} question${c>1?"s":""}</div>
+    </div>`).join("")}</div>
+  <div class="sec-title">⭐ High Priority — 7 Mark Questions</div>
+  ${QS.filter(q=>q.marks===7).map(q=>`
+    <div class="hq-item" onclick="goQ(${q.id})">
+      <span class="hqn">Q${q.id}</span>
+      <span style="flex:1;font-size:13px">${q.title}</span>
+      <span class="qb b7">7M</span>
+    </div>`).join("")}`;
+}
 
-    document.getElementById('counter').textContent = visible + ' / 21';
-    document.getElementById('no-results').style.display = visible === 0 ? 'block' : 'none';
-  }
+function renderQuestions(){
+  const qs=srchTxt?QS.filter(q=>q.title.toLowerCase().includes(srchTxt)||q.tags.some(t=>t.includes(srchTxt))||q.unit.toLowerCase().includes(srchTxt)):QS;
+  document.getElementById("content").innerHTML=`
+  <div style="font-size:18px;font-weight:700;font-family:'Syne',system-ui,sans-serif;margin-bottom:14px">
+    ${srchTxt?`Search: "${srchTxt}"`:"All Questions"}<span style="font-size:12px;font-weight:400;color:var(--txt3);margin-left:8px">${qs.length} found</span>
+  </div>`+qs.map(q=>`
+  <div class="hq-item" style="flex-direction:column;align-items:flex-start;gap:7px" onclick="goQ(${q.id})">
+    <div style="display:flex;gap:8px;align-items:center">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:var(--acc2)">Q${q.id}</span>
+      <span class="qb ${bc(q.marks)}">${q.marks}M</span>
+      <span style="font-size:10px;color:var(--txt3)">${q.unit}</span>
+    </div>
+    <div style="font-size:13.5px;font-weight:600">${q.title}</div>
+    <div style="display:flex;gap:5px;flex-wrap:wrap">${q.tags.slice(0,4).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+  </div>`).join("");
+}
 
-  function updateProgress() {
-    const open = document.querySelectorAll('.q-card.open').length;
-    const total = document.querySelectorAll('.q-card').length;
-    document.getElementById('progress').style.width = (open / total * 100) + '%';
-  }
+function renderQuestion(){
+  const q=QS.find(x=>x.id===curQ);if(!q)return;
+  document.getElementById("content").innerHTML=`
+  <div class="qhdr">
+    <div class="qmeta">
+      <span class="chip chip-q">Q${q.id}</span>
+      <span class="qb ${bc(q.marks)}" style="font-size:12px;padding:4px 10px">${q.marks} Marks</span>
+      <span class="chip ${pc(q.pri)}">${pl(q.pri)}</span>
+      <span class="tag">${q.unit}</span>
+    </div>
+    <div class="qtitle">${q.title}</div>
+    <div class="tags">${q.tags.slice(0,5).map(t=>`<span class="tag">${t}</span>`).join("")}</div>
+  </div>
+  <div class="tabs">${TABS.map((t,i)=>`<button class="tb ${curTab===i?"on":""}" onclick="setTab(${i})">${t}</button>`).join("")}</div>
+  ${getTab(q,curTab)}
+  <div class="qnav">
+    ${q.id>1?`<button class="qnb" onclick="goQ(${q.id-1})">← Q${q.id-1} Previous</button>`:""}
+    ${q.id<24?`<button class="qnb" onclick="goQ(${q.id+1})">Q${q.id+1} Next →</button>`:""}
+  </div>`;
+}
 
-  // Keyboard shortcut: '/' to focus search
-  document.addEventListener('keydown', e => {
-    if (e.key === '/' && document.activeElement !== document.getElementById('search')) {
-      e.preventDefault();
-      document.getElementById('search').focus();
-    }
-    if (e.key === 'Escape') {
-      document.getElementById('search').blur();
-      document.getElementById('search').value = '';
-      filterCards();
-    }
-  });
+function getTab(q,t){
+  if(t===0)return`<div class="panel">
+    <div class="ptitle blu">📌 Definition</div>
+    <div class="def">${q.def}</div>
+    ${q.pts&&q.pts.length?`<div class="ptitle blu" style="margin-top:12px">🔹 Key Points</div><ul class="pts">${q.pts.map(p=>`<li>${p}</li>`).join("")}</ul>`:""}
+    ${q.diag?`<div class="ptitle blu" style="margin-top:12px">📐 Diagram</div><div class="diag">${q.diag}</div>`:""}
+    <div class="ptitle blu" style="margin-top:12px">🔑 Keywords</div>
+    <div class="kws">${q.kws.map(k=>`<span class="kw">${k}</span>`).join("")}</div>
+  </div>`;
+  if(t===1)return`<div class="el10p">
+    <div class="ptitle gold">🧠 EL10 — Explain Like I'm 10</div>
+    ${q.el10.map(l=>`<div class="el10l">${l}</div>`).join("")}
+  </div>`;
+  if(t===2)return`<div class="panel">
+    <div class="ptitle blu">🃏 Flashcards (${q.fc.length})</div>
+    ${q.fc.map(([fq,fa],i)=>`<div class="fcard"><div class="fq">Q${i+1}: ${fq}</div><div class="fa">→ ${fa}</div></div>`).join("")}
+  </div>`;
+  if(t===3)return`<div class="panel">
+    <div class="ptitle pur">⚡ Quick Revision Hacks</div>
+    ${q.sh.map(s=>`<div class="sc">${s}</div>`).join("")}
+  </div>`;
+  if(t===4)return`<div class="exam-wrap">
+    <div class="ptitle grn">✍️ Exam Writing Version — Write This for Full Marks</div>
+    ${q.ev.map(l=>`<div class="ev">${l}</div>`).join("")}
+  </div>`;
+}
+
+const OL=[
+  "Signal→Save PC→IEN=0→ISR→Restore PC→IEN=1",
+  "Uses Symbol Table from Pass 1 to generate machine code",
+  "7 modes: Immediate,Register,Direct,Indirect,RegInd,Relative,Indexed",
+  "SISD,SIMD,MISD,MIMD — instruction×data streams",
+  "RISC=simple,1-cycle,hardwired,ARM; CISC=complex,microprog,x86",
+  "I/O→memory without CPU; Burst/CycleSteal/Transparent modes",
+  "Place→DataValid→DataAccepted→Remove→DropACK",
+  "00/11=shift; 10=sub+shift; 01=add+shift; n iters; result in AQ",
+  "AQ=00010100=20 after 4 iterations (5×4=20) ✓",
+  "ORG; LDA A; ADD B; STA C; HLT; DEC declarations",
+  "Hardwired=fast,rigid,RISC; Microprogrammed=flexible,slow,CISC",
+  "CPU Logical→Page Table→Frame→Physical; Page Fault=fetch from disk",
+  "Snoopy Protocol + MESI(Modified,Exclusive,Shared,Invalid)",
+  "Tight=shared,fast,SMP; Loose=distributed,scalable,Cluster",
+  "3-addr=1 long instr; 0-addr=many tiny stack instrs",
+  "3-addr:MUL,DIV,ADD(3); 2-addr:MOV,MUL,DIV,ADD,MOV(5)",
+  "Scan code, build Symbol Table (label→address), LC increments",
+  "RegStack=CPU,fast,small; MemStack=RAM,slow,large; LIFO",
+  "INTACK propagates series; first requesting device intercepts",
+  "RAM=volatile,0000-01FF; ROM=non-volatile,0200-03FF; A9 selects",
+  "BUN: PC←AR; BSA: M[AR]←PC then PC←AR+1; Return: BUN M[AR]",
+  "CALL: SP-1,Push PC,Jump; RETURN: Pop PC,SP+1",
+  "SRAM=flip-flop,fast,cache; DRAM=capacitor,refresh,main mem",
+  "Fetch→Decode→ReadEA→Execute→CheckInterrupt→Repeat forever"
+];
+
+function renderRevision(){
+  document.getElementById("content").innerHTML=`<div class="panel">
+  <div class="ptitle red" style="font-size:14px;margin-bottom:14px">⚡ Last-Day Quick Revision — All 24 Questions</div>
+  ${QS.map((q,i)=>`
+    <div class="rev-row" onclick="goQ(${q.id})">
+      <span class="rev-q">Q${q.id}</span>
+      <span class="rev-t">${q.title.substring(0,42)}...</span>
+      <span class="qb ${bc(q.marks)}" style="margin-right:8px">${q.marks}M</span>
+      <span class="rev-a">${OL[i]}</span>
+    </div>`).join("")}
+  </div>`;
+}
+
+function setView(v){
+  curView=v;
+  ["nb-home","nb-qs","nb-rev"].forEach(id=>document.getElementById(id).classList.remove("on"));
+  if(v==="home")document.getElementById("nb-home").classList.add("on");
+  else if(v==="questions"||v==="question")document.getElementById("nb-qs").classList.add("on");
+  else if(v==="revision")document.getElementById("nb-rev").classList.add("on");
+  renderSidebar();
+  if(v==="home")renderHome();
+  else if(v==="questions")renderQuestions();
+  else if(v==="question")renderQuestion();
+  else if(v==="revision")renderRevision();
+}
+
+function goQ(id){curQ=id;curTab=0;setView("question")}
+function setTab(i){curTab=i;renderQuestion()}
+function doSearch(){
+  srchTxt=document.getElementById("srch").value.toLowerCase();
+  if(srchTxt&&curView!=="question"&&curView!=="revision")setView("questions");
+  else{renderSidebar();if(curView==="questions")renderQuestions();}
+}
+
+setView("home");
 </script>
 </body>
 </html>
